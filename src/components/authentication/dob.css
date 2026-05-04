@@ -1,0 +1,63 @@
+.main {
+    font-family: Arial, sans-serif;
+   
+  }
+
+  .dob-label {
+    display: block;
+    color: var(--Color-Black, #4b5563);
+    font-family: "Poppins";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: "120%";
+    &>span {
+      color: #DC3545;
+  }
+  }
+
+  .select {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #D1D5DB;
+    background: #FFF;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
+
+  
+
+  .dob-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  .dob-group {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+  }
+
+  select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: white;
+    min-width: 90px;
+  }
+
+  label {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  @media (max-width: 500px) {
+    .dob-row {
+      flex-wrap: wrap;
+    }
+  }

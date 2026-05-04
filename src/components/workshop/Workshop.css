@@ -1,0 +1,297 @@
+/* ================= Header Image ================= */
+.workshop-header-img {
+  width: 100%;
+  height: auto; 
+  aspect-ratio: 1440 / 400; 
+  object-fit: cover;
+  display: block;
+}
+
+/* ================= Main Container ================= */
+.workshop-main {
+  display: flex;
+  padding: 48px 50px; /* reduced gap */
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  background: #fbfbfb;
+}
+
+.workshop-upper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+/* ================= Title + Description ================= */
+.workshop-title {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 130%;
+  margin-bottom: 12px; /* reduced gap */
+}
+
+.workshop-description {
+  color: #373333;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 160%; /* reduced from 170% */
+  margin-bottom: 24px; /* reduced gap */
+}
+
+/* ================= Lower Container ================= */
+.workshop-lower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: 32px; /* reduced gap between workshops */
+}
+
+.workshop-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px; /* reduced gap */
+}
+
+/* ================= Subtitle (Workshop 1, 2…) ================= */
+.workshop-subtitle {
+  text-align: center;
+  margin-bottom: 12px; /* reduced gap */
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+}
+
+/* ================= Card ================= */
+.workshop-card {
+  display: flex;
+  padding: 20px; /* reduced gap */
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+}
+
+.workshop-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 0 0;
+  gap: 12px; /* reduced gap between sections */
+}
+
+/* ================= Section 1 ================= */
+.workshop-section1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: 6px; /* reduced gap */
+}
+
+.workshop-heading {
+  font-family: Poppins, sans-serif;
+  font-size: 22px; /* slightly reduced */
+  font-weight: 600;
+  line-height: 120%;
+}
+
+.workshop-speaker {
+  color: #be8305;
+  font-family: Poppins, sans-serif;
+  font-size: 16px; /* reduced */
+  font-weight: 500;
+  line-height: 120%;
+}
+
+.knowledge-label {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 16px; /* reduced */
+  font-weight: 500;
+  line-height: 120%;
+}
+
+/* ================= Section 2 ================= */
+.workshop-section2 {
+  display: flex;
+  padding: 12px; /* reduced */
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #fbfbfb;
+}
+
+.workshop-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px; /* reduced */
+}
+
+.detail-row {
+  display: flex;
+  align-items: flex-start;   
+  gap: 12px; /* reduced */
+}
+
+.detail-label {
+  flex: 0 0 140px; /* slightly reduced width */
+  white-space: nowrap;    
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 15px; /* reduced */
+  font-weight: 500;
+  line-height: 120%; 
+}
+
+.detail-value {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;  
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 15px; /* reduced */
+  font-weight: 400;
+  line-height: 160%; /* reduced */
+}
+
+/* ================= Section 3 ================= */
+.workshop-section3 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: 6px; /* reduced gap */
+}
+
+.overview-title {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 16px; /* reduced */
+  font-weight: 500;
+  line-height: 120%;
+}
+
+.overview-text {
+  color: #373333;
+  font-family: Poppins, sans-serif;
+  font-size: 15px; /* reduced */
+  font-weight: 400;
+  line-height: 160%; /* reduced */
+}
+/* Shimmer effect */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #edeef1 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+  height: 200px; /* height similar to workshop card */
+  width: 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ================= Responsive ================= */
+
+/* Tablets (≤1024px) */
+@media (max-width: 1024px) {
+  .workshop-main {
+    padding: 40px 32px;
+  }
+  .detail-label {
+    flex: 0 0 120px;
+  }
+}
+
+/* Small tablets (≤768px) */
+@media (max-width: 768px) {
+  .workshop-wrapper {
+    align-items: flex-start; 
+  }
+  .workshop-subtitle {
+    text-align: left;
+    font-weight: 600;
+  }
+}
+
+/* Mobiles (≤767px) */
+@media (max-width: 767px) {
+  .workshop-main {
+    padding: 24px 16px;
+  }
+
+  .workshop-title {
+    font-size: 20px;
+  }
+
+  .workshop-description {
+    font-size: 14px;
+    line-height: 150%;
+  }
+
+  .workshop-subtitle {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  .workshop-heading {
+    font-size: 16px;
+  }
+
+  .workshop-speaker,
+  .knowledge-label {
+    font-size: 14px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .detail-label {
+    flex: none;
+    font-size: 13px;
+  }
+
+  .detail-value {
+    font-size: 13px;
+  }
+
+  .overview-title {
+    font-size: 14px;
+  }
+
+  .overview-text {
+    font-size: 13px;
+    line-height: 150%;
+  }
+}

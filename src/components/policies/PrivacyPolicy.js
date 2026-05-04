@@ -1,0 +1,160 @@
+import React from "react";
+
+const PrivacyPolicy = () => {
+  return (
+    <div className="container">
+      <h1>Privacy Policy</h1>
+      <p>
+        <strong>Effective Date:</strong> [Insert Date]
+      </p>
+
+      <p>
+        This Privacy Policy describes how we collect, use, and protect your
+        personal information when you use the <strong>Empower App</strong> (the
+        “App”) and visit{" "}
+        <a
+          href="https://empowerconference.in"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          https://empowerconference.in
+        </a>{" "}
+        (the “Site”). Empower App is designed to support conference
+        registration, participation, and indoor navigation using smartphone
+        sensors.
+      </p>
+
+      <h2>1. Information We Collect</h2>
+
+      <p>
+        <strong>A. Personal Information (Provided by You)</strong>
+      </p>
+      <ul>
+        <li>Name, email, phone number</li>
+        <li>Organization and job title</li>
+        <li>Session preferences or feedback</li>
+      </ul>
+
+      <p>
+        <strong>B. Device and Sensor Data (Collected Automatically)</strong>
+      </p>
+      <ul>
+        <li>Device type, OS version, app version</li>
+        <li>
+          Location data (approximate indoor positioning via Bluetooth, Wi-Fi, or
+          device sensors)
+        </li>
+        <li>
+          Motion sensor data (e.g., accelerometer, gyroscope, magnetometer for
+          indoor path tracking)
+        </li>
+        <li>Bluetooth and Wi-Fi state (used for indoor navigation)</li>
+        <li>Anonymous usage logs and crash reports</li>
+      </ul>
+
+      <p>
+        <strong>C. Usage Data</strong>
+      </p>
+      <ul>
+        <li>Pages/screens viewed, buttons clicked</li>
+        <li>Time spent in app, navigation behavior</li>
+      </ul>
+
+      <h2>2. How We Use Your Information</h2>
+      <ul>
+        <li>To register and manage your conference experience</li>
+        <li>To personalize session recommendations</li>
+        <li>To enable indoor navigation within the conference venue</li>
+        <li>To send important updates, alerts, and notifications</li>
+        <li>To improve app performance and user experience</li>
+        <li>To troubleshoot issues and perform analytics</li>
+      </ul>
+
+      <h2>3. Permissions We Request</h2>
+      <ul>
+        <li>
+          <strong>Location Access:</strong> for indoor positioning
+        </li>
+        <li>
+          <strong>Bluetooth:</strong> for detecting nearby beacons or mesh
+          devices
+        </li>
+        <li>
+          <strong>Motion Sensors:</strong> for step counting and real-time
+          navigation
+        </li>
+        <li>
+          <strong>Internet:</strong> for content updates and syncing your data
+        </li>
+      </ul>
+
+      <h2>4. Data Sharing & Disclosure</h2>
+      <p>
+        We do <strong>not sell</strong> your personal information. We may share
+        anonymized or necessary data:
+      </p>
+      <ul>
+        <li>
+          With third-party services that help us operate the app (e.g., Firebase,
+          analytics providers)
+        </li>
+        <li>
+          With event organizers (only if required and disclosed in advance)
+        </li>
+        <li>To comply with legal obligations or respond to valid legal requests</li>
+      </ul>
+
+      <h2>5. Data Security</h2>
+      <p>
+        We use industry-standard security practices to protect your data from
+        unauthorized access. However, no method of transmission is 100% secure.
+      </p>
+
+      <h2>6. Data Retention</h2>
+      <p>
+        We retain your data only as long as necessary for conference operations
+        or as required by law. Navigation logs are stored temporarily and
+        anonymized.
+      </p>
+
+      <h2>7. Your Rights and Choices</h2>
+      <ul>
+        <li>Access or update your personal data</li>
+        <li>Withdraw consent or delete your account</li>
+        <li>
+          Disable location and Bluetooth from device settings (may affect app
+          functionality)
+        </li>
+      </ul>
+
+      <h2>8. Children’s Privacy</h2>
+      <p>
+        This app is not intended for use by individuals under 13. We do not
+        knowingly collect data from children.
+      </p>
+
+      <h2>9. Updates to This Policy</h2>
+      <p>
+        We may update this policy from time to time. Changes will be posted
+        in-app and on our website with an updated effective date.
+      </p>
+
+      <h2>10. Contact Us</h2>
+      <p>
+        If you have any questions about this Privacy Policy or how your data is
+        handled, please contact us:
+      </p>
+      <p>
+        📧 Email:{" "}
+        <a href="mailto:info@empowerconference.in">
+          info@empowerconference.in
+        </a>
+        <br />
+        📍 Address: Assistech Lab, Indian Institute of Technology Delhi, New
+        Delhi, India
+      </p>
+    </div>
+  );
+};
+
+export default PrivacyPolicy;

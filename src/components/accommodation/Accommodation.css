@@ -1,0 +1,592 @@
+/* Header */
+.header-container {
+  display: flex;
+  height: 434px;
+  padding: 111.5px 142px;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), 
+              url('../../assets/accom.jpg') lightgray 50% / cover no-repeat;
+  box-sizing: border-box; /* ensures padding is included in width */
+}
+
+.container-a {
+  display: flex;
+  width: 100%;
+  max-width: 1156px;
+  flex-direction: column;
+  align-items: center;  /* ✅ left align */
+  gap: 16px;                /* smaller gap */
+}
+
+
+.container-x h2 {
+  color: #FFF;
+  text-align: center;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: Poppins;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 48px;
+
+}
+
+.container-y {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  flex-wrap: nowrap; /* keep all 3 cards in a row on large screens */
+  width: 100%;
+  justify-content: center;
+}
+
+.container-m {
+  display: flex;
+  width: 348px; /* fixed width to fit 3 cards in a row */
+  max-width: 100%;
+  padding: 10px 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  border-radius: 4px;
+  border: 1px solid #4B5563;
+  background: rgba(28, 28, 28, 0.4);
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+}
+
+/* Responsive: allow wrap on smaller screens */
+@media screen and (max-width: 1024px) {
+  .container-y {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .container-m {
+    width: 100%;
+    max-width: 348px;
+  }
+}
+
+
+.container-i svg {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+}
+
+.container-j {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--Color-Neutral-400, #D1D5DB);
+  text-align: center;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 170%; /* 27.2px */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Main Section */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px; /* reduced from 36px */
+  width: 100%;
+
+  padding: 32px 40px; /* reduced padding */
+  box-sizing: border-box;
+}
+
+/* Container 1 */
+.container-1 {
+  width: 100%;              /* full width of parent */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;     /* stretch children to full width */
+  gap: 8px;                /* gap between heading and paragraphs */
+  box-sizing: border-box;
+  padding: 0;               /* remove extra padding */
+}
+
+.container-1 .container-a {
+  width: 100%;              /* full width of container-1 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* left align heading */
+}
+
+.container-1 .container-a h3 {
+  font-family: Poppins, sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #000;
+  text-align: left;         /* left-align text */
+  margin: 0;                /* remove default margin */
+}
+
+.container-1 .container-b,
+.container-1 .container-c,
+.container-1 .container-d {
+  width: 100%;               /* full width of container-1 */
+  box-sizing: border-box;
+  padding: 0;       /* inner padding */
+  color: #494949;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.container-1 .container-b p,
+.container-1 .container-c p,
+.container-1 .container-d p {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27.2px;
+  color: #1C1C1C;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Container 2 */
+.container-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  width: 100%;
+}
+
+.upper-container {
+  display: flex;
+  flex-wrap: wrap; /* allow chip wrapping on small screens */
+  align-items: center;
+  gap: 24px;
+}
+
+/* Unselected chip */
+.chip {
+  display: flex;
+  padding: 8px 16px;   /* smaller vertical padding */
+  align-items: center;
+  gap: 8px;
+  border-radius: 24px;
+  border: 1px solid var(--Color-Neutral-400, #D1D5DB);
+  background: #F3F4F6;
+  font-size: 14px;     /* smaller font */
+  font-weight: 500;
+  line-height: 120%;
+  height: auto;        /* ✅ no fixed height */
+}
+
+
+.chip svg {
+  fill: var(--Color-Heading, #1C1C1C);
+}
+
+/* Selected chip */
+.chip.selected {
+  background: var(--Color-Black, #000);
+  color: var(--Color-White, #FFF);
+  border: none;
+}
+
+.chip.selected svg {
+  fill: var(--Color-White, #FFF);
+}
+
+.lower-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+/* Hotel card */
+.hotel-card {
+  flex: 1 1 300px;  /* allow cards to grow and shrink, min 300px */
+  max-width: 100%;  /* allow full width on small screens */
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 20px;
+  border-radius: 4px;
+  background: #FFF;
+  box-shadow: 0 0 4px 0 rgba(58, 105, 163, 0.25);
+  box-sizing: border-box;
+} 
+.hotel-card {
+  width: 100%;   /* take full width of grid cell */
+  max-width: 348px;
+}
+
+.card-i .hotel-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;  /* 2 lines for hotel name */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  min-height: 48px;       /* 2 lines x 24px line-height */
+}
+
+.card-j span {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;  /* 3 lines for address */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  min-height: 66px;       /* 3 lines x 22px line-height */
+}
+
+.card-k span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;  /* 2 lines for phone */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  min-height: 44px;       /* 2 lines x 22px line-height */
+  margin-top: 6px;        /* optional small spacing */
+}
+
+/* Optional: ensure card-j + card-k take consistent space */
+.card-contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+
+.card-up {
+  display: flex;
+  flex-direction: column;
+ 
+  align-self: stretch;
+}
+.card-i {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px; /* 2 lines = 48px */
+  min-height: 48px;  /* ✅ space always reserved */
+}
+
+/* Address: always reserve 3 lines */
+.card-j {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: Poppins, sans-serif;
+  font-size: 14px;
+  line-height: 22px; /* 3 lines = 66px */
+  min-height: 66px;  /* ✅ space always reserved */
+}
+
+/* Phone: always reserve 2 lines */
+.card-k {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: Poppins, sans-serif;
+  font-size: 14px;
+  line-height: 22px; /* 2 lines = 44px */
+  min-height: 44px;  /* ✅ space always reserved */
+}
+
+.card-i span,
+.card-j span,
+.card-k span {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.card-i span {
+  -webkit-line-clamp: 2;
+}
+.card-j span {
+  -webkit-line-clamp: 3;
+}
+.card-k span {
+  -webkit-line-clamp: 2;
+}
+.rooms-badge {
+  display: flex;
+  align-items: center; /* vertically center icon + text */
+  gap: 6px;            /* space between icon and text */
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+
+.card-j, .card-k {
+  display: flex;
+  align-items: flex-start;   /* align icon to top if text wraps */
+  gap: 12px;
+  color: var(--Color-Body-text, #4A4A4A);
+  font-feature-settings: 'liga' off, 'clig' off;
+
+  /* Body/Body M */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* ~22px for readability */
+}
+
+/* Address container */
+
+@media screen and (max-width: 1024px) {
+  .lower-container {
+    gap: 20px;   /* smaller gaps */
+  }
+  .hotel-card {
+    flex: 1 1 calc(50% - 20px); /* 2 cards per row */
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .lower-container {
+    gap: 16px;   /* even smaller gap */
+  }
+  .hotel-card {
+    flex: 1 1 100%; /* full width */
+    padding: 12px;
+  }
+}
+
+
+.card-j svg,
+.card-k svg {
+  width: 24px !important;
+  height: 24px !important;
+  flex-shrink: 0;       /* prevents squishing */
+  aspect-ratio: 1 / 1;  /* ensures perfect square */
+  margin-top: 2px;      /* keeps visual balance with text */
+}
+
+/* Make card container flex column */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* optional */
+  height: 100%; /* ✅ ensures full stretch */
+}
+
+/* Content above buttons */
+.card-content {
+  flex: 1; /* ✅ take remaining space */
+}
+
+/* Buttons container always at bottom */
+.card-down {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: auto; /* ✅ pushes it to bottom */
+}
+
+.left-btn,
+.right-btn {
+  display: flex;
+  height: 48px;
+  padding: 12px 16px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.left-btn {
+    border: none;        /* ✅ removes black border */
+  outline: none;     
+  color: #fff;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 120%;
+  background: #2180E4;
+}
+
+.right-btn {
+  border: 1px solid #2180E4;
+  color: #2180E4;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 120%;
+}
+
+.card-down {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.left-btn,
+.right-btn {
+  flex: 1;               /* ✅ take equal space */
+  min-width: 120px;      /* optional: prevent too small */
+  justify-content: center; /* ✅ center text/icon */
+}
+
+@media screen and (max-width: 600px) {
+  .left-btn,
+  .right-btn {
+    flex: 1 1 100%;     /* ✅ stack full width on small screens */
+    max-width: 100%;
+  }
+}
+
+/* Container 3 */
+.container-3 {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 29px;
+  border-radius: 4px;
+  background: #373737;
+  align-items: flex-start; 
+}
+
+.container-alpha {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start; 
+}
+
+.container-alpha .container-i {
+  color: #FFF;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  word-wrap: break-word;
+  text-align: left; /* ✅ ensure left alignment */
+}
+
+.container-alpha .container-j {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start; /* ✅ left align contact info */
+}
+
+.contact-x,
+.contact-y,
+.contact-z {
+  color: #FFF;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: left; /* ✅ left align each line */
+}
+
+
+/* Responsive adjustments */
+@media screen and (max-width: 1024px) {
+  .header-container {
+    padding: 80px 40px;
+    height: auto;
+    flex-direction: column;
+  }
+  .container-y {
+    gap: 20px;
+  }
+  .main-container {
+    padding: 40px 20px;
+  }
+  /* .chip {
+    padding: 0 12px;
+    font-size: 14px;
+  } */
+  @media (max-width: 1024px) {
+  .hotel-card {
+    flex: 0 1 calc(50% - 32px); /* 2 per row */
+  }
+}
+
+@media (max-width: 600px) {
+  .hotel-card {
+    flex: 0 1 100%; /* full width on small screens */
+    max-width: 100%;
+  }
+}
+
+}
+/* Responsive adjustments */
+@media screen and (max-width: 1024px) {
+  .hotel-card {
+    flex: 0 1 calc(50% - 32px); /* 2 per row */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  /* ✅ Hide header completely */
+  .header-container {
+    display: none;
+  }
+
+  /* ✅ Make heading text span more width */
+  .container-x h2 {
+    font-size: 28px;
+    line-height: 36px;
+    text-align: left;
+    width: 100%;       /* let it take full width */
+    padding: 0 16px;   /* small side padding */
+  }
+
+  .hotel-card {
+    flex: 0 1 100%; /* full width on small screens */
+    max-width: 100%;
+  }
+}/* Tablet buttons */
+@media screen and (max-width: 1024px) {
+  .left-btn,
+  .right-btn {
+    height: 42px;
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+}
+
+/* Mobile buttons */
+@media screen and (max-width: 600px) {
+  .left-btn,
+  .right-btn {
+    height: auto;             
+    padding: 8px 12px;          
+    font-size: 14px;            
+    flex: 1;                    
+    justify-content: center;    
+    min-width: 120px;         
+  }
+
+  .card-down {
+    flex-direction: column;   
+    gap: 12px;               
+  }
+}
+
+

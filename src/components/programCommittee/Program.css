@@ -1,0 +1,210 @@
+/* Container for the entire section */
+.program-container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 70px 10px;
+  box-sizing: border-box;
+  max-width: 100%;
+  gap: 24px;
+}
+
+/* Heading + Chips section */
+.program-heading-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-self: stretch;
+}
+
+/* Heading styles (DO NOT change font size or color) */
+.program-upper h2 {
+  margin: 0;
+  font-family: Poppins;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 120%;
+  color: #121417;
+}
+
+/* Subheading text */
+.program-upper p {
+  margin: 8px 0 0 0;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  color: var(--Color-Body-text, #4a4a4a);
+}
+
+/* Chips container */
+.program-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Individual chip */
+.chip {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  background-color: white;
+  color: #121417;
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 150%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chip:hover {
+  background-color: #f3f4f6;
+}
+
+/* Grid of cards */
+.program-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
+  gap: 24px;
+  justify-content: center;
+}
+
+/* Individual card */
+.person-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 260px;
+  padding: 16px 12px 24px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition: transform 0.2s ease;
+  overflow: hidden;
+}
+
+/* Card hover effect */
+.person-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Circular image */
+.person-img {
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--Color-Neutral-400, #d1d5db);
+  background: lightgray 50% / cover no-repeat;
+}
+
+/* Text wrapper to prevent overflow without changing layout */
+.person-info {
+  width: 100%;
+  padding: 0 8px;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+
+/* Name */
+.person-name {
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 120%;
+  color: #121417;
+  margin: 12px 0 0;
+  overflow: hidden;
+  text-align: center;
+  max-height: 38px; /* approx. 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Affiliation */
+.person-affiliation {
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+  color: #61758a;
+  margin: 4px 0 0;
+  overflow: hidden;
+  text-align: center;
+  max-height: 63px; /* Approx. 3 lines (14px * 1.5 line-height * 3) */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .program-container {
+    padding: 32px 24px 10px;
+  }
+
+  .program-upper h2 {
+    font-size: 32px;
+  }
+
+  .program-upper p {
+    font-size: 14px;
+  }
+
+  .chip {
+    font-size: 13px;
+  }
+
+  .person-card {
+    height: auto;
+    padding: 16px;
+  }
+
+  .person-name,
+  .person-affiliation {
+    white-space: normal;
+  }
+}
+.chip.active-chip {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
+  color: #111827;
+}
+.page-toggle-container {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.toggle-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #121417;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.toggle-btn.active-btn {
+  background-color: #218EFA; /* Blue shade */
+  border-color: #218EFA;
+  color: white;
+}

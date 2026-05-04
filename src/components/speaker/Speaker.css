@@ -1,0 +1,86 @@
+/* Overall container */
+.speaker-section {
+  display: flex;
+  width: 1272px;
+  height: 854px;
+  padding: 45px 0 64px 47px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  flex-shrink: 0;
+}
+
+/* Heading + subheading */
+.speaker-heading {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.speaker-subheading {
+  font-size: 18px;
+  color: #555;
+  margin: 0 0 20px 0;
+}
+
+/* Card container */
+.card-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* Card */
+.speaker-card {
+  width: 536px;
+  height: 600px;
+  flex-shrink: 0;
+  background: lightgray 50% / cover no-repeat;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Expanded state */
+.speaker-card.expanded {
+  height: auto;
+  min-height: 600px;
+  background-size: cover;
+}
+
+/* Speaker info inside card */
+.speaker-info {
+  position: relative;
+}
+
+/* Designation exactly 57px from top */
+.designation {
+  position: absolute;
+  top: 57px;
+  left: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Name under designation */
+.name {
+  margin-top: 100px; /* so it's below designation */
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* Expanded description */
+.description {
+  margin-top: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 12px;
+  border-radius: 8px;
+}
