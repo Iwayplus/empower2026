@@ -94,7 +94,7 @@ const Max = () => {
     sessionsByDate[date] = Object.fromEntries(sorted);
   });
 
-  const conferenceDays = ["2025-10-03", "2025-10-04", "2025-10-05"];
+  const conferenceDays = ["2026-10-02", "2026-10-03", "2026-10-04"];
 
   return (
     <Box sx={{ px: 3, py: 5, backgroundColor: "#fafafa" }}>

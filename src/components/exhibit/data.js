@@ -9,73 +9,73 @@ import silverLogo from '../../assets/silver.png'
 import check from '../../assets/tick.svg'
 
 export const exhibitPlans = [
-    // {
-    //     stallType: "Platinum Booth",
-    //     stallSize: "4 x 2 m",
-    //     complimentaryRegistration: 3,
-    //     tablesChairsCount: true,
-    //     powerConnection: true,
-    //     conferenceBooklet: true,
-    //     welcomeKit: true,
-    //     advertisements: true,
-    //     earlyBirdRegistrationPrice: 14000,
-    //     standardRegistrationPrice: 17000,
-    //     logo: platinumLogo
-    // },
-    // {
-    //     stallType: "Gold Booth",
-    //     stallSize: "3 x 2 m", //"6 x 6 ft",
-    //     complimentaryRegistration: 2,
-    //     tablesChairsCount: true,
-    //     powerConnection: true,
-    //     conferenceBooklet: true,
-    //     welcomeKit: true,
-    //     advertisements: false,
-    //     earlyBirdRegistrationPrice: 10500,
-    //     standardRegistrationPrice: 12500,
-    //     logo: goldLogo
-    // },
-    // {
-    //     stallType: "Silver Booth",
-    //     stallSize:  "2 x 2 m",   //"6 x 3 ft",
-    //     earlyBirdRegistrationPrice: 7000,
-    //     standardRegistrationPrice: 8500,
-    //     complimentaryRegistration: 1,
-    //     tablesChairsCount: true,
-    //     powerConnection: true,
-    //     conferenceBooklet: true,
-    //     welcomeKit: false,
-    //     advertisements: false,
-    //     logo: silverLogo
-    // }
+    {
+        stallType: "Platinum Booth",
+        stallSize: "4 x 2 m",
+        complimentaryRegistration: 3,
+        tablesChairsCount: true,
+        powerConnection: true,
+        conferenceBooklet: true,
+        welcomeKit: true,
+        advertisements: true,
+        earlyBirdRegistrationPrice: 14000,
+        standardRegistrationPrice: 17000,
+        logo: platinumLogo
+    },
+    {
+        stallType: "Gold Booth",
+        stallSize: "3 x 2 m", //"6 x 6 ft",
+        complimentaryRegistration: 2,
+        tablesChairsCount: true,
+        powerConnection: true,
+        conferenceBooklet: true,
+        welcomeKit: true,
+        advertisements: false,
+        earlyBirdRegistrationPrice: 10500,
+        standardRegistrationPrice: 12500,
+        logo: goldLogo
+    },
+    {
+        stallType: "Silver Booth",
+        stallSize:  "2 x 2 m",   //"6 x 3 ft",
+        earlyBirdRegistrationPrice: 7000,
+        standardRegistrationPrice: 8500,
+        complimentaryRegistration: 1,
+        tablesChairsCount: true,
+        powerConnection: true,
+        conferenceBooklet: true,
+        welcomeKit: false,
+        advertisements: false,
+        logo: silverLogo
+    }
 ];
 
   
 export const rowLabels = [
-    // { key: "stallSize", label: "Stall Size" },
-    // { key: "earlyBirdRegistrationPrice", label: "Early Bird Registration", isCurrency: true },
-    // { key: "standardRegistrationPrice", label: "Standard Registration", isCurrency: true },
-    // { key: "complimentaryRegistration", label: "Complimentary Registration" },
-    // { key: "tablesChairsCount", label: "Tables and Chairs", isYesNo: true },
-    // { key: "powerConnection", label: "Power Connection", isYesNo: true },
-    // { key: "conferenceBooklet", label: "Listing in Conference Booklet", isYesNo: true },
-    // { key: "welcomeKit", label: "Marketing Insert in the Welcome Kit", isYesNo: true },
-    // { key: "advertisements", label: "Advertisement Slide between Sessions and Breaks", isYesNo: true },
+    { key: "stallSize", label: "Stall Size" },
+    { key: "earlyBirdRegistrationPrice", label: "Early Bird Registration", isCurrency: true },
+    { key: "standardRegistrationPrice", label: "Standard Registration", isCurrency: true },
+    { key: "complimentaryRegistration", label: "Complimentary Registration" },
+    { key: "tablesChairsCount", label: "Tables and Chairs", isYesNo: true },
+    { key: "powerConnection", label: "Power Connection", isYesNo: true },
+    { key: "conferenceBooklet", label: "Listing in Conference Booklet", isYesNo: true },
+    { key: "welcomeKit", label: "Marketing Insert in the Welcome Kit", isYesNo: true },
+    { key: "advertisements", label: "Advertisement Slide between Sessions and Breaks", isYesNo: true },
 ];
 
 export const notes = [
-    // {
-    //     normal: "LED screens will be available at the additional cost",
-    //     bold: ""
-    // },
-    // {
-    //     normal: "Last date of early bird registration is",
-    //     bold: "25th September 2026"
-    // },
-    // {
-    //     normal: "All charges are inclusive of",
-    //     bold: "GST (18%)"
-    // }
+    {
+        normal: "LED screens will be available at the additional cost",
+        bold: ""
+    },
+    {
+        normal: "Last date of early bird registration is",
+        bold: "25th September 2026"
+    },
+    {
+        normal: "All charges are inclusive of",
+        bold: "GST (18%)"
+    }
 ]
 
 

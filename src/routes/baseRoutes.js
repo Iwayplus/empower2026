@@ -8,6 +8,7 @@ import CancellationRefundPolicy from "../components/policies/CancellationRefundP
 import PrivacyPolicy from "../components/policies/PrivacyPolicy";
 import TermsAndConditions from "../components/policies/TermsConditions";
 import PaymentReceipt from "../razorpay/PaymentReceipt";
+import Empower25 from "../redirects/Empower25";
 
 const Home = lazy(() => import("../components/home/Home"));
 const Main = lazy(() => import("../components/main/Main"));
@@ -16,19 +17,19 @@ const Sponsor = lazy(() => import("../components/sponsors/Sponsor"));
 const Attend = lazy(() => import("../components/attend/Attend"));
 const CallForPaper = lazy(() => import("../components/paper/CallForPaper"));
 const Program = lazy(() => import("../components/programCommittee/Program"));
-const Organizer = lazy (() => import ("../components/organizerCommittee/Organizer"));
+const Organizer = lazy(() => import("../components/organizerCommittee/Organizer"));
 const Signin = lazy(() => import("../components/authentication/Signin"));
 const Register = lazy(() => import("../components/authentication/Register"))
 const ExhibitorSignin = lazy(() => import("../components/authentication/exhibior/ExhibitorSignin"))
 const OrganizationRegistration = lazy(() => import("../components/authentication/organization/OrganizationRegistration"));
-const Speakers = lazy (() =>import ("../components/speaker/Speaker"));
-const KeynoteSpeaker = lazy (() => import ("../components/keynotespeaker/Keynotespeaker"));
-const Workshops = lazy (() => import("../components/workshop/Workshop"));
+const Speakers = lazy(() => import("../components/speaker/Speaker"));
+const KeynoteSpeaker = lazy(() => import("../components/keynotespeaker/Keynotespeaker"));
+const Workshops = lazy(() => import("../components/workshop/Workshop"));
 const EmpowerSchedule = lazy(() => import("../components/EmpowerSchedule/EmpowerSchedule"));
-const Summary = lazy (() => import ("../components/summary/Summary"));
-const Accommodations = lazy (() => import ("../components/accommodation/Accommodation"));
-const Travel = lazy (() => import ("../components/travel/Travel"));
-const Invite = lazy (() => ( import ("../components/invitedspeaker/Invitedspeaker")));
+const Summary = lazy(() => import("../components/summary/Summary"));
+const Accommodations = lazy(() => import("../components/accommodation/Accommodation"));
+const Travel = lazy(() => import("../components/travel/Travel"));
+const Invite = lazy(() => (import("../components/invitedspeaker/Invitedspeaker")));
 
 const withSuspense = (Component) => (
   <Suspense fallback={<h1> </h1>}>
@@ -78,45 +79,49 @@ const baseRoutes = createBrowserRouter([
         element: <TermsAndConditions />
       },
       {
-        path:"/program-committee",
+        path: "/program-committee",
         element: withSuspense(Program),
       },
-       {
-        path:"/organizer-committee",
+      {
+        path: "/organizer-committee",
         element: withSuspense(Organizer),
       },
-          {
-        path:"/speakers",
+      {
+        path: "/speakers",
         element: withSuspense(Speakers),
       },
-                {
-        path:"/keynote-speakers",
+      {
+        path: "/keynote-speakers",
         element: withSuspense(KeynoteSpeaker),
       },
-                {
-        path:"/workshops",
+      {
+        path: "/workshops",
         element: withSuspense(Workshops),
       },
-//            {
-//   path: "/empower-schedule",
-//   element: withSuspense(EmpowerSchedule),
-// },
-         {
-  path: "/accommodation",
-  element: withSuspense(Accommodations),
-},
-     {
-  path: "/travel",
-  element: withSuspense(Travel),
-},
-     {
-  path: "/empower-schedule",
-  element: withSuspense(Summary),
-},
-     {
-  path: "/invited",
-  element: withSuspense(Invite),
-},
+      //            {
+      //   path: "/empower-schedule",
+      //   element: withSuspense(EmpowerSchedule),
+      // },
+      {
+        path: "/accommodation",
+        element: withSuspense(Accommodations),
+      },
+      {
+        path: "/travel",
+        element: withSuspense(Travel),
+      },
+      {
+        path: "/empower-schedule",
+        element: withSuspense(Summary),
+      },
+      {
+        path: "/invited",
+        element: withSuspense(Invite),
+      },
+      {
+        path: "/2025",
+        element: withSuspense(Empower25),
+      }
     ],
   },
   {
@@ -147,14 +152,14 @@ const baseRoutes = createBrowserRouter([
         path: "/auth/organization-registrations",
         element: withSuspense(OrganizationRegistration)
       },
- 
+
     ]
   },
   {
     path: "/payment-receipt",
     element: withSuspense(PaymentReceipt)
   }
- 
+
 ]);
 
 export default baseRoutes;

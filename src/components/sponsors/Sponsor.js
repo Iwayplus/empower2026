@@ -167,9 +167,9 @@ const Sponsor = () => {
         viewport={{ once: true }}
       >
         <Cont1>
-          <h2 style={{
+          {/* <h2 style={{
             fontSize: 36, fontWeight: 600, margin: '40px 0 32px 10px',
-          }}>Our Sponsors</h2>
+          }}>Our Sponsors</h2> */}
           {loading ? (
             <div style={{ display: "flex", justifyContent: "center", padding: "40px" }}>
               <CircularProgress />

@@ -238,7 +238,7 @@ const Footer = () => {
                     <Title>Past Conferences</Title>
                     <div>
                         <a target="_blank" rel="noreferrer" href="https://empowerconferences.in/">Empower 2018 - 2024</a>
-                        <a target="_blank" rel="noreferrer" href="https://empowerconferences.in/2025">Empower 2025</a>
+                        <a target="_blank" rel="noreferrer" href="/2025">Empower 2025</a>
 
                         {/* <a target="_blank"  rel="noreferrer" href="https://empower23.respark.iitm.ac.in/">Empower 2023</a>
                         <a target="_blank"  rel="noreferrer" href="https://empower2022.in/">Empower 2022</a>
