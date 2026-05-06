@@ -54,7 +54,7 @@ const getOrdinalDate = (dateStr) => {
 const Max = () => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState("2025-10-03");
+  const [selectedDate, setSelectedDate] = useState("2026-10-02");
   useEffect(() => {
     const fetchSessions = async () => {
       try {

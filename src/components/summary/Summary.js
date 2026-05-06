@@ -44,9 +44,9 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
   const getDay = (dateStr) => {
     if (!dateStr) return "";
     const day = new Date(dateStr).getUTCDate();
-    if (day === 3) return "day1";
-    if (day === 4) return "day2";
-    if (day === 5) return "day3";
+    if (day === 2) return "day1";
+    if (day === 3) return "day2";
+    if (day === 4) return "day3";
     return "";
   };
 
@@ -379,9 +379,9 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
     variant="h5"
     sx={{ fontWeight: 500, mb: 3, fontFamily: "Poppins" }}
   >
-    {dayKey === "day1" && "Day 1 - Oct 3"}
-    {dayKey === "day2" && "Day 2 - Oct 4"}
-    {dayKey === "day3" && "Day 3 - Oct 5"}
+    {dayKey === "day1" && "Day 1 - Oct 2"}
+    {dayKey === "day2" && "Day 2 - Oct 3"}
+    {dayKey === "day3" && "Day 3 - Oct 4"}
   </Typography>
 )}
 

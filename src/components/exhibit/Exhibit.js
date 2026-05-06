@@ -1,4 +1,4 @@
-import { styled , Typography} from "@mui/material"
+import { styled, Typography } from "@mui/material"
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -9,144 +9,144 @@ import { exhibitTypography } from "./typography"
 import check from "../../assets/check.svg"
 import exhibitCover from '../../assets/exhibitCover.svg'
 import checkGreen from '../../assets/checkGreen.svg'
-import emailIcon from "../../assets/mail.svg";      
-import websiteIcon from "../../assets/po.jpg";   
-import linkedInIcon from "../../assets/link.png"; 
+import emailIcon from "../../assets/mail.svg";
+import websiteIcon from "../../assets/po.jpg";
+import linkedInIcon from "../../assets/link.png";
 const Component = styled('section')({})
 
 const Cont1 = styled('div')(({ theme }) => ({
-    fontFamily: 'Poppins',
-    textAlign: 'left',
-    margin: "56px 70px",
-    [theme.breakpoints.down("sm")]: {
-        margin: "20px 12px",
-    },
-    '&>h1': {
-        fontSize: 32,
-        fontWeight: 600,
-        lineHeight: '130%',
-        color: '#000',
-        margin: 0
-    },
-    '&>p': {
-        color: '#494949',
-        fontSize: 20,
-        fontWeight: 400,
-        lineHeight: '150%',
-        margin: "16px 0 0 0"
-    },
-    '&>h2': {
-        margin: 0,
-        fontSize: 24,
-        fontWeight: 600,
-        lineHeight: '120%'
-    }
+  fontFamily: 'Poppins',
+  textAlign: 'left',
+  margin: "56px 70px",
+  [theme.breakpoints.down("sm")]: {
+    margin: "20px 12px",
+  },
+  '&>h1': {
+    fontSize: 32,
+    fontWeight: 600,
+    lineHeight: '130%',
+    color: '#000',
+    margin: 0
+  },
+  '&>p': {
+    color: '#494949',
+    fontSize: 20,
+    fontWeight: 400,
+    lineHeight: '150%',
+    margin: "16px 0 0 0"
+  },
+  '&>h2': {
+    margin: 0,
+    fontSize: 24,
+    fontWeight: 600,
+    lineHeight: '120%'
+  }
 }))
 
 const Cont3 = styled("div")({
-    marginTop: 124,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    '&>h3': {
-        textAlign: 'center',
-        fontFamily: 'Poppins',
-        fontSize: 36,
-        fontWeight: 700,
-        lineHeight: '120%'
-    },
-    '&>div': {
-        color: '#787878',
-        fontWeight: 700,
-        fontSize: 20
-    }
+  marginTop: 124,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  '&>h3': {
+    textAlign: 'center',
+    fontFamily: 'Poppins',
+    fontSize: 36,
+    fontWeight: 700,
+    lineHeight: '120%'
+  },
+  '&>div': {
+    color: '#787878',
+    fontWeight: 700,
+    fontSize: 20
+  }
 })
 
 const Cont4 = styled('div')(({ theme }) => ({
-    background: "#F8F8F8",
+  background: "#F8F8F8",
+  display: 'flex',
+  padding: "80px 70px",
+  gap: 35,
+  flex: "3 0 0",
+  flexWrap: 'wrap',
+  [theme.breakpoints.down("sm")]: {
+    padding: "20px 12px", // ✅ smaller padding        marginTop: 10
+  },
+  '&>div': {
+    maxWidth: '30%',
+    padding: 24,
+    boxSizing: 'border-box',
+    background: '#fff',
     display: 'flex',
-    padding: "80px 70px",
-    gap: 35,
-    flex: "3 0 0",
-    flexWrap: 'wrap',
-    [theme.breakpoints.down("sm")]: {
-  padding: "20px 12px", // ✅ smaller padding        marginTop: 10
+    flexDirection: 'column',
+    gap: 16,
+    [theme.breakpoints.down("md")]: {
+      maxWidth: '100%'
     },
-    '&>div': {
-        maxWidth: '30%',
-        padding: 24,
-        boxSizing: 'border-box',
-        background: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 16,
-        [theme.breakpoints.down("md")]: {
-            maxWidth: '100%'
-        },
-        '&>h3': {
-            color: 'var(--Color-Black, #000)',
-            fontFamily: 'Poppins',
-            fontSize: 24,
-            fontWeight: 600,
-            lineHeight: '120%',
-            margin: 0
-        },
-        '&>p': {
-            color: 'var(--Color-Body-text, #494949)',
-            fontFamily: 'Poppins',
-            fontSize: 18,
-            fontWeight: 400,
-            lineHeight: '150%',
-            margin: 0
-        },
-        '&>img': {
-            maxWidth: 80
-        }
+    '&>h3': {
+      color: 'var(--Color-Black, #000)',
+      fontFamily: 'Poppins',
+      fontSize: 24,
+      fontWeight: 600,
+      lineHeight: '120%',
+      margin: 0
+    },
+    '&>p': {
+      color: 'var(--Color-Body-text, #494949)',
+      fontFamily: 'Poppins',
+      fontSize: 18,
+      fontWeight: 400,
+      lineHeight: '150%',
+      margin: 0
+    },
+    '&>img': {
+      maxWidth: 80
     }
+  }
 }))
 
 const BenefitsContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: 32,
-    alignSelf: 'stretch',
-    margin: "40px 70px",
-    [theme.breakpoints.down("sm")]: {
-        margin: "20px 16px",
-    }
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: 32,
+  alignSelf: 'stretch',
+  margin: "40px 70px",
+  [theme.breakpoints.down("sm")]: {
+    margin: "20px 16px",
+  }
 }));
 
 const LeftRightWrapper = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'flex-start',
-    gap: 40,
-    alignSelf: 'stretch',
-    flexWrap: 'wrap',
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: 40,
+  alignSelf: 'stretch',
+  flexWrap: 'wrap',
 }));
 
 const BenefitColumn = styled('div')({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: 16,
-    flex: '1 0 0',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: 16,
+  flex: '1 0 0',
 });
 
 const BenefitItem = styled('div')({
-    display: 'flex',
-    alignItems: 'flex-start',
-    gap: 12
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: 12
 });
 const SubHeading = styled('h4')({
-    color: '#1C1C1C',
-    fontFeatureSettings: "'liga' off, 'clig' off",
-    fontFamily: 'Poppins',
-    fontSize: 20,
-    fontStyle: 'normal',
-    fontWeight: 600,
-    lineHeight: '120%',
-    margin: 0
+  color: '#1C1C1C',
+  fontFeatureSettings: "'liga' off, 'clig' off",
+  fontFamily: 'Poppins',
+  fontSize: 20,
+  fontStyle: 'normal',
+  fontWeight: 600,
+  lineHeight: '120%',
+  margin: 0
 });
 
 export const ExhibitorsWrapper = styled("div")(({ theme }) => ({
@@ -389,49 +389,49 @@ const SkeletonCard = styled('div')({
 });
 const Exhibit = () => {
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const userData = useSelector(store => store.userSlice.profile)
-    const exhibitorData = useSelector(store => store.userSlice.exhibitorProfile)
+  const userData = useSelector(store => store.userSlice.profile)
+  const exhibitorData = useSelector(store => store.userSlice.exhibitorProfile)
 
-    const [exhibitors, setExhibitors] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [exhibitors, setExhibitors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
 
 
-useEffect(() => {
-  const fetchExhibitors = async () => {
-    try {
+  useEffect(() => {
+    const fetchExhibitors = async () => {
+      try {
 
-      const res = await fetch(
-        `https://maps.iwayplus.in/api/empower/fetch-paid-exhibitors?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
-     
-      );
+        const res = await fetch(
+          `https://maps.iwayplus.in/api/empower/fetch-paid-exhibitors?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
 
-      if (!res.ok) throw new Error("Failed to fetch exhibitors");
+        );
 
-      const data = await res.json();
-      console.log("📦 Exhibitors API response:", data);
+        if (!res.ok) throw new Error("Failed to fetch exhibitors");
 
-      // Handle response structure safely
-      const exhibitorsArray = Array.isArray(data)
-        ? data
-        : Array.isArray(data?.data)
-        ? data.data
-        : Array.isArray(data?.exhibitors)
-        ? data.exhibitors
-        : [];
+        const data = await res.json();
+        console.log("📦 Exhibitors API response:", data);
 
-      setExhibitors(exhibitorsArray);
-    } catch (err) {
-      console.error("❌ Error fetching exhibitors:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+        // Handle response structure safely
+        const exhibitorsArray = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.data)
+            ? data.data
+            : Array.isArray(data?.exhibitors)
+              ? data.exhibitors
+              : [];
 
-  fetchExhibitors();
-}, []);
+        setExhibitors(exhibitorsArray);
+      } catch (err) {
+        console.error("❌ Error fetching exhibitors:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExhibitors();
+  }, []);
 
 
 
@@ -455,242 +455,242 @@ useEffect(() => {
     );
   }
 
-const GmailIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    {/* your SVG paths here */}
-  </svg>
-);
+  const GmailIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      {/* your SVG paths here */}
+    </svg>
+  );
 
-const WebsiteIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    {/* your SVG paths here */}
-  </svg>
-);
+  const WebsiteIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      {/* your SVG paths here */}
+    </svg>
+  );
 
-const LinkedInIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-    {/* your SVG paths here */}
-  </svg>
-);
+  const LinkedInIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      {/* your SVG paths here */}
+    </svg>
+  );
 
-    return (
-        <Component>
-            {/* <Theme>
+  return (
+    <Component>
+      {/* <Theme>
                 <img alt="" src={exhibitCover} />
             </Theme> */}
-                    {!loading && exhibitors.length > 0 && (
-         <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0 }}  
-  transition={{ duration: 0.5 }}
->
-<Typography
-  variant="h2"
-  sx={{
-    fontFamily: 'Poppins',
-    fontWeight: 600,
-    fontSize: { xs: 36, sm: 36 }, // smaller font on mobile
-    margin: { xs: '20px 0 20px 16px', sm: '40px 0 32px 50px' },
-    textAlign: 'left', 
-  }}
->
-  Our Exhibitors
-</Typography>
-<ExhibitorsWrapper>
-<ExhibitorsGrid>
-  {exhibitors.map((ex) => (
-    <ExhibitorCard
-      key={ex._id}
-   onClick={() => {
-  const website = ex.organizationDetails?.website;
-  if (website) {
-    // Ensure the URL has a protocol
-    const url = website.startsWith("http") ? website : `https://${website}`;
-    window.open(url, "_blank");
-  }
-}}
+      {/* {!loading && exhibitors.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: 'Poppins',
+              fontWeight: 600,
+              fontSize: { xs: 36, sm: 36 }, // smaller font on mobile
+              margin: { xs: '20px 0 20px 16px', sm: '40px 0 32px 50px' },
+              textAlign: 'left',
+            }}
+          >
+            Our Exhibitors
+          </Typography>
+          <ExhibitorsWrapper>
+            <ExhibitorsGrid>
+              {exhibitors.map((ex) => (
+                <ExhibitorCard
+                  key={ex._id}
+                  onClick={() => {
+                    const website = ex.organizationDetails?.website;
+                    if (website) {
+                      // Ensure the URL has a protocol
+                      const url = website.startsWith("http") ? website : `https://${website}`;
+                      window.open(url, "_blank");
+                    }
+                  }}
 
-      style={{ cursor: "pointer" }}
-    >
-      <Logo src={ex.brandingDetails?.companyLogo} alt="logo" />
-      <CompanyName>{ex.organizationDetails?.organizationName}</CompanyName>
-      <BoothType>{ex.boothType}</BoothType>
-     <LinksContainer
-  style={{
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    gap: 16,
-  }}
->
-  {ex.primaryContactDetails?.email && (
-    <img
-      src={emailIcon}
-      alt="Email"
-      style={{
-        width: 28,
-        height: 28,
-        aspectRatio: "1/1",
-        cursor: "pointer",
-        objectFit: "contain",
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        window.location.href = `mailto:${ex.primaryContactDetails.email}`;
-      }}
-    />
-  )}
+                  style={{ cursor: "pointer" }}
+                >
+                  <Logo src={ex.brandingDetails?.companyLogo} alt="logo" />
+                  <CompanyName>{ex.organizationDetails?.organizationName}</CompanyName>
+                  <BoothType>{ex.boothType}</BoothType>
+                  <LinksContainer
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      gap: 16,
+                    }}
+                  >
+                    {ex.primaryContactDetails?.email && (
+                      <img
+                        src={emailIcon}
+                        alt="Email"
+                        style={{
+                          width: 28,
+                          height: 28,
+                          aspectRatio: "1/1",
+                          cursor: "pointer",
+                          objectFit: "contain",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.location.href = `mailto:${ex.primaryContactDetails.email}`;
+                        }}
+                      />
+                    )}
 
-  {ex.organizationDetails?.website && (
-    <img
-      src={websiteIcon}
-      alt="Website"
-      style={{
-        width: 38,
-        height: 38,
-        aspectRatio: "1/1",
-        cursor: "pointer",
-        objectFit: "contain",
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        const url = ex.organizationDetails.website.startsWith("http")
-          ? ex.organizationDetails.website
-          : `https://${ex.organizationDetails.website}`;
-        window.open(url, "_blank");
-      }}
-    />
-  )}
+                    {ex.organizationDetails?.website && (
+                      <img
+                        src={websiteIcon}
+                        alt="Website"
+                        style={{
+                          width: 38,
+                          height: 38,
+                          aspectRatio: "1/1",
+                          cursor: "pointer",
+                          objectFit: "contain",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const url = ex.organizationDetails.website.startsWith("http")
+                            ? ex.organizationDetails.website
+                            : `https://${ex.organizationDetails.website}`;
+                          window.open(url, "_blank");
+                        }}
+                      />
+                    )}
 
-  {ex.primaryContactDetails?.linkedInUrl && (
-    <img
-      src={linkedInIcon}
-      alt="LinkedIn"
-      style={{
-        width: 24,
-        height: 24,
-        aspectRatio: "1/1",
-        cursor: "pointer",
-        objectFit: "contain",
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        window.open(ex.primaryContactDetails.linkedInUrl, "_blank");
-      }}
-    />
-  )}
-</LinksContainer>
-
-
-
-
-    </ExhibitorCard>
-  ))}
-</ExhibitorsGrid>
-</ExhibitorsWrapper>
+                    {ex.primaryContactDetails?.linkedInUrl && (
+                      <img
+                        src={linkedInIcon}
+                        alt="LinkedIn"
+                        style={{
+                          width: 24,
+                          height: 24,
+                          aspectRatio: "1/1",
+                          cursor: "pointer",
+                          objectFit: "contain",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(ex.primaryContactDetails.linkedInUrl, "_blank");
+                        }}
+                      />
+                    )}
+                  </LinksContainer>
 
 
 
 
+                </ExhibitorCard>
+              ))}
+            </ExhibitorsGrid>
+          </ExhibitorsWrapper>
 
-                </motion.div>
-            )}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
-                <Cont1>
-                    <h1>{exhibitTypography.title["en-us"]}</h1>
-                    <p>{exhibitTypography.para1["en-us"]}</p>
-                </Cont1>
-            </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
-                <BenefitsContainer>
-                    <h2 style={{ fontSize: 24, fontWeight: 600, lineHeight: '130%', margin: 0, fontFamily: 'Poppins' }}>{exhibitTypography.heading2['en-us']}</h2>
-                    <LeftRightWrapper>
-                        <BenefitColumn>
-                            <SubHeading>{leftBenefits.heading}</SubHeading>
-                            {leftBenefits.items.map((benefit, idx) => (
-                                <BenefitItem key={idx}>
-                                    <img src={benefit.icon} alt="" width={24} />
-                                    <p style={{ fontSize: 18, margin: 0, fontFamily: 'Poppins' }}>{benefit.text}</p>
-                                </BenefitItem>
-                            ))}
-                        </BenefitColumn>
 
-                        <BenefitColumn>
-                            <SubHeading>{rightBenefits.heading}</SubHeading>
-                            {rightBenefits.items.map((benefit, idx) => (
-                                <BenefitItem key={idx}>
-                                    <img src={benefit.icon} alt="" width={24} />
-                                    <p style={{ fontSize: 18, margin: 0, fontFamily: 'Poppins' }}>{benefit.text}</p>
-                                </BenefitItem>
-                            ))}
-                        </BenefitColumn>
-                    </LeftRightWrapper>
-                </BenefitsContainer>
-            </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6 }}
-            >
-                <Cont1>
-                    <h2>Exhibition Stall Packages</h2>
-                    <motion.div
-                        initial={{ opacity: 0, x: 40 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                    >
-                        <TableBx>
-                            <table border={1} cellPadding={8} cellSpacing={0}>
-                                <thead>
-                                    <tr>
-                                        <th style={{
-                                            background: "#E5E5E5"
-                                        }}>Stall Type</th>
-                                        {exhibitPlans.map(plan => (
-                                            <th key={plan.stallType} style={{
-                                                background: "#E5E5E5",
-                                                textAlign: 'center'
-                                            }}>{plan.stallType}</th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {rowLabels.map(row => (
-                                        <tr key={row.key}>
-                                            <td>{row.label}</td>
-                                            {exhibitPlans.map(plan => (
-                                                <td key={plan.stallType + row.key} style={{
-                                                    textAlign: 'center'
-                                                }}>
-                                                    {
-                                                        row.isCurrency
-                                                            ? <><span style={{
-                                                                fontFamily: "Port Lligat Sans",
-                                                                fontSize: row?.key === "earlyBirdRegistrationPrice" ? 20 : 16,
-                                                                fontWeight: row?.key === "earlyBirdRegistrationPrice" ? 600 : 400
-                                                            }} >₹ </span><span style={{
-                                                                fontSize: row?.key === "earlyBirdRegistrationPrice" ? 20 : 16,
-                                                                fontWeight: row?.key === "earlyBirdRegistrationPrice" ? 600 : 400
-                                                            }}>{plan[row.key].toLocaleString()}</span></>
-                                                            : row.isYesNo
-                                                                ? plan[row.key] ? <img src={checkGreen} alt="" /> : "-"
-                                                                : plan[row.key]
-                                                    }
-                                                </td>
-                                            ))}
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </TableBx>
-                    </motion.div>
 
-                    {/* {!userData && !exhibitorData && <button
+
+        </motion.div>
+      )} */}
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
+        <Cont1>
+          <h1>{exhibitTypography.title["en-us"]}</h1>
+          <p>{exhibitTypography.para1["en-us"]}</p>
+        </Cont1>
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
+        <BenefitsContainer>
+          <h2 style={{ fontSize: 24, fontWeight: 600, lineHeight: '130%', margin: 0, fontFamily: 'Poppins' }}>{exhibitTypography.heading2['en-us']}</h2>
+          <LeftRightWrapper>
+            <BenefitColumn>
+              <SubHeading>{leftBenefits.heading}</SubHeading>
+              {leftBenefits.items.map((benefit, idx) => (
+                <BenefitItem key={idx}>
+                  <img src={benefit.icon} alt="" width={24} />
+                  <p style={{ fontSize: 18, margin: 0, fontFamily: 'Poppins' }}>{benefit.text}</p>
+                </BenefitItem>
+              ))}
+            </BenefitColumn>
+
+            <BenefitColumn>
+              <SubHeading>{rightBenefits.heading}</SubHeading>
+              {rightBenefits.items.map((benefit, idx) => (
+                <BenefitItem key={idx}>
+                  <img src={benefit.icon} alt="" width={24} />
+                  <p style={{ fontSize: 18, margin: 0, fontFamily: 'Poppins' }}>{benefit.text}</p>
+                </BenefitItem>
+              ))}
+            </BenefitColumn>
+          </LeftRightWrapper>
+        </BenefitsContainer>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Cont1>
+          <h2>Exhibition Stall Packages</h2>
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <TableBx>
+              <table border={1} cellPadding={8} cellSpacing={0}>
+                <thead>
+                  <tr>
+                    <th style={{
+                      background: "#E5E5E5"
+                    }}>Stall Type</th>
+                    {exhibitPlans.map(plan => (
+                      <th key={plan.stallType} style={{
+                        background: "#E5E5E5",
+                        textAlign: 'center'
+                      }}>{plan.stallType}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowLabels.map(row => (
+                    <tr key={row.key}>
+                      <td>{row.label}</td>
+                      {exhibitPlans.map(plan => (
+                        <td key={plan.stallType + row.key} style={{
+                          textAlign: 'center'
+                        }}>
+                          {
+                            row.isCurrency
+                              ? <><span style={{
+                                fontFamily: "Port Lligat Sans",
+                                fontSize: row?.key === "earlyBirdRegistrationPrice" ? 20 : 16,
+                                fontWeight: row?.key === "earlyBirdRegistrationPrice" ? 600 : 400
+                              }} >₹ </span><span style={{
+                                fontSize: row?.key === "earlyBirdRegistrationPrice" ? 20 : 16,
+                                fontWeight: row?.key === "earlyBirdRegistrationPrice" ? 600 : 400
+                              }}>{plan[row.key].toLocaleString()}</span></>
+                              : row.isYesNo
+                                ? plan[row.key] ? <img src={checkGreen} alt="" /> : "-"
+                                : plan[row.key]
+                          }
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </TableBx>
+          </motion.div>
+
+          {/* {!userData && !exhibitorData && <button
                         onClick={() => navigate("/auth/exhibitor/register")}
                         style={{
                             display: 'flex',
@@ -717,62 +717,62 @@ const LinkedInIcon = () => (
                         Register Now
                     </button>} */}
 
-                    <div style={{
-                        margin: "40px 0 0 0",
-                        fontFamily: 'Poppins'
-                    }}>
-                        <h3 style={{
-                            margin: 0,
-                            fontSize: 20,
-                            fontWeight: 600,
-                            lineHeight: '120%'
-                        }}>Please Note</h3>
-                        <ol style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 16,
-                            fontSize: 18,
-                            fontWeight: 400,
-                            lineHeight: '160%'
+          <div style={{
+            margin: "40px 0 0 0",
+            fontFamily: 'Poppins'
+          }}>
+            <h3 style={{
+              margin: 0,
+              fontSize: 20,
+              fontWeight: 600,
+              lineHeight: '120%'
+            }}>Please Note</h3>
+            <ol style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 16,
+              fontSize: 18,
+              fontWeight: 400,
+              lineHeight: '160%'
 
-                        }}>
-                            {
-                                notes?.map(elm => (
-                                    <li>{elm.normal} <span style={{
-                                        fontWeight: 500
-                                    }}>{elm.bold}</span></li>
-                                ))
-                            }
-                        </ol>
-                    </div>
-                </Cont1>
-            </motion.div>
-            {/* ===== New Exhibitors Section ===== */}
-     
-   
-           <h2 style={{
-  fontFamily: 'Poppins',
-  fontSize: 32,
-  fontWeight: 600,
-  margin: '40px 70px 20px 70px',
-  textAlign: 'left'
-}}>
-  Terms and Conditions
-</h2>
-            <Cont4>
-                
-                {exhibitionDetails?.map((elm, idx) => (
-                    <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ delay: idx * 0.2, duration: 0.6 }}>
-                        <div>
-                            <img alt="" src={elm.logo} />
-                            <h3>{elm.title}</h3>
-                            <p>{elm.text}</p>
-                        </div>
-                    </motion.div>
-                ))}
-            </Cont4>
+            }}>
+              {
+                notes?.map(elm => (
+                  <li>{elm.normal} <span style={{
+                    fontWeight: 500
+                  }}>{elm.bold}</span></li>
+                ))
+              }
+            </ol>
+          </div>
+        </Cont1>
+      </motion.div>
+      {/* ===== New Exhibitors Section ===== */}
 
-            {/* <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.4, delay: 0.2 }}>
+
+      <h2 style={{
+        fontFamily: 'Poppins',
+        fontSize: 32,
+        fontWeight: 600,
+        margin: '40px 70px 20px 70px',
+        textAlign: 'left'
+      }}>
+        Terms and Conditions
+      </h2>
+      <Cont4>
+
+        {exhibitionDetails?.map((elm, idx) => (
+          <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ delay: idx * 0.2, duration: 0.6 }}>
+            <div>
+              <img alt="" src={elm.logo} />
+              <h3>{elm.title}</h3>
+              <p>{elm.text}</p>
+            </div>
+          </motion.div>
+        ))}
+      </Cont4>
+
+      {/* <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.4, delay: 0.2 }}>
                 <Cont3>
                     <h2>Exhibition Schedule</h2>
                     <div>
@@ -780,8 +780,8 @@ const LinkedInIcon = () => (
                     </div>
                 </Cont3>
             </motion.div> */}
-        </Component>
-    )
+    </Component>
+  )
 }
 
 export default Exhibit
