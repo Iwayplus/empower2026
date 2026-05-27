@@ -61,7 +61,7 @@ export const problemset = [
 export const deadlines = [
     {
         activity: "Release of Call for Participation",
-        date: "15th May 2026 (Friday)"
+        date: "1st June 2026 (Monday)"
     },
     {
         activity: "Last Date for Submitting Applications",

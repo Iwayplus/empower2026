@@ -597,6 +597,14 @@ const Exhibit = () => {
 
         </motion.div>
       )} */}
+      <h2 style={{
+        textAlign: "center",
+        color: "#6b7280",
+        fontFamily: "Poppins, sans-serif",
+        fontWeight: 600,
+        fontSize: "2rem",
+        margin: "40px 0",
+      }}>Stay Tuned. Exhibitor Registration Opening Soon!</h2>
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
         <Cont1>
           <h1>{exhibitTypography.title["en-us"]}</h1>
@@ -637,8 +645,8 @@ const Exhibit = () => {
         transition={{ duration: 0.6 }}
       >
         <Cont1>
-          <h2>Exhibition Stall Packages</h2>
-          <motion.div
+          {/* <h2>Exhibition Stall Packages</h2> */}
+          {/* <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -688,7 +696,7 @@ const Exhibit = () => {
                 </tbody>
               </table>
             </TableBx>
-          </motion.div>
+          </motion.div> */}
 
           {/* {!userData && !exhibitorData && <button
                         onClick={() => navigate("/auth/exhibitor/register")}
@@ -717,7 +725,7 @@ const Exhibit = () => {
                         Register Now
                     </button>} */}
 
-          <div style={{
+          {/* <div style={{
             margin: "40px 0 0 0",
             fontFamily: 'Poppins'
           }}>
@@ -744,7 +752,7 @@ const Exhibit = () => {
                 ))
               }
             </ol>
-          </div>
+          </div> */}
         </Cont1>
       </motion.div>
       {/* ===== New Exhibitors Section ===== */}
