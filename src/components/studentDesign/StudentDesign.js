@@ -148,7 +148,7 @@ const StudentDesign = () => {
                 <p>The Student Design Challenge (SDC) track at the EMPOWER conference was introduced to encourage a greater participation of students and early-stage innovators to contribute to the growing assistive technology sector in India and the Global South. As India’s premier conference on assistive technology, EMPOWER 2026 will bring together a diverse range of stakeholders from the country and abroad, and will provide a very effective platform for engaging in early-stage technology design discussions.</p>
                 <p>For this year’s SDC, teams could pick from the six problem statements given below. Every team will be expected to work on developing a working/design prototype to address the specific problem they choose. A team of mentors will be available to provide guidance to the teams at identified stages during the solution conceptualization/design process. Winning teams will receive cash awards and an opportunity to attend EMPOWER 2026 at the Indian Institute of Technology Delhi and present their ideas to a distinguished panel of experts in the assistive technology space.</p>
             </Section>
-            {/* <Section>
+            <Section>
                 <h3>Problem Statements</h3>
                 <div style={{
                     // marginTop: 24
@@ -187,7 +187,7 @@ const StudentDesign = () => {
                         ))
                     }
                 </div>
-            </Section> */}
+            </Section>
             <Section>
                 <h3>Problem Statements</h3>
                 <p style={{ marginTop: 16 }}>
@@ -195,26 +195,26 @@ const StudentDesign = () => {
                 </p>
             </Section>
             {
-                // <Section style={{
-                //     background: "#A83D1B",
-                //     padding: 24
-                // }}>
-                //     <h3 style={{
-                //         fontSize: 20,
-                //         color: "#fff"
-                //     }}>Eligibility and Expression of Interest</h3>
-                //     <p style={{
-                //         fontSize: 16,
-                //         color: '#fff'
-                //     }}>Teams of up to 4 students are eligible. Multidisciplinary and inclusive teams are strongly encouraged to apply. Submit your interest for taking part in the challenge before <span style={{
-                //         fontWeight: 600,
-                //         color: "#fff",
-                //     }}>15th June 2026.</span></p>
-                //     <OpenFormBtn >
-                //         Submission Closed
-                //         {/* <img src={redirect} alt="" /> */}
-                //     </OpenFormBtn>
-                // </Section>
+                <Section style={{
+                    background: "#A83D1B",
+                    padding: 24
+                }}>
+                    <h3 style={{
+                        fontSize: 20,
+                        color: "#fff"
+                    }}>Eligibility and Expression of Interest</h3>
+                    <p style={{
+                        fontSize: 16,
+                        color: '#fff'
+                    }}>Teams of up to 4 students are eligible. Multidisciplinary and inclusive teams are strongly encouraged to apply. Submit your interest for taking part in the challenge before <span style={{
+                        fontWeight: 600,
+                        color: "#fff",
+                    }}>15th June 2026.</span></p>
+                    <OpenFormBtn target="_blank" href="https://forms.gle/ZUba2ciVMYxXJqVu5" >
+                        Registration Form
+                        <img src={redirect} alt="" />
+                    </OpenFormBtn>
+                </Section>
             }
             <Section>
                 <h3>Important Dates</h3>

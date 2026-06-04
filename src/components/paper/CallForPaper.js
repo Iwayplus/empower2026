@@ -234,7 +234,7 @@ const SubmitBtn = styled('button')({
     marginTop: 24,
     padding: '8px 16px',
     borderRadius: 4,
-    // background: '#2180E4',
+    background: '#2180E4',
     color: '#fff',
     textAlign: 'center',
     // fontFamily: "DM Sans",
@@ -244,10 +244,10 @@ const SubmitBtn = styled('button')({
     opacity: 1,
     lineHeight: "20px", /* 111.111% */
     border: 'none',
-    // cursor: 'pointer',
-    // '&:hover': {
-    //     opacity: 0.7
-    // }
+    cursor: 'pointer',
+    '&:hover': {
+        opacity: 0.7
+    }
 })
 
 const Container = styled('div')(({ theme }) => ({
@@ -280,7 +280,7 @@ const Container = styled('div')(({ theme }) => ({
 export const CallForPaper = () => {
 
     const handleSubmitPaper = () => {
-        window.open("https://easychair.org/conferences/?conf=empower25", "_blank")
+        window.open("https://easychair.org/cfp/EMPOWER2026", "_blank")
     }
     return (
         <Component>
@@ -295,7 +295,7 @@ export const CallForPaper = () => {
                     <Quote>
                         <h2>Call for Papers</h2>
                         <p>EMPOWER 2026 invites contributions on all aspects related to <span>technology and disability</span> ranging from Research and Development, Manufacturing, Dissemination, Service Delivery, Training and Education, Usability and Impact.</p>
-                        <SubmitBtn disabled title="make a paper submission" onClick={handleSubmitPaper}>Call Opening on 1st June 2026</SubmitBtn>
+                        <SubmitBtn title="make a paper submission" onClick={handleSubmitPaper}>Make a Paper Submission</SubmitBtn>
                     </Quote>
                 </Container>
             </motion.div>
