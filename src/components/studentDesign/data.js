@@ -45,7 +45,7 @@ export const problemset = [
   },
   {
     heading: "AI based tool for conversion of Visual to tactile print ready line images specifically for geometry",
-    paragraphs: [],
+    paragraphs: ["AI‑based tool that can automatically interpret visual geometry diagrams and convert them into simplified, tactile‑appropriate, print‑ready line images that follow accessibility standards. The tool must intelligently remove visual clutter, preserve essential geometric relationships, convert labels into tactile‑friendly markers or Braille, and output files compatible with embossers and swell‑paper. Such a system would dramatically reduce production time, empower teachers to generate tactile diagrams on demand, and enable students with visual impairment to learn geometry on par with their sighted peers."],
     bullets: []
   },
   {
