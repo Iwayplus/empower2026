@@ -342,6 +342,8 @@ const ShimmerCard = () => (
   </WorkshopCard>
 );
 
+const baseUrl = process.env.NODE_ENV === "development" ? (process.env.REACT_APP_LOCAL_URL || "http://localhost:8000") : (process.env.REACT_APP_REMOTE_URL || "https://maps.iwayplus.in");
+
 const Workshop = () => {
   const [workshops, setWorkshops] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -371,12 +373,12 @@ const Workshop = () => {
 
 
         const subEventRes = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-subEvent/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
+          `${baseUrl}/secured/event/all-subEvent/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
         );
         const subEventJson = await subEventRes.json();
 
         const sessionRes = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
+          `${baseUrl}/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
         );
         const sessionJson = await sessionRes.json();
 
@@ -500,10 +502,7 @@ const Workshop = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const API_BASE_URL =
-        window.location.hostname === "localhost"
-          ? "http://localhost:8000/api/empower"
-          : "https://maps.iwayplus.in/api/empower";
+      const API_BASE_URL = `${baseUrl}/api/empower`;
 
       try {
         const res = await fetch(`${API_BASE_URL}/profile`, {

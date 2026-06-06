@@ -1195,7 +1195,7 @@ const Header = () => {
                     role="menuitem"
                     tabIndex={0}
                     onClick={handleClose}
-                    to="keynote-speakers"
+                    to="/keynote-speakers"
                     style={{
                       textDecoration: "none",
                       color: "var(--Color-Heading, #1C1C1C)",
@@ -1211,7 +1211,7 @@ const Header = () => {
                     role="menuitem"
                     tabIndex={0}
                     onClick={handleClose}
-                    to="invited"
+                    to="/invited"
                     style={{
                       textDecoration: "none",
                       color: "var(--Color-Heading, #1C1C1C)",
@@ -1226,7 +1226,7 @@ const Header = () => {
                     role="menuitem"
                     tabIndex={0}
                     onClick={handleClose}
-                    to="CFP"
+                    to="/CFP"
                     style={{
                       textDecoration: "none",
                       color: "var(--Color-Heading, #1C1C1C)",
@@ -1241,7 +1241,7 @@ const Header = () => {
                     role="menuitem"
                     tabIndex={0}
                     onClick={handleClose}
-                    to="CFP"
+                    to="/SDC"
                     style={{
                       textDecoration: "none",
                       color: "var(--Color-Heading, #1C1C1C)",

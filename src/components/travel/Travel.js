@@ -1,4 +1,4 @@
-import  React, { useState } from "react";
+import  React, { useState, useEffect } from "react";
 import "./travel.css";
 import qr1 from "../../assets/qr1.jpg";
 import gplay from "../../assets/gplay.png";
@@ -6,8 +6,30 @@ import org from "../../assets/orgqr.jpg";
 import apple from "../../assets/apple.png";
 import hi from "../../assets/hi.png";
 import li from "../../assets/lhc new.jpg";
+import { getNearbyServices, getVenueServices } from "../../services/api";
+
 const Travel = () => {
    const [mode, setMode] = useState("flight");
+   const [nearbyServices, setNearbyServices] = useState([]);
+   const [venueServices, setVenueServices] = useState([]);
+
+   useEffect(() => {
+     const fetchTravelData = async () => {
+       try {
+         const ns = await getNearbyServices();
+         if (ns && ns.status) {
+           setNearbyServices(ns.data || []);
+         }
+         const vs = await getVenueServices();
+         if (vs && vs.status) {
+           setVenueServices(vs.data || []);
+         }
+       } catch (error) {
+         console.error("Error fetching travel dynamic data:", error);
+       }
+     };
+     fetchTravelData();
+   }, []);
   return (
     <div className="travel-container">
       <div className="container-1">
@@ -532,8 +554,63 @@ Directions</button>
               </div>
             </div>
           </div>
-        </div>
       </div> */}
+
+      {/* Dynamic Venue Services Section */}
+      {venueServices.length > 0 && (
+        <div className="dynamic-services-section">
+          <h2 className="c2-a">Venue Convenience Services & Facilities</h2>
+          <div className="services-grid">
+            {venueServices.map((service) => (
+              <div key={service._id} className="service-card">
+                <span className="service-type">{service.type}</span>
+                <h4>{service.name}</h4>
+                {service.locationName && (
+                  <p><strong>Location:</strong> {service.locationName}</p>
+                )}
+                {service.about && <p>{service.about}</p>}
+                {service.accessibility && (
+                  <div className="service-info-row">
+                    <span>♿ Accessibility: {service.accessibility}</span>
+                  </div>
+                )}
+                {service.startTime && service.endTime && (
+                  <div className="service-info-row">
+                    <span>⏰ Hours: {service.startTime} - {service.endTime}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Dynamic Nearby Services Section */}
+      {nearbyServices.length > 0 && (
+        <div className="dynamic-services-section">
+          <h2 className="c2-a">Nearby Services & POIs (Transit, Hospitals, Dining)</h2>
+          <div className="services-grid">
+            {nearbyServices.map((service) => (
+              <div key={service._id} className="service-card">
+                <span className="service-type">{service.type}</span>
+                <h4>{service.name}</h4>
+                {service.locationName && (
+                  <p><strong>Location:</strong> {service.locationName}</p>
+                )}
+                {service.about && <p>{service.about}</p>}
+                {service.contact && (
+                  <p><strong>Contact:</strong> {service.contact}</p>
+                )}
+                {service.accessibility && (
+                  <div className="service-info-row">
+                    <span>♿ Accessibility: {service.accessibility}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,8 +1,11 @@
+import { useState, useEffect } from "react"
 import { styled } from "@mui/material"
 import callForPaper from '../../assets/callForPaper.jpeg'
 import { assistiveTechTopics, conferenceTimeline } from "./data"
 import bulletPt from '../../assets/bulletPt.svg'
 import redirect from '../../assets/redirect.svg'
+import { fetchPublicDynamicSections } from "../../services/api"
+import DynamicSectionRenderer from "../dynamic/SectionRenderer"
 
 import { motion } from "framer-motion"
 
@@ -278,6 +281,19 @@ const Container = styled('div')(({ theme }) => ({
 
 
 export const CallForPaper = () => {
+    const [dynamicSections, setDynamicSections] = useState([]);
+
+    useEffect(() => {
+        const fetchCFPData = async () => {
+            try {
+                const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+                setDynamicSections(sections.filter(sec => sec.section_type === 'paper'));
+            } catch (err) {
+                console.error("Error fetching dynamic sections for CFP", err);
+            }
+        };
+        fetchCFPData();
+    }, []);
 
     const handleSubmitPaper = () => {
         window.open("https://easychair.org/cfp/EMPOWER2026", "_blank")
@@ -471,6 +487,11 @@ export const CallForPaper = () => {
                     color: "#fff"
                 }} href="mailto:info@empowerconference.in">info@empowerconference.in</a></p>
             </Cont1>
+
+            {/* Dynamic CMS Sections */}
+            {dynamicSections.map((section) => (
+                <DynamicSectionRenderer key={section._id || section.id} section={section} />
+            ))}
         </Component>
     )
 }

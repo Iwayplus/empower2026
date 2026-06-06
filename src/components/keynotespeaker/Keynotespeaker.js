@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Box, Typography, Link, SvgIcon, CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import defaultSpeaker from "../../assets/default.png";
+import { baseUrl } from "../../services/api";
 
 function LinkedInIcon(props) {
   return (
@@ -99,6 +100,7 @@ function SpeakerCard({ name, designation, bio, talk, image, linkedin, reverse, o
 // Fetch Token
 
 
+
 // Keynote Speakers Component
 export default function KeynoteSpeaker() {
   const [speakers, setSpeakers] = useState([]);
@@ -110,7 +112,7 @@ export default function KeynoteSpeaker() {
     const fetchSpeakers = async () => {
 
       try {
-        const res = await fetch(`https://maps.iwayplus.in/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+        const res = await fetch(`${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
 
 
 
@@ -128,7 +130,7 @@ export default function KeynoteSpeaker() {
             organization: speaker?.organization,
             bio: speaker.short_bio || "",
             talk: { title: speaker.slides_url ? "Talk details" : "", desc: "" },
-            image: speaker.photo_url ? `https://maps.iwayplus.in/uploads/${encodeURIComponent(speaker.photo_url)}` : defaultSpeaker,
+            image: speaker.photo_url ? `${baseUrl}/uploads/${encodeURIComponent(speaker.photo_url)}` : defaultSpeaker,
             linkedin: speaker.linkedin || "",
           }));
 

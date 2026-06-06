@@ -1,5 +1,5 @@
 import { styled, Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { motion,AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { coverTypography } from "./assets/typography";
 import playStore from "../../assets/gp.png";
 import appStore from "../../assets/sto.png";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { baseUrl, fetchPublicDynamicSections } from "../../services/api";
 
 const Component = styled("section")({
   width: "100%",
@@ -264,72 +265,87 @@ const Cover = () => {
 
   const [venue, setVenue] = useState(coverTypography.venueLong["en-us"]);
   const [carousel, setCarousel] = useState([]);
-  const [progress, setProgress] = useState(0); 
-
+  const [dynamicHero, setDynamicHero] = useState(null);
   const [currentBg, setCurrentBg] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [timerKey, setTimerKey] = useState(0); // bump to restart the timer
+
   const navigate = useNavigate();
   const userData = useSelector((store) => store.userSlice.profile);
   const exhibitorData = useSelector((store) => store.userSlice.exhibitorProfile);
-    const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true);
 
-const [currentIndex, setCurrentIndex] = useState(-1); 
-const displayTime = 7000; 
-const apiTime = 4000; 
- useEffect(() => {
-    const fetchCarousel = async () => {
-      try {
-        const res = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-carousel/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
-        );
-        const json = await res.json();
-        if (json?.status && Array.isArray(json.data)) {
-          const filtered = json.data.filter((img) => img.priority !== 1);
-          setCarousel(filtered);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchCarousel();
-  }, []);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const SLIDE_DURATION = 5000; // ms per slide
+
+  // Use a ref so the interval callback always sees the latest carousel
+  const carouselRef = useRef([]);
+  const indexRef = useRef(-1);
 
   useEffect(() => {
-    if (!carousel?.length) return;
-
-    let index = -1; 
-    const switchImage = () => {
-      if (index === -1) index = 0;
-      else index = (index + 1) % (carousel.length + 1);
-
-      if (index === carousel.length) {
-        setCurrentIndex(-1);
-        setCurrentBg(bgImage);
-      } else {
-        setCurrentIndex(index);
-        setCurrentBg(
-          `https://maps.iwayplus.in/uploads/${encodeURIComponent(
-            carousel[index].image_url
-          )}`
-        );
-      }
-    };
-
-    const interval = setInterval(
-      switchImage,
-      index === -1 ? displayTime : apiTime
-    );
-
-    return () => clearInterval(interval);
+    carouselRef.current = carousel;
   }, [carousel]);
 
+  // Advance to next slide — stable function, no stale closure
+  const advance = useCallback(() => {
+    const list = carouselRef.current;
+    if (!list.length) return;
+    // total slots = carousel images + 1 (the default bg at index -1)
+    const total = list.length + 1;
+    const next = (indexRef.current + 2) % total - 1; // cycles: -1, 0, 1, ..., N-1, -1, ...
+    indexRef.current = next;
+    setCurrentIndex(next);
+    if (next === -1) {
+      setCurrentBg(bgImage);
+    } else {
+      setCurrentBg(
+        `${baseUrl}/uploads/${encodeURIComponent(list[next].image_url)}`
+      );
+    }
+    setProgress(0); // reset progress bar on each new slide
+  }, []);
 
-useEffect(() => {
-  const timer = setInterval(() => {
-    setProgress((prev) => (prev >= 100 ? 0 : prev + 5));
-  }, 150); 
+  // Auto-advance interval — restarts whenever timerKey changes (e.g., dot click)
+  useEffect(() => {
+    if (!carousel.length) return;
+    const interval = setInterval(advance, SLIDE_DURATION);
+    return () => clearInterval(interval);
+  }, [carousel, timerKey, advance]);
 
-  return () => clearInterval(timer);
-}, []);
+  // Smooth progress bar that fills over SLIDE_DURATION
+  useEffect(() => {
+    if (!carousel.length) return;
+    setProgress(0);
+    const step = 100 / (SLIDE_DURATION / 50); // update every 50ms
+    const timer = setInterval(() => {
+      setProgress((prev) => Math.min(prev + step, 100));
+    }, 50);
+    return () => clearInterval(timer);
+  }, [currentIndex, carousel]);
+
+  // Fetch CMS Hero Dynamic Content + build carousel from hero images
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      try {
+        const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+        const heroSection = sections.find(sec => sec.section_type === 'hero' || sec.section_type === 'cover');
+        if (heroSection) {
+          setDynamicHero(heroSection);
+
+          // Build carousel from hero images array if present
+          const heroImages = heroSection?.content?.images;
+          if (Array.isArray(heroImages) && heroImages.length > 0) {
+            // Normalise plain filename strings into { image_url } objects
+            // so the existing advance() machinery works unchanged
+            setCarousel(heroImages.map((filename) => ({ image_url: filename })));
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching dynamic hero section", err);
+      }
+    };
+    fetchHeroData();
+  }, []);
 
 
   useEffect(() => {
@@ -341,7 +357,7 @@ useEffect(() => {
     return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
-  const handleRegister = () => navigate("/auth/signin");
+  // const handleRegister = () => navigate("/auth/signin");
 
   return (
     <Component id="cover">
@@ -362,7 +378,7 @@ useEffect(() => {
     ) : (
       <CarouselImage
         key={currentIndex}
-        src={`https://maps.iwayplus.in/uploads/${encodeURIComponent(
+        src={`${baseUrl}/uploads/${encodeURIComponent(
           carousel[currentIndex].image_url
         )}`}
                 aria-hidden="true" // ✅ Hide from screen readers
@@ -375,12 +391,39 @@ useEffect(() => {
     )}
   </AnimatePresence>
 
+  {/* Progress bar */}
+  {carousel.length > 1 && (
+    <div
+      style={{
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        height: 4,
+        background: "rgba(255,255,255,0.2)",
+        zIndex: 4,
+      }}
+    >
+      <div
+        style={{
+          height: "100%",
+          width: `${progress}%`,
+          background: "#C69300",
+          transition: "width 0.05s linear",
+        }}
+      />
+    </div>
+  )}
+
   <DotsWrapper>
     <Dot
       active={currentIndex === -1}
       onClick={() => {
+        indexRef.current = -1;
         setCurrentIndex(-1);
         setCurrentBg(bgImage);
+        setProgress(0);
+        setTimerKey((k) => k + 1); // restart interval
       }}
     />
     {carousel.map((img, idx) => (
@@ -388,12 +431,13 @@ useEffect(() => {
         key={idx}
         active={currentIndex === idx}
         onClick={() => {
+          indexRef.current = idx;
           setCurrentIndex(idx);
           setCurrentBg(
-            `https://maps.iwayplus.in/uploads/${encodeURIComponent(
-              img.image_url
-            )}`
+            `${baseUrl}/uploads/${encodeURIComponent(img.image_url)}`
           );
+          setProgress(0);
+          setTimerKey((k) => k + 1); // restart interval
         }}
       />
     ))}
@@ -402,11 +446,15 @@ useEffect(() => {
 
         <Content>
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-            <Heading>{coverTypography.title["en-us"]}</Heading>
+            <Heading>
+              {dynamicHero?.content?.title || dynamicHero?.content?.heading || coverTypography.title["en-us"]}
+            </Heading>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 1 }}>
-            <SubHeading>{coverTypography.subTitle["en-us"]}</SubHeading>
+            <SubHeading>
+              {dynamicHero?.content?.subtitle || dynamicHero?.content?.body || coverTypography.subTitle["en-us"]}
+            </SubHeading>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.6 }}>
@@ -420,7 +468,7 @@ useEffect(() => {
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <Date>
                   <img alt="" src={calander} />
-                  <p>{coverTypography.dates["en-us"]}</p>
+                  <p>{dynamicHero?.content?.dates || coverTypography.dates["en-us"]}</p>
                 </Date>
               </div>
 
@@ -432,7 +480,7 @@ useEffect(() => {
                 style={{ cursor: "pointer", textDecoration: "none", color: "inherit" }}
               >
                 <img alt="" src={locationRed} />
-                <p>{venue}</p>
+                <p>{dynamicHero?.content?.venue || venue}</p>
               </Venue>
             </TimingVenue>
           </motion.div>

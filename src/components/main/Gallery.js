@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useDriveImages from "../hooks/useDriveImages";
 import { Typography } from "@mui/material"; // ✅ import MUI Typography
+import { fetchPublicDynamicSections, baseUrl } from "../../services/api";
 
 const MasonryGrid = ({ images, onOpenAt }) => (
   <div style={{ columnCount: 3, columnGap: "12px" }}>
@@ -81,10 +82,30 @@ const rightBtn = { ...btnBase, right: "22px" };
 const closeBtn = { ...btnBase, top: "20px", right: "20px" };
 
 const Gallery = () => {
-  const images = useDriveImages();
+  const driveImages = useDriveImages();
   const [modal, setModal] = useState({ open: false, index: 0 });
+  const [dynamicSection, setDynamicSection] = useState(null);
 
-  if (!images.length) return <p style={{ textAlign: "center" }}>Loading gallery...</p>;
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+        const gallerySection = sections.find(sec => sec.section_type === 'gallery');
+        if (gallerySection) {
+          setDynamicSection(gallerySection);
+        }
+      } catch (err) {
+        console.error("Error fetching dynamic gallery section", err);
+      }
+    };
+    fetchGalleryData();
+  }, []);
+
+  const displayImages = dynamicSection?.content?.images?.length > 0
+    ? dynamicSection.content.images.map(img => `${baseUrl}/uploads/${encodeURIComponent(img.url)}`)
+    : driveImages;
+
+  if (!displayImages.length) return <p style={{ textAlign: "center", padding: "40px" }}>Loading gallery...</p>;
 
   return (
     <div style={{ display: "grid", gap: "20px", padding: "0px 20px" }}>
@@ -102,19 +123,32 @@ const Gallery = () => {
     mt: { xs: 4, md: 6 }
   }}
 >
-  EMPOWER 2025 Highlights
+  {dynamicSection?.content?.title || dynamicSection?.content?.heading || "EMPOWER 2025 Highlights"}
 </Typography>
 
+      {dynamicSection?.content?.description && (
+        <Typography
+          sx={{
+            color: "#4A4A4A",
+            fontFamily: "Poppins",
+            px: { xs: 2, sm: 4, md: 8 },
+            mt: -2,
+            mb: 3
+          }}
+        >
+          {dynamicSection.content.description}
+        </Typography>
+      )}
 
 
       <MasonryGrid
-        images={images}
+        images={displayImages}
         onOpenAt={(i) => setModal({ open: true, index: i })}
       />
 
       {modal.open && (
         <ImageModal
-          images={images}
+          images={displayImages}
           startIndex={modal.index}
           onClose={() => setModal({ open: false })}
         />
