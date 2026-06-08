@@ -634,17 +634,17 @@ const Header = () => {
   return (
     <>
       <Head id="header">
-        <ContactBx>
+        <ContactBx role="complementary" aria-label="Contact information">
           <div>
             <div>
-              <img alt="" src={phone} />
-              <a href={`tel:+919871093651`}>+919871093651</a>
+              <img alt="Phone" aria-hidden="true" src={phone} />
+              <a href={`tel:+919871093651`} aria-label="Call us at +919871093651">+919871093651</a>
               {/* <a href={`tel:+91-11-26591285`}>+91-11-26591285</a> */}
             </div>
             <DividerStyle aria-hidden="true" orientation="vertical" />
             <div>
-              <img alt="" src={email} />
-              <a href={`mailto:info@empowerconference.in`} >info@empowerconference.in</a>
+              <img alt="Email" aria-hidden="true" src={email} />
+              <a href={`mailto:info@empowerconference.in`} aria-label="Email us at info@empowerconference.in">info@empowerconference.in</a>
             </div>
 
           </div>
@@ -652,10 +652,17 @@ const Header = () => {
         </ContactBx>
         <Component>
 
-          <Img src={headerIcon} alt="Empower Logo" onClick={() => navigate('/')} />
+          <Img
+            src={headerIcon}
+            alt="Empower 2026 — Home"
+            onClick={() => navigate('/')}
+            role="link"
+            tabIndex={0}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/')}
+          />
 
 
-          <Navbar>
+          <Navbar as="nav" aria-label="Main navigation">
             <Link to="/" onClick={handleScrollUp} className={pathname === "/" ? "active" : ""}>Home</Link>
             <DropdownWrapper>
               <Link
@@ -705,8 +712,13 @@ const Header = () => {
           </Navbar>
 
 
-          <HambBtn title="menu" onClick={() => handleOpen()}>
-            <Hamb src={hamburger} title="menu" />
+          <HambBtn
+            aria-label="Open navigation menu"
+            aria-expanded={sidenav}
+            aria-controls="mobile-nav"
+            onClick={() => handleOpen()}
+          >
+            <Hamb src={hamburger} aria-hidden="true" />
           </HambBtn>
           <RightNav>
             {
@@ -917,15 +929,17 @@ const Header = () => {
 
       </Head>
       <SideNav
+        id="mobile-nav"
         open={sidenav}
         anchor="right"
         disableEnforceFocus
         disableAutoFocus
+        aria-label="Mobile navigation"
       >
-        <div>
+        <div role="navigation" aria-label="Mobile menu">
           <TopBar>
-            <button title="close" onClick={handleClose}>
-              <img alt="" src={close} />
+            <button aria-label="Close navigation menu" onClick={handleClose}>
+              <img alt="" aria-hidden="true" src={close} />
             </button>
           </TopBar>
           <BottomNav>

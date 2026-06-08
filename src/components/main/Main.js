@@ -16,7 +16,7 @@ import Invite from "./Invite"
 import Gallery from "./Gallery"
 const Main = () => {
     return (
-        <div>
+        <main id="main-content">
             {/* <Notice/> */}
             <Cover />
             <Highlights />
@@ -34,7 +34,7 @@ const Main = () => {
             {/* <Spon/> */}
             {/* <Agenda /> */}
             {/* <Faqs /> */}
-        </div>
+        </main>
     )
    
 }

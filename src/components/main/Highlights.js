@@ -10,10 +10,10 @@ import { keyframes } from "styled-components";
 import { baseUrl } from "../../services/api";
 
 const Component = styled("section")(({ theme }) => ({
-  margin: "40px 67px 0 67px",
+  margin: "40px 67px 60px 67px",
   boxSizing: "border-box",
   [theme.breakpoints.down("md")]: {
-    margin: "20px 16px",
+    margin: "20px 16px 40px 16px",
   },
   "&>h2": {
     color: "var(--Color-Heading, #1C1C1C)",
@@ -392,7 +392,8 @@ const Highlights = () => {
   }, []);
   
   return (
-    <Component id="highlights">
+    <Component id="highlights" aria-labelledby="highlights-heading">
+      <h2 id="highlights-heading" className="sr-only">Conference Highlights and About</h2>
       <RowWrapper>
         {/* Paragraphs */}
         <TextBx style={{ flex: 1, minWidth: 300 }}>

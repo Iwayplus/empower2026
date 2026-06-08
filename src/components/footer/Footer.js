@@ -209,10 +209,10 @@ const Footer = () => {
 
 
     return (
-        <Component id="footer" >
+        <footer id="footer">
             <Container>
                 <LogoBx>
-                    <img src={logoUrl} alt="" />
+                    <img src={logoUrl} alt="Empower 2026 Conference Logo" />
                     <Text>{dynamicSection?.content?.footer_desc || "Empower 2026 is a global conference dedicated to accessibility in design, tech, and innovation. Learn from industry leaders and participate in hands-on workshops"}</Text>
                     <h3 style={{ marginTop: "20px", marginBottom: "8px", fontSize: "20px", fontWeight: "600", color: "#fff" }}>
                         Connect with us
@@ -242,21 +242,21 @@ const Footer = () => {
                     <Title>Contact Us</Title>
                     <ContactBx>
                         <Elm>
-                            <img src={timing} alt="" />
+                            <img src={timing} alt="" aria-hidden="true" />
                             <p>{dynamicSection?.content?.contact_timing || "10 am - 5 pm (Monday to Friday)"}</p>
                         </Elm>
                         <Elm>
-                            <img src={call} alt="" />
+                            <img src={call} alt="" aria-hidden="true" />
                             <div>
                                 <a href={`tel:${dynamicSection?.content?.contact_phone || "+919871093651"}`}>{dynamicSection?.content?.contact_phone || "+919871093651"}</a>
                             </div>
                         </Elm>
                         <Elm>
-                            <img src={mail} alt="" />
+                            <img src={mail} alt="" aria-hidden="true" />
                             <a href={`mailto:${dynamicSection?.content?.contact_email || "info@empowerconference.in"}`}>{dynamicSection?.content?.contact_email || "info@empowerconference.in"}</a>
                         </Elm>
                         <Elm>
-                            <img src={map} alt="" />
+                            <img src={map} alt="" aria-hidden="true" />
                             <p>{dynamicSection?.content?.contact_address || "Assistech Lab, Indian Institute of Technology Delhi, New Delhi, India"}</p>
                         </Elm>
                     </ContactBx>
@@ -264,20 +264,31 @@ const Footer = () => {
                 <PrevLinks>
                     <Title>Past Conferences</Title>
                     <div>
-                        <a target="_blank" rel="noreferrer" href="https://empowerconferences.in/">Empower 2018 - 2024</a>
-                        <a target="_blank" rel="noreferrer" href="/2025">Empower 2025</a>
+                        {
+                            dynamicSection?.content?.past_conferenes?.map((e, index) => {
+                                return <a key={index} target="_blank" rel="noreferrer" href={e.url}>{e.text || "Empower 2018 - 2024"}</a>
+                            })
+                        }
                     </div>
                 </PrevLinks>
                 <DirectionBx>
                     <Title>Venue Directions</Title>
-                    <iframe src={getEmbedMapUrl(dynamicSection?.content?.maps_url)} width="269" height="227" style={{ border: 0, borderRadius: 8 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe
+                        title="Venue location map — IIT Delhi Research and Innovation Park"
+                        src={getEmbedMapUrl(dynamicSection?.content?.maps_url)}
+                        width="269"
+                        height="227"
+                        style={{ border: 0, borderRadius: 8 }}
+                        allowFullScreen=""
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
                 </DirectionBx>
 
             </Container>
 
             <CopyrightBx>
-                <p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: '1.125em', marginBottom: '8px' }}>
+                <div role="contentinfo" style={{ display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: '1.125em', marginBottom: '8px' }}>
                         <Link style={{ color: '#fff', whiteSpace: 'nowrap' }} to="/cancellation-refund-policy">
                             Cancellation and Refund Policy
                         </Link>
@@ -304,10 +315,9 @@ const Footer = () => {
                             </a>
                         </>
                     )}
-                </p>
             </CopyrightBx>
 
-        </Component>
+        </footer>
     )
 }
 

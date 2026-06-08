@@ -8,7 +8,6 @@ import bgImage from "../../assets/bg.jpeg";
 
 import calander from "../../assets/calander.svg";
 import locationRed from "../../assets/locationRed.svg";
-import Spon from "../../assets/second.png";
 import { coverTypography } from "./assets/typography";
 import playStore from "../../assets/gp.png";
 import appStore from "../../assets/sto.png";
@@ -418,6 +417,10 @@ const Cover = () => {
   <DotsWrapper>
     <Dot
       active={currentIndex === -1}
+      role="button"
+      tabIndex={0}
+      aria-label="Show slide 1 (default)"
+      aria-pressed={currentIndex === -1}
       onClick={() => {
         indexRef.current = -1;
         setCurrentIndex(-1);
@@ -425,11 +428,25 @@ const Cover = () => {
         setProgress(0);
         setTimerKey((k) => k + 1); // restart interval
       }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          indexRef.current = -1;
+          setCurrentIndex(-1);
+          setCurrentBg(bgImage);
+          setProgress(0);
+          setTimerKey((k) => k + 1);
+        }
+      }}
     />
     {carousel.map((img, idx) => (
       <Dot
         key={idx}
         active={currentIndex === idx}
+        role="button"
+        tabIndex={0}
+        aria-label={`Show slide ${idx + 2}`}
+        aria-pressed={currentIndex === idx}
         onClick={() => {
           indexRef.current = idx;
           setCurrentIndex(idx);
@@ -438,6 +455,16 @@ const Cover = () => {
           );
           setProgress(0);
           setTimerKey((k) => k + 1); // restart interval
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            indexRef.current = idx;
+            setCurrentIndex(idx);
+            setCurrentBg(`${baseUrl}/uploads/${encodeURIComponent(img.image_url)}`);
+            setProgress(0);
+            setTimerKey((k) => k + 1);
+          }
         }}
       />
     ))}
@@ -467,7 +494,7 @@ const Cover = () => {
             <TimingVenue style={{ marginTop: userData || exhibitorData ? 100 : 32 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <Date>
-                  <img alt="" src={calander} />
+                  <img alt="" aria-hidden="true" src={calander} />
                   <p>{dynamicHero?.content?.dates || coverTypography.dates["en-us"]}</p>
                 </Date>
               </div>
@@ -479,7 +506,7 @@ const Cover = () => {
                 rel="noopener noreferrer"
                 style={{ cursor: "pointer", textDecoration: "none", color: "inherit" }}
               >
-                <img alt="" src={locationRed} />
+                <img alt="" aria-hidden="true" src={locationRed} />
                 <p>{dynamicHero?.content?.venue || venue}</p>
               </Venue>
             </TimingVenue>
@@ -528,8 +555,10 @@ const Cover = () => {
       )}
 
       {/* Toggle Button */}
-      <div
+      <button
         onClick={() => setOpen(!open)}
+        aria-label={open ? "Hide QR code" : "Show QR code to download Empower app"}
+        aria-expanded={open}
         style={{
           cursor: "pointer",
           background: "#041a32",
@@ -537,10 +566,14 @@ const Cover = () => {
           padding: "6px",
           color: "#fff",
           boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+          border: "none",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {open ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
-      </div>
+        {open ? <FaChevronUp size={16} aria-hidden="true" /> : <FaChevronDown size={16} aria-hidden="true" />}
+      </button>
     </QRWrapper>
           {/* <div
   style={{

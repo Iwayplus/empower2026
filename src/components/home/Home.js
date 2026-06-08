@@ -6,6 +6,7 @@ import { useEffect } from "react"
 import { getExhibitorProfile, getProfile } from "../../services/api"
 import { useDispatch } from "react-redux"
 import { setExhibitorProfile, setProfile } from "../../redux/userSlice"
+import SkipNav from "../SkipNav"
 
 
 const Component = styled('div')({
@@ -42,6 +43,7 @@ const Home = () => {
 
     return (
         <Component>
+            <SkipNav />
             <Header />
             <Outlet />
             <Footer />

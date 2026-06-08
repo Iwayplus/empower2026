@@ -22,6 +22,22 @@ import {
 const baseUrl = process.env.NODE_ENV === "development" ? (process.env.REACT_APP_LOCAL_URL || "http://localhost:8000") : (process.env.REACT_APP_REMOTE_URL || "https://maps.iwayplus.in");
 
 const Summary = () => {
+  console.log("MUI Imports:", {
+    Box,
+    Typography,
+    TextField,
+    Chip,
+    Card,
+    CardContent,
+    CircularProgress,
+    Stack,
+    Collapse,
+    Divider,
+    TeaIcon,
+    DinnerIcon,
+    LunchIcon,
+    EventIcon
+  });
   const [sessions, setSessions] = useState([]);
   const [subEvents, setSubEvents] = useState([]);
   const [filteredData, setFilteredData] = useState({});
@@ -206,7 +222,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
     return <CircularProgress sx={{ display: "block", m: "auto", mt: 5 }} />;
 
   return (
-    <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: '90%', mx: "auto" }}>
+    <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: { xs: '100%', md: '90%' }, mx: "auto" }}>
       <Typography
         variant="h4"
         sx={{ fontWeight: 600,fontSize: 36, mb: 3, textAlign: "left", fontFamily: "Poppins" }}
@@ -267,7 +283,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
     return acc;
   }, {})
 ).map(([dayKey, daySessions]) => (
-  <Box key={dayKey} sx={{ mb: 6 }}>
+  <Box key={dayKey} sx={{ mb: 6, width: "100%" }}>
     {/* 🔹 Day Header */}
   {/* 🔹 Day Header - show only if All Days is selected */}
 {dayFilter === "all" && (
@@ -287,29 +303,32 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
       const groupEndTime = sessions[sessions.length - 1].end_time || first.end_time;
 
       return (
-        <Stack
+        <Box
           key={timeKey}
-          direction={{ xs: "column", md: "row" }}
-          spacing={4}
-          mb={6}
-          alignItems={{ xs: "flex-start", md: "flex-start" }}
-          sx={{ width: "100%" }}
+          sx={{
+            display: { xs: "block", md: "flex" },
+            flexDirection: { md: "row" },
+            alignItems: { md: "flex-start" },
+            gap: { md: 4 },
+            mb: 6,
+            width: "100%",
+          }}
           role="group"
           aria-label={`Time slot ${formatTime(first.date, groupStartTime)} to ${formatTime(first.date, groupEndTime)}, ${sessions.length} sessions`}
         >
           {/* Time Column */}
           <Box
+            id={`time-label-${timeKey}`}
             sx={{
               width: { xs: "100%", md: 160 },
-              textAlign: { xs: "center", md: "right" },
-              mt: { xs: 0, md: 1 },
-              mb: { xs: 2, md: 0 },
               flexShrink: 0,
+              textAlign: { xs: "left", md: "right" },
+              mb: { xs: 1, md: 0 },
+              mt: { md: 1 },
             }}
           >
             <Typography
               variant="body1"
-              id={`time-label-${timeKey}`}
               sx={{ fontWeight: 600, fontFamily: "Poppins" }}
             >
               {formatTime(first.date, groupStartTime)} - {formatTime(first.date, groupEndTime)}
@@ -317,11 +336,8 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
           </Box>
 
           {/* Session Cards */}
-          <Stack
-            direction="column"
-            spacing={4}
-            flex={1}
-            sx={{ width: "100%" }}
+          <Box
+            sx={{ flex: 1, width: "100%", minWidth: 0, display: "flex", flexDirection: "column", gap: 3 }}
             aria-labelledby={`time-label-${timeKey}`}
           >
             {sessions.map((session) => {
@@ -343,6 +359,8 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
                   onKeyDown={isExpandable ? (e) => handleKeyDown(e, session._id) : undefined}
                   sx={{
                     width: "100%",
+                    boxSizing: "border-box",
+                    minWidth: 0,
                     minHeight: 100,
                     borderRadius: 4,
                     boxShadow: 6,
@@ -450,8 +468,8 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
                 </Card>
               );
             })}
-          </Stack>
-        </Stack>
+          </Box>
+        </Box>
       );
     })}
   </Box>

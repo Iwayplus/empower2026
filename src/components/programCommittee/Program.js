@@ -45,7 +45,7 @@ const Program = () => {
             const totalMembers = programCommittee.members.reduce((acc, g) => acc + (g.members?.length || 0), 0);
             if (totalMembers > 0) {
               hasMembers = true;
-              const formattedGroups = [];
+              const roleGroupsMap = {};
               programCommittee.members.forEach((group) => {
                 const role = group.role || "Member";
                 const groupMembers = [];
@@ -58,8 +58,8 @@ const Program = () => {
 
                     if (member.photo_url) {
                       image = resolvePhotoUrl(member.photo_url, def);
-                    } else if (member.id && typeof member.id === 'object' && member.id.photoUrl) {
-                      image = resolvePhotoUrl(member.id.photoUrl, def);
+                    } else if (member.id && typeof member.id === 'object' && (member.id.photo_url || member.id.photoUrl)) {
+                      image = resolvePhotoUrl(member.id.photo_url || member.id.photoUrl, def);
                     }
 
                     if (member.id && typeof member.id === 'object') {
@@ -93,12 +93,17 @@ const Program = () => {
                 }
 
                 if (groupMembers.length > 0) {
-                  formattedGroups.push({
-                    role,
-                    members: groupMembers
-                  });
+                  if (!roleGroupsMap[role]) {
+                    roleGroupsMap[role] = [];
+                  }
+                  roleGroupsMap[role].push(...groupMembers);
                 }
               });
+
+              const formattedGroups = Object.entries(roleGroupsMap).map(([role, members]) => ({
+                role,
+                members
+              }));
               console.log("Setting formatted program groups from committee:", formattedGroups);
               setGroups(formattedGroups);
             }
