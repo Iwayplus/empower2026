@@ -3,97 +3,97 @@ export const problemset = [
   {
     heading: "EMG-Controlled Robotic Hand Assist Device",
     paragraphs: [
-      "Stroke and spinal cord injury (SCI) are leading causes of upper limb paralysis worldwide. Conventional rehabilitation methods are time-intensive and often inadequate for restoring fine motor control. Electromyography (EMG)-controlled robotic hand exoskeletons offer a promising alternative by reading residual muscle signals and translating them into assistive grip movements. A smart dynamic splint with embedded force and angle sensing enables real-time adaptive assistance tailored to each patient's needs.",
-      "Despite significant advances in robotic rehabilitation hardware, existing EMG-controlled hand assist devices suffer from high cost, poor EMG signal reliability due to electrode placement variability, limited adaptability to diverse hand geometries, and insufficient real-time feedback loops. There is a pressing need to develop a low-cost, wearable, and clinically viable smart splint that accurately decodes EMG intent and provides proportional assistive torque with closed-loop force and angle control."
+      "Stroke and spinal cord injury (SCI) often result in upper-limb paralysis, limiting hand function and independence. Develop a low-cost, wearable robotic hand assist device that uses electromyography (EMG) signals to detect user intent and provide proportional grip assistance. The solution should incorporate force and angle sensing for real-time adaptive support and closed-loop control. Key challenges include improving EMG signal reliability, accommodating diverse hand geometries, and ensuring clinical usability. The final prototype should provide accurate, responsive, and affordable assistive hand movement for rehabilitation and daily use."
     ],
     bullets: []
   },
   {
-    heading: "Low\u2011Cost Multisensory Science Lab Modules",
+    heading: "Low-Cost Multisensory Science Lab Modules",
     paragraphs: [
-      "Create frugal, classroom\u2011ready kits that make abstract science concepts tactile + auditory. Possible builds- Tactile + audio cicuit boards, Light detector, temperature indicators and low-cost talking voltmeter (0-12V)"
+      "Develop frugal, classroom-ready assistive science kits that enable students with visual impairments to independently explore abstract scientific concepts through tactile and auditory feedback. The challenge focuses on creating low-cost, scalable learning tools such as tactile-audio circuit boards, light detectors, temperature indicators, and talking voltmeters (0–12V) that replace visual observations with accessible sensory cues. The solutions should align with school science curricula, be safe and easy to use in classroom settings, and promote inclusive hands-on learning of electricity, energy, heat, light, and measurement concepts."
     ],
     bullets: []
   },
   {
-    heading: "Real\u2011Time Classroom Captioning for Indian Languages",
+    heading: "Real-Time Classroom Captioning for Indian Languages",
     paragraphs: [
-      "Build an offline, low\u2011latency captioning tool for Hindi/English classrooms. Internet\u2011dependent captioning fails in rural schools. On\u2011device speech\u2011to\u2011text engine. Teacher\u2011worn mic + student display app. Auto\u2011summaries of lectures."
+      "Design an offline, low-latency classroom captioning system for Hindi and English learning environments. The solution should include an on-device speech-to-text engine, a teacher-worn microphone, and a student-facing display application. Additional features may include automatic lecture summaries and note generation. The system must function without internet access, ensuring reliability in rural and low-connectivity settings while improving accessibility and participation for students with hearing impairments."
     ],
     bullets: []
   },
   {
     heading: "Visual Alert System for Home & Hostel Safety",
     paragraphs: [
-      "Create a modular alert system for hard of hearing users to alert them of sounds in their surroundings like doorbell, fire alarm etc. through flashlight and vibration alerts."
+      "Develop a modular safety alert system for hard-of-hearing users that detects important environmental sounds and converts them into accessible notifications. The system should recognize events such as doorbells, fire alarms, and emergency alerts, communicating them through flashlight signals, vibration alerts, or other visual indicators. The solution should be affordable, reliable, and easy to install in homes, hostels, and shared living spaces, enhancing safety, independence, and situational awareness."
     ],
     bullets: []
   },
   {
-    heading: "Accessible Hostel/ School Infrastructure Mapping Tool",
+    heading: "Accessible Hostel/School Infrastructure Mapping Tool",
     paragraphs: [
-      "Build a tool that audits accessibility of campuses. App that scans ramps, door widths, slopes. AI based \"accessibility score\" generator, crowdsourced map of accessible routes."
+      "Create a digital tool that evaluates and maps the accessibility of schools, hostels, and campuses. The system should assess ramps, door widths, pathways, slopes, and other mobility-related infrastructure. Using AI, the platform should generate an accessibility score and provide actionable insights for improvement. It should also support crowdsourced contributions to build a map of accessible routes and facilities, helping institutions create more inclusive environments."
     ],
     bullets: []
   },
   {
-    heading: "Make STEM concepts accessible for children with cognitive and visual disabilities.",
+    heading: "Make STEM Concepts Accessible for Children with Cognitive and Visual Disabilities",
     paragraphs: [
-      "Students will be given a set of concepts what can be best understood with the shape based math manipulatives and are expected to develop working prototypes for these manipulatives."
+      "Develop tactile, shape-based STEM manipulatives that make abstract mathematical and scientific concepts easier to understand for children with cognitive and visual disabilities. Participants will be provided with selected concepts that can be effectively represented through physical learning aids. The solution should focus on hands-on exploration, conceptual clarity, and accessibility. Prototypes must be durable, engaging, and suitable for classroom use, supporting inclusive STEM education through tactile learning."
     ],
     bullets: []
   },
   {
-    heading: "AI based tool for conversion of Visual to tactile print ready line images specifically for geometry",
-    paragraphs: ["AI‑based tool that can automatically interpret visual geometry diagrams and convert them into simplified, tactile‑appropriate, print‑ready line images that follow accessibility standards. The tool must intelligently remove visual clutter, preserve essential geometric relationships, convert labels into tactile‑friendly markers or Braille, and output files compatible with embossers and swell‑paper. Such a system would dramatically reduce production time, empower teachers to generate tactile diagrams on demand, and enable students with visual impairment to learn geometry on par with their sighted peers."],
-    bullets: []
-  },
-  {
-    heading: "Early\u2011childhood disability\u2011inclusive toolkits for Anganwadis and rural schools",
+    heading: "AI-Based Tool for Conversion of Visual to Tactile Print-Ready Geometry Images",
     paragraphs: [
-      "Tactile sensory play kit - A set of safe, durable, low\u2011cost tactile objects designed to build: shape recognition, textures, spatial concepts, fine motor skills, early math (sorting, matching, sequencing). Early Screening & Observation Kit - Simple screening cards (visual tracking, sound localization, fine motor tasks), Tactile + auditory tasks for assessing cognition, A mobile app that guides teachers through screening steps, A \u201cred\u2011flag\u201d checklist with tactile cues. Early Math & Logic Kit: Tactile number line, Counting beads with textures, Shape\u2011sorting puzzles, Pattern\u2011building tactile tiles, Early geometry tactile boards."
+      "Develop an AI-powered tool that automatically converts visual geometry diagrams into simplified, tactile-ready line images suitable for embossers and swell-paper printing. The system should preserve essential geometric relationships while removing unnecessary visual clutter. Labels should be transformed into tactile-friendly markers or Braille representations, and outputs must comply with accessibility standards. The tool should enable teachers to generate tactile diagrams on demand and support equitable geometry learning for students with visual impairments."
     ],
     bullets: []
   },
   {
-    heading: "Emotion & Communication Toolkit for children with: autism, speech delay, intellectual disabilities, blindness",
+    heading: "Early-Childhood Disability-Inclusive Toolkits for Anganwadis and Rural Schools",
     paragraphs: [
-      "Students are expected to develop Tactile emotion tokens, Emotion\u2011story tiles (character + emotion + situation), Simple AAC board with tactile symbols, Emotional wheel."
+      "Design a low-cost, inclusive toolkit that supports early learning, screening, and development in Anganwadis and rural schools. The toolkit may include tactile sensory play materials for shape recognition, textures, spatial understanding, fine motor skills, and early mathematics. It should also feature simple screening tools for visual tracking, sound localization, cognition, and motor development, supported by a mobile application and red-flag indicators. Additional components may include tactile number lines, textured counting aids, shape-sorting puzzles, and pattern-building activities."
     ],
     bullets: []
   },
   {
-    heading: "To help children with LD and VI understand chemical reactions, how substances change, what reactants and products mean, basic reaction types (combination, decomposition, displacement, acid\u2013base, etc.), cause-effect relationships, and sequencing and logic. The kit must be hands\u2011on, tactile, safe, and non\u2011chemical.",
+    heading: "Emotion & Communication Toolkit for Children with Disabilities",
     paragraphs: [
-      "Tactile Reaction Tiles: Representing reactants, process and products using tactile symbols.",
-      "Tactile Molecule Models: Simple, safe, chunky tactile pieces representing atoms and molecules.",
-      "Reaction Pathway Board: A tactile board where children arrange tiles to \u201cbuild\u201d a reaction.",
-      "Tactile Patterns for Reaction Types: Unique textures for each reaction type (e.g., combination, decomposition)."
+      "Develop an accessible communication and emotional-learning toolkit for children with autism, speech delay, intellectual disabilities, and blindness. The toolkit should help children recognize, express, and communicate emotions through tactile and multisensory methods. Possible components include tactile emotion tokens, emotion-story tiles combining characters, emotions, and situations, simple AAC boards with tactile symbols, and tactile emotional wheels. The solution should be intuitive, engaging, and adaptable across different disability groups while supporting emotional literacy and communication."
     ],
     bullets: []
   },
   {
-    heading: "Develop a scaled 3D tactile model of two major South Indian monuments, plus an audio tour explaining overall layout, key architectural features, cultural/religious significance, and historical context. All of this must be usable by blind/low\u2011vision students in a classroom or museum setting.",
+    heading: "Tactile Chemistry Learning Kit",
     paragraphs: [
-      "The 3D models should be compact enough to fit comfortably on a classroom desk yet large and detailed enough for blind and low\u2011vision learners to explore key architectural features through touch. The design must preserve the monument\u2019s overall massing, spatial hierarchy, and layout while simplifying micro\u2011ornamentation into tactile\u2011readable patterns. Clear tactile differentiation should be maintained between walls, open courtyards, towers, pathways, water bodies, and other structural elements, with optional removable layers or roofs to reveal inner layouts. All components must be optimized for rapid, low\u2011material 3D printing without compromising tactile clarity or educational value."
+      "Design a safe, hands-on, non-chemical learning kit that helps children with learning disabilities and visual impairments understand chemical reactions and related concepts. The toolkit should explain reactants, products, reaction processes, sequencing, cause-and-effect relationships, and reaction types such as combination, decomposition, displacement, and acid-base reactions. Components may include tactile reaction tiles, tactile molecule models, reaction pathway boards, and textured patterns representing different reaction categories, making chemistry concepts tangible and accessible."
     ],
     bullets: []
   },
   {
-    heading: "PathPlay Cards: Tactile Games for Safe Mobility and route understanding",
+    heading: "3D Tactile Models of South Indian Monuments with Audio Tours",
     paragraphs: [
-      "Develop a set of game\u2011based tactile play cards that help blind and low\u2011vision children practise essential cane skills such as obstacle detection, path following, turning, landmark identification, and simple route planning, through fun, repeatable activities. Each card should present a tactile scenario or challenge (e.g., \u201cfind the doorway,\u201d \u201cavoid the obstacle,\u201d \u201ctake two left turns,\u201d \u201cfollow the textured path\u201d) that children can enact physically using their cane in a room, corridor, or open space. The cards must be simple enough for teachers or parents to run without any specialist equipment, yet structured enough to build real orientation and mobility skills through play, imagination, and movement."
+      "Develop scaled 3D tactile models of two major South Indian monuments accompanied by accessible audio tours. The audio content should explain the monument’s layout, architecture, cultural significance, and historical context. Models must fit comfortably on a classroom desk while preserving key architectural features, spatial hierarchy, and overall layout. Structural elements such as walls, courtyards, towers, pathways, and water bodies should be distinguishable through touch. Designs should be optimized for low-material, rapid 3D printing without compromising tactile clarity."
     ],
     bullets: []
   },
   {
-    heading: "Everyday Independence Toolkit: Accessible Skills for Safety, Dressing, and Daily Living",
+    heading: "PathPlay Cards: Tactile Games for Safe Mobility and Route Understanding",
     paragraphs: [
-      "Design an integrated, low\u2011cost, tactile\u2011first learning toolkit that empowers people with visual impairments to independently manage essential daily\u2011life skills. The solution should combine experiential first\u2011aid learning tools enabling safe, accessible practice of emergency responses with accessible clothing\u2011management supports that help users identify, organize, select, and care for garments while expressing personal style. The toolkit must be intuitive, frugal, and usable at home or in community settings without specialist equipment, ultimately strengthening confidence, autonomy, and everyday safety."
+      "Create a set of tactile, game-based activity cards that help blind and low-vision children develop orientation and mobility skills through play. The cards should encourage obstacle detection, path following, turning, landmark identification, and basic route planning using a cane. Each card should present a tactile challenge, such as locating a doorway, avoiding obstacles, following a textured path, or navigating turns. Activities must be easy for teachers and parents to facilitate while building confidence, independence, and practical mobility skills."
+    ],
+    bullets: []
+  },
+  {
+    heading: "Design an Independent Wardrobe & Dressing Toolkit for People with Visual Impairment",
+    paragraphs: [
+      "Create an affordable and intuitive solution that helps people with visual impairment identify, organize, match, and manage their clothing independently. Consider challenges related to outfit selection, wardrobe organization, and laundry management while ensuring the solution is practical, inclusive, and easy to integrate into everyday life."
     ],
     bullets: []
   }
 ];
+
+
 
 export const deadlines = [
     {

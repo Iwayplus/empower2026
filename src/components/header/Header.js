@@ -638,7 +638,7 @@ const Header = () => {
           <div>
             <div>
               <img alt="" src={phone} />
-              <a href={`tel:+919871093651`}>+919871093651</a>
+              <a href={`tel:+919717477964`}>+919717477964</a>
               {/* <a href={`tel:+91-11-26591285`}>+91-11-26591285</a> */}
             </div>
             <DividerStyle aria-hidden="true" orientation="vertical" />
