@@ -162,7 +162,7 @@ const Gallery = () => {
   }, []);
 
   const displayImages = dynamicSection?.content?.images?.length > 0
-    ? dynamicSection.content.images.map(img => `${baseUrl}/uploads/${encodeURIComponent(img.url)}`)
+    ? dynamicSection.content.images.map(img => `${baseUrl}/uploads/${encodeURIComponent(img.url || img)}`)
     : driveImages;
 
   if (!displayImages.length) return <p style={{ textAlign: "center", padding: "40px" }}>Loading gallery...</p>;

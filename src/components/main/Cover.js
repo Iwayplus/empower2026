@@ -1,10 +1,10 @@
 import { styled, Box } from "@mui/material";
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { motion,AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import QRCode from "react-qr-code";
-import bgImage from "../../assets/bg.jpeg"; 
+import bgImage from "../../assets/bg.jpeg";
 
 import calander from "../../assets/calander.svg";
 import locationRed from "../../assets/locationRed.svg";
@@ -22,7 +22,7 @@ const Component = styled("section")({
 const Container = styled("div", {
   shouldForwardProp: (prop) => prop !== "bg",
 })(({ theme, bg }) => ({
-  position: "relative", 
+  position: "relative",
   display: "flex",
   alignItems: "flex-start",
   flexWrap: "wrap",
@@ -127,13 +127,13 @@ const Heading = styled("h1")(({ theme }) => ({
 
 const SubHeading = styled("p")(({ theme }) => ({
   color: "#fff",
-  background:"rgba(117,115,115,0.6)",
+  background: "rgba(117,115,115,0.6)",
   fontFamily: "Poppins",
   fontSize: 48,
   fontWeight: 700,
   lineHeight: "120%",
   margin: "8px 0 0 0",
-    padding: "0 6px",
+  padding: "0 6px",
   [theme.breakpoints.down("md")]: {
     fontSize: 28,
     margin: "4px 0 0 0",
@@ -297,9 +297,7 @@ const Cover = () => {
     if (next === -1) {
       setCurrentBg(bgImage);
     } else {
-      setCurrentBg(
-        `${baseUrl}/uploads/${encodeURIComponent(list[next].image_url)}`
-      );
+      setCurrentBg(list[next].image_url);
     }
     setProgress(0); // reset progress bar on each new slide
   }, []);
@@ -325,6 +323,7 @@ const Cover = () => {
   // Fetch CMS Hero Dynamic Content + build carousel from hero images
   useEffect(() => {
     const fetchHeroData = async () => {
+      let hasCMSImages = false;
       try {
         const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
         const heroSection = sections.find(sec => sec.section_type === 'hero' || sec.section_type === 'cover');
@@ -334,13 +333,33 @@ const Cover = () => {
           // Build carousel from hero images array if present
           const heroImages = heroSection?.content?.images;
           if (Array.isArray(heroImages) && heroImages.length > 0) {
-            // Normalise plain filename strings into { image_url } objects
-            // so the existing advance() machinery works unchanged
-            setCarousel(heroImages.map((filename) => ({ image_url: filename })));
+            // Normalise plain filename strings into objects with pre-built full URLs
+            setCarousel(heroImages.map((filename) => ({
+              image_url: `${baseUrl}/uploads/${encodeURIComponent(filename)}`
+            })));
+            hasCMSImages = true;
           }
         }
       } catch (err) {
         console.error("Error fetching dynamic hero section", err);
+      }
+
+      // Fallback if no images found in the CMS content or fetching failed
+      if (!hasCMSImages) {
+        try {
+          const res = await fetch(
+            `${baseUrl}/secured/event/all-carousel/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          );
+          const json = await res.json();
+          if (json?.status && Array.isArray(json.data)) {
+            const filtered = json.data.filter((img) => img.priority !== 1);
+            setCarousel(filtered.map((img) => ({
+              image_url: `${baseUrl}/uploads/${encodeURIComponent(img.image_url)}`
+            })));
+          }
+        } catch (fallbackErr) {
+          console.error("Fallback carousel fetch failed", fallbackErr);
+        }
       }
     };
     fetchHeroData();
@@ -362,114 +381,110 @@ const Cover = () => {
     <Component id="cover">
       <Container >
         <CarouselWrapper>
-  <AnimatePresence>
-    {currentIndex === -1 ? (
-      <CarouselImage
-        key="default-bg"
-        src={bgImage}
+          <AnimatePresence>
+            {currentIndex === -1 ? (
+              <CarouselImage
+                key="default-bg"
+                src={bgImage}
                 aria-hidden="true" // ✅ Hide from screen readers
 
-        initial={{ x: "100%", opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: "-100%", opacity: 0 }}
-        transition={{ duration: 1 }}
-      />
-    ) : (
-      <CarouselImage
-        key={currentIndex}
-        src={`${baseUrl}/uploads/${encodeURIComponent(
-          carousel[currentIndex].image_url
-        )}`}
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ duration: 1 }}
+              />
+            ) : (
+              <CarouselImage
+                key={currentIndex}
+                src={carousel[currentIndex].image_url}
                 aria-hidden="true" // ✅ Hide from screen readers
 
-        initial={{ x: "100%", opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: "-100%", opacity: 0 }}
-        transition={{ duration: 1 }}
-      />
-    )}
-  </AnimatePresence>
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ duration: 1 }}
+              />
+            )}
+          </AnimatePresence>
 
-  {/* Progress bar */}
-  {carousel.length > 1 && (
-    <div
-      style={{
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: 4,
-        background: "rgba(255,255,255,0.2)",
-        zIndex: 4,
-      }}
-    >
-      <div
-        style={{
-          height: "100%",
-          width: `${progress}%`,
-          background: "#C69300",
-          transition: "width 0.05s linear",
-        }}
-      />
-    </div>
-  )}
+          {/* Progress bar */}
+          {carousel.length > 1 && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                height: 4,
+                background: "rgba(255,255,255,0.2)",
+                zIndex: 4,
+              }}
+            >
+              <div
+                style={{
+                  height: "100%",
+                  width: `${progress}%`,
+                  background: "#C69300",
+                  transition: "width 0.05s linear",
+                }}
+              />
+            </div>
+          )}
 
-  <DotsWrapper>
-    <Dot
-      active={currentIndex === -1}
-      role="button"
-      tabIndex={0}
-      aria-label="Show slide 1 (default)"
-      aria-pressed={currentIndex === -1}
-      onClick={() => {
-        indexRef.current = -1;
-        setCurrentIndex(-1);
-        setCurrentBg(bgImage);
-        setProgress(0);
-        setTimerKey((k) => k + 1); // restart interval
-      }}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          indexRef.current = -1;
-          setCurrentIndex(-1);
-          setCurrentBg(bgImage);
-          setProgress(0);
-          setTimerKey((k) => k + 1);
-        }
-      }}
-    />
-    {carousel.map((img, idx) => (
-      <Dot
-        key={idx}
-        active={currentIndex === idx}
-        role="button"
-        tabIndex={0}
-        aria-label={`Show slide ${idx + 2}`}
-        aria-pressed={currentIndex === idx}
-        onClick={() => {
-          indexRef.current = idx;
-          setCurrentIndex(idx);
-          setCurrentBg(
-            `${baseUrl}/uploads/${encodeURIComponent(img.image_url)}`
-          );
-          setProgress(0);
-          setTimerKey((k) => k + 1); // restart interval
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            indexRef.current = idx;
-            setCurrentIndex(idx);
-            setCurrentBg(`${baseUrl}/uploads/${encodeURIComponent(img.image_url)}`);
-            setProgress(0);
-            setTimerKey((k) => k + 1);
-          }
-        }}
-      />
-    ))}
-  </DotsWrapper>
-</CarouselWrapper>
+          <DotsWrapper>
+            <Dot
+              active={currentIndex === -1}
+              role="button"
+              tabIndex={0}
+              aria-label="Show slide 1 (default)"
+              aria-pressed={currentIndex === -1}
+              onClick={() => {
+                indexRef.current = -1;
+                setCurrentIndex(-1);
+                setCurrentBg(bgImage);
+                setProgress(0);
+                setTimerKey((k) => k + 1); // restart interval
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  indexRef.current = -1;
+                  setCurrentIndex(-1);
+                  setCurrentBg(bgImage);
+                  setProgress(0);
+                  setTimerKey((k) => k + 1);
+                }
+              }}
+            />
+            {carousel.map((img, idx) => (
+              <Dot
+                key={idx}
+                active={currentIndex === idx}
+                role="button"
+                tabIndex={0}
+                aria-label={`Show slide ${idx + 2}`}
+                aria-pressed={currentIndex === idx}
+                onClick={() => {
+                  indexRef.current = idx;
+                  setCurrentIndex(idx);
+                  setCurrentBg(img.image_url);
+                  setProgress(0);
+                  setTimerKey((k) => k + 1); // restart interval
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    indexRef.current = idx;
+                    setCurrentIndex(idx);
+                    setCurrentBg(img.image_url);
+                    setProgress(0);
+                    setTimerKey((k) => k + 1);
+                  }
+                }}
+              />
+            ))}
+          </DotsWrapper>
+        </CarouselWrapper>
 
         <Content>
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
@@ -526,56 +541,56 @@ const Cover = () => {
             }}
           /> */}
           <MobileAppButtons>
-  <a href={process.env.REACT_APP_PLAYSTORE_URL} target="_blank" rel="noopener noreferrer">
-    <Box component="img" src={playStore} alt="Download on Play Store" sx={{ height: 50, cursor: "pointer" }} />
-  </a>
-  <a href={process.env.REACT_APP_APPSTORE_URL} target="_blank" rel="noopener noreferrer">
-    <Box component="img" src={appStore} alt="Download on App Store" sx={{ height: 50, cursor: "pointer" }} />
-  </a>
-</MobileAppButtons>
+            <a href={process.env.REACT_APP_PLAYSTORE_URL} target="_blank" rel="noopener noreferrer">
+              <Box component="img" src={playStore} alt="Download on Play Store" sx={{ height: 50, cursor: "pointer" }} />
+            </a>
+            <a href={process.env.REACT_APP_APPSTORE_URL} target="_blank" rel="noopener noreferrer">
+              <Box component="img" src={appStore} alt="Download on App Store" sx={{ height: 50, cursor: "pointer" }} />
+            </a>
+          </MobileAppButtons>
         </Content>
 
-      <QRWrapper>
-      {open && (
-        <a
-          href={process.env.REACT_APP_APP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <QRContainer>
-            <QRText>Download Empower App now!</QRText>
-            <QRCode
-              size={90}
-              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              value={process.env.REACT_APP_APP_URL}
-              viewBox="0 0 256 256"
-            />
-          </QRContainer>
-        </a>
-      )}
+        <QRWrapper>
+          {open && (
+            <a
+              href={process.env.REACT_APP_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <QRContainer>
+                <QRText>Download Empower App now!</QRText>
+                <QRCode
+                  size={90}
+                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  value={process.env.REACT_APP_APP_URL}
+                  viewBox="0 0 256 256"
+                />
+              </QRContainer>
+            </a>
+          )}
 
-      {/* Toggle Button */}
-      <button
-        onClick={() => setOpen(!open)}
-        aria-label={open ? "Hide QR code" : "Show QR code to download Empower app"}
-        aria-expanded={open}
-        style={{
-          cursor: "pointer",
-          background: "#041a32",
-          borderRadius: "50%",
-          padding: "6px",
-          color: "#fff",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-          border: "none",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {open ? <FaChevronUp size={16} aria-hidden="true" /> : <FaChevronDown size={16} aria-hidden="true" />}
-      </button>
-    </QRWrapper>
-          {/* <div
+          {/* Toggle Button */}
+          <button
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Hide QR code" : "Show QR code to download Empower app"}
+            aria-expanded={open}
+            style={{
+              cursor: "pointer",
+              background: "#041a32",
+              borderRadius: "50%",
+              padding: "6px",
+              color: "#fff",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+              border: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {open ? <FaChevronUp size={16} aria-hidden="true" /> : <FaChevronDown size={16} aria-hidden="true" />}
+          </button>
+        </QRWrapper>
+        {/* <div
   style={{
     position: "absolute",
     bottom: 0,
@@ -594,10 +609,10 @@ const Cover = () => {
     }}
   />
 </div> */}
-{/* <ProgressBarWrapper>
+        {/* <ProgressBarWrapper>
   <ProgressBar progress={progress} />
 </ProgressBarWrapper> */}
-{/* <DotsWrapper>
+        {/* <DotsWrapper>
   <Dot
     active={currentIndex === -1}
     onClick={() => {
@@ -621,7 +636,7 @@ const Cover = () => {
 
 
       </Container>
-    
+
 
     </Component>
   );
