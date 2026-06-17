@@ -1,4 +1,4 @@
-import { styled,Typography } from "@mui/material";
+import { styled, Typography } from "@mui/material";
 import { highlights } from "./assets/data";
 import { deadlines } from "./assets/data";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,12 +7,13 @@ import { highlightsTypography } from "./assets/typography";
 import rightArrow from "../../assets/rightArrow.svg";
 import { useEffect, useRef, useState } from "react";
 import { keyframes } from "styled-components";
+import { baseUrl } from "../../services/api";
 
 const Component = styled("section")(({ theme }) => ({
-  margin: "40px 67px 0 67px",
+  margin: "40px 67px 60px 67px",
   boxSizing: "border-box",
   [theme.breakpoints.down("md")]: {
-    margin: "20px 16px",
+    margin: "20px 16px 40px 16px",
   },
   "&>h2": {
     color: "var(--Color-Heading, #1C1C1C)",
@@ -42,6 +43,13 @@ const Component = styled("section")(({ theme }) => ({
 }));
 
 const TextBx = styled("div")({
+  "&>h3": {
+    color: "var(--Color-Heading, #1C1C1C)",
+    fontFamily: "Poppins",
+    fontSize: 24,
+    fontWeight: 600,
+    margin: "0 0 24px 0",
+  },
   "&>p": {
     color: "var(--Color-Body-text, #494949)",
     fontFamily: "Poppins",
@@ -51,12 +59,13 @@ const TextBx = styled("div")({
     marginBottom: 16,
   },
 });
+
 const Header = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   flexWrap: "wrap",
-  marginTop: 40, // more space from top
+  marginTop: 40,
   marginBottom: 24,
 
   "& button": {
@@ -81,8 +90,8 @@ const Header = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
     alignItems: "flex-start",
-    gap: 16, // spacing between title and button in mobile
-    marginTop: 24, // slightly smaller space for mobile
+    gap: 16,
+    marginTop: 24,
   },
 }));
 
@@ -97,11 +106,10 @@ const RowWrapper = styled("div")(({ theme }) => ({
     flexDirection: "column",
   },
   [theme.breakpoints.down("sm")]: {
-     marginTop:10,
+     marginTop: 10,
   },
 }));
 
-/* -------- Important Dates -------- */
 const TableBx = styled("div")({
   flex: 1,
   "&>h3": {
@@ -138,7 +146,6 @@ const TableBx = styled("div")({
   },
 });
 
-
 /* ========== Latest Updates Container ========= */
 const LatestUpdatesWrapper = styled("div")({
   display: "flex",
@@ -146,7 +153,7 @@ const LatestUpdatesWrapper = styled("div")({
   alignItems: "flex-start",
   gap: "24px",
   alignSelf: "stretch",
-    flex: 1,  // <-- add this
+  flex: 1, 
 });
 
 /* Upper container: heading */
@@ -156,7 +163,7 @@ const UpdatesHeaderContainer = styled("div")({
   fontSize: 24,
   fontWeight: 600,
   fontStyle: "normal",
-  lineHeight: "120%", // 24px
+  lineHeight: "120%", 
   fontFeatureSettings: "'liga' off, 'clig' off",
 });
 
@@ -178,6 +185,7 @@ const UpdateRow = styled("div")({
 /* Left: SVG icon */
 const UpdateLeftIcon = styled("div")({
   flexShrink: 0,
+  paddingTop: "2px", // aligns icon slightly better with text
 });
 
 /* Right: text content */
@@ -188,24 +196,17 @@ const UpdateRightContent = styled("a")({
   fontWeight: 500,
   fontStyle: "normal",
   lineHeight: "150%",
-  display: "-webkit-box",
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
-  overflow: "hidden",
   textDecoration: "none",
   cursor: "pointer",
-  transition: "color 0.3s, transform 0.2s",
+  display: "inline-block", 
+  transition: "color 0.3s ease, transform 0.3s ease", // Smooth animation for hover
 
   "&:hover": {
-    color: "#2180E4",
-    transform: "translateX(4px)",
+    color: "#2180E4", // Blue hover color shown in your image
+    transform: "translateX(6px)", // Small offset to the right
   },
 });
 
-
-
-
-/* -------- Carousel -------- */
 const Cont2 = styled("div")(({ theme }) => ({
   width: "100%",
   display: "flex",
@@ -215,7 +216,7 @@ const Cont2 = styled("div")(({ theme }) => ({
   height: 550,
   boxSizing: "border-box",
   position: "relative",
-    paddingBottom: 24,  // 👈 pushes cards up from the scrollbar
+  paddingBottom: 24, 
   [theme.breakpoints.down("md")]: {
     flexDirection: "column",
     height: "fit-content",
@@ -255,6 +256,7 @@ const ContDiv = styled("div")(({ theme }) => ({
     maxWidth: 100,
   },
 }));
+
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -265,7 +267,6 @@ const fadeIn = keyframes`
     transform: translateY(0);
   }
 `;
-
 
 const ReadMore = styled("button")({
   marginTop: "auto",
@@ -282,11 +283,12 @@ const ReadMore = styled("button")({
 
 const LogoWrapper = styled("div")({
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", // responsive grid
+  gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", 
   gap: 8,
-  justifyItems: "center", // centers logos inside each cell
+  justifyItems: "center", 
   padding: 16,
 });
+
 const Logo = styled("img")({
   width: 160,
   height: 100,
@@ -296,14 +298,16 @@ const Logo = styled("img")({
   background: "#fff",
 });
 
-const NewsIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-    <mask id="mask0" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-      <rect width="24" height="24" fill="#D9D9D9" />
-    </mask>
-    <g mask="url(#mask0)">
-      <path d="M9.575 12L5 7.4L6.4 6L12.4 12L6.4 18L5 16.6L9.575 12ZM16.175 12L11.6 7.4L13 6L19 12L13 18L11.6 16.6L16.175 12Z" fill="#BE8305"/>
-    </g>
+// New Icon Matching image_fff029.png
+const DoubleArrowIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path 
+      d="M13 17L18 12L13 7M6 17L11 12L6 7" 
+      stroke="#D9A036" 
+      strokeWidth="2.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -311,51 +315,66 @@ const NewsIcon = () => (
 const Highlights = () => {
   const navigate = useNavigate();
   const scrollRef = useRef();
-  const [isScrolledToEnd, setIsScrolledToEnd] = useState(false);
- const [announcements, setAnnouncements] = useState([]);
-   const [sponsors, setSponsors] = useState([]);
-   const [loading, setLoading] = useState(true);
-   const [error, setError] = useState(null);
- 
+  const [announcements, setAnnouncements] = useState([]);
+  const [sponsors, setSponsors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [aboutData, setAboutData] = useState(null);
+
   const handleScroll = () => {
     const el = scrollRef.current;
     if (!el) return;
     const isAtEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
-    setIsScrolledToEnd(isAtEnd);
   };
 
   useEffect(() => {
     const el = scrollRef.current;
     if (el) {
       el.addEventListener("scroll", handleScroll);
-      handleScroll();
       return () => el.removeEventListener("scroll", handleScroll);
     }
   }, []);
 
-
   const fetchAnnouncements = async () => {
-  try {
-    const res = await fetch(
-      `https://maps.iwayplus.in/secured/event/all-announcement/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
-    if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-    const data = await res.json();
-    setAnnouncements(data.data || []);
-  } catch (err) {
-    console.error(err);
-  }
-};
+    try {
+      const res = await fetch(
+        `${baseUrl}/secured/event/all-announcement/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+      );
+      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+      const data = await res.json();
+      setAnnouncements(data.data || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
+  const fetchAbout = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/secured/cms/about/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+      const json = await res.json();
+      if (json.status && Array.isArray(json.data)) {
+        const publishedAbout = json.data.find(sec => sec.status === "Published");
+        if (publishedAbout) {
+          setAboutData(publishedAbout.content);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     fetchAnnouncements();
+    fetchAbout();
   }, []);
 
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
         const response = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-sponsors/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+          `${baseUrl}/secured/event/all-sponsors/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+        );
 
         if (!response.ok) throw new Error("Failed to fetch sponsors");
 
@@ -371,253 +390,58 @@ const Highlights = () => {
 
     fetchSponsors();
   }, []);
+
+  const cmsUpdates = (aboutData?.latest_updates_items || []).map((item, idx) => ({
+    _id: `cms-${idx}`,
+    title: item.text || item,
+    url: item.link || "#",
+    isExternal: !!item.link
+  }));
+
+  const apiUpdates = announcements.map((item) => ({
+    _id: `api-${item._id}`,
+    title: item.title,
+    url: item.url || "#",
+    isExternal: true
+  }));
+
+  const displayUpdates = [...cmsUpdates, ...apiUpdates];
   
   return (
-    <Component id="highlights">
-      {/* <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        {highlightsTypography.title["en-us"]}
-      </motion.h2> */}
+    <Component id="highlights" aria-labelledby="highlights-heading">
+      <h2 id="highlights-heading" className="sr-only">Conference Highlights and About</h2>
+      <RowWrapper>
+        {/* Paragraphs */}
+        <TextBx style={{ flex: 1, minWidth: 300 }}>
+          <p>{aboutData?.description || highlightsTypography.para1["en-us"]}</p>
+        </TextBx>
 
-      {/* ---------- Paragraphs ---------- */}
-{/* ---------- Sponsors Section ---------- */}
-{/* ---------- Sponsors Section ---------- */}
-{/* ---------- Sponsors Section ---------- */}
-{/* <h2 style={{ marginTop: 40 }}>Sponsors</h2>
+        {/* Latest Updates */}
+        {((aboutData ? aboutData.show_latest_updates : true) || displayUpdates.length > 0) && (
+          <LatestUpdatesWrapper style={{ flex: 1, minWidth: 300 }}>
+            {/* Upper heading */}
+            <UpdatesHeaderContainer>{aboutData?.latest_updates_title || 'Latest Updates'}</UpdatesHeaderContainer>
 
-<LogoWrapper>
-  {sponsors.map((sponsor) => {
-    const handleClick = () => {
-      if (sponsor.website) {
-        const url = sponsor.website.startsWith("http")
-          ? sponsor.website
-          : `https://${sponsor.website}`;
-        window.open(url, "_blank");
-      }
-    };
-
-    return (
-      <div
-        key={sponsor._id}
-        style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-      >
-        <Logo
-          src={sponsor.logo_url}
-          alt={sponsor.name}
-          onClick={handleClick}
-        />
-        <span
-          style={{
-            marginTop: 6,
-            fontFamily: "Poppins",
-            fontSize: 14,
-            fontWeight: 500,
-            color: "#4A4A4A",
-            textAlign: "center",
-          }}
-        >
-          {sponsor.sponsorship_tier}
-        </span>
-      </div>
-    );
-  })}
-</LogoWrapper> */}
-
-
-
-
-    <RowWrapper>
-  {/* Paragraphs */}
-  <TextBx style={{ flex: 1, minWidth: 300 }}>
-    <p>{highlightsTypography.para1["en-us"]}</p>
-    {/* <p>{highlightsTypography.para2["en-us"]}</p> */}
-  </TextBx>
-
-  {/* Latest Updates */}
-  <LatestUpdatesWrapper style={{ flex: 1, minWidth: 300 }}>
-    {/* Upper heading */}
-    <UpdatesHeaderContainer>Latest Updates</UpdatesHeaderContainer>
-
-    {/* Lower container: list of updates */}
-    <UpdatesListContainer>
-      {announcements.map((item) => (
-        <UpdateRow key={item._id}>
-          <UpdateLeftIcon>
-            <NewsIcon />
-          </UpdateLeftIcon>
-          <UpdateRightContent
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {item.title}
-          </UpdateRightContent>
-        </UpdateRow>
-      ))}
-    </UpdatesListContainer>
-  </LatestUpdatesWrapper>
-</RowWrapper>
-
-
-
-
-
-
-        {/* Important Dates */}
-        {/* <TableBx>
-          <h3>{highlightsTypography.tableName["en-us"]}</h3>
-          <table>
-            <tr>
-              <th style={{ background: "#E5E5E5" }}>
-                {highlightsTypography.col1["en-us"]}
-              </th>
-              <th style={{ background: "#E5E5E5" }}>
-                {highlightsTypography.col2["en-us"]}
-              </th>
-            </tr>
-            {deadlines?.map((elm) => {
-              const cleanedDateStr = elm.date.replace(
-                /(\d+)(st|nd|rd|th)/,
-                "$1"
-              );
-              const deadlineDate = new Date(cleanedDateStr);
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              deadlineDate.setHours(0, 0, 0, 0);
-              const isPast = deadlineDate < today;
-
-              return (
-                <tr key={elm.activity}>
-                  <td
-                    style={{
-                      width: 400,
-                      color: isPast ? "#888" : "inherit",
-                      textDecoration: isPast ? "line-through" : "none",
-                    }}
+            {/* Lower container: list of updates */}
+            <UpdatesListContainer>
+              {displayUpdates.map((item) => (
+                <UpdateRow key={item._id}>
+                  <UpdateLeftIcon>
+                    <DoubleArrowIcon />
+                  </UpdateLeftIcon>
+                  <UpdateRightContent
+                    href={item.url} 
+                    target={item.isExternal ? "_blank" : "_self"}
+                    rel={item.isExternal ? "noopener noreferrer" : ""}
                   >
-                    {elm.link ? (
-                      <Link
-                        to={elm.link}
-                        style={{
-                          color: isPast ? "#888" : "#2180E4",
-                          textDecoration: "none",
-                          pointerEvents: isPast ? "none" : "auto",
-                          cursor: isPast ? "default" : "pointer",
-                        }}
-                      >
-                        {elm.activity}
-                      </Link>
-                    ) : (
-                      <span>{elm.activity}</span>
-                    )}
-                  </td>
-                  <td
-                    style={{ width: 138, color: isPast ? "#888" : "inherit" }}
-                  >
-                    <span
-                      style={{
-                        textDecoration: isPast ? "line-through" : "none",
-                      }}
-                    >
-                      {elm.date}
-                    </span>
-                    {isPast && (
-                      <span style={{ color: "red", marginLeft: 6 }}>
-                        (Closed)
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </table>
-        </TableBx> */}
-
-      {/* ---------- Carousel ---------- */}
-      {/* <Cont2 ref={scrollRef}>
-        {highlights?.map((item, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.2, duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <ContDiv>
-              <img alt="" src={item.img} />
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-              {item.link && (
-                <ReadMore onClick={() => navigate(item.link)}>
-                  {highlightsTypography.cardButton["en-us"]}
-                </ReadMore>
-              )}
-            </ContDiv>
-          </motion.div>
-        ))}
-        {!isScrolledToEnd && (
-          <button
-            onClick={() =>
-              scrollRef?.current?.scrollBy({ left: 1000, behavior: "smooth" })
-            }
-            style={{
-              position: "absolute",
-              background: "none",
-              border: "none",
-              top: "50%",
-              transform: "translateY(-50%)",
-              right: -10,
-              cursor: "pointer",
-            }}
-          >
-            <img src={rightArrow} alt="" />
-          </button>
+                    {item.title}
+                  </UpdateRightContent>
+                </UpdateRow>
+              ))}
+            </UpdatesListContainer>
+          </LatestUpdatesWrapper>
         )}
-      </Cont2> */}
-{/* <Header>
-  <Typography
-    variant="h4"
-    component="h2"
-    sx={{
-      fontWeight: 600,
-      color: "#000",
-      lineHeight: "130%",
-      fontFamily: "Poppins",
-      margin: 0,
-    }}
-  >
-    Conference Agenda
-  </Typography>
-
-  <button
-              onClick={() => {
-                const isLocal = window.location.hostname === "localhost";
-                const targetUrl = isLocal
-                  ? "http://localhost:3000/empower-schedule"
-                  : "https://empowerconference.in/empower-schedule";
-                window.location.href = targetUrl;
-              }}
-            >
-              View All
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="none"
-              >
-                <path
-                  d="M8 6l6 6-6 6"
-                  stroke="#000"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-</Header> */}
+      </RowWrapper>
     </Component>
   );
 };

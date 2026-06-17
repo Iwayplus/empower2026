@@ -1,6 +1,7 @@
 import React , {useEffect,useState} from "react";
 import "./Accommodation.css";
 import hi from "../../assets/accom.jpg"
+import { baseUrl } from "../../services/api";
 
 const Accommodation = () => {
    const [selectedChip, setSelectedChip] = useState("all"); 
@@ -8,7 +9,7 @@ const Accommodation = () => {
 
 
       useEffect(() => {
-    fetch("https://maps.iwayplus.in/secured/accommodations/688de24a29573c6c0b8240f5")
+    fetch(`${baseUrl}/secured/accommodations/${process.env.REACT_APP_PROJECT_ID}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {

@@ -11,6 +11,8 @@ import metro from "../../assets/fill.png";
 import np from "../../assets/drop.png";
 import attendImg from '../../assets/attendCover.svg'
 import { Typography } from "@mui/material";
+import { baseUrl } from "../../services/api";
+import { useState, useEffect } from "react";
 
 const Component = styled('div')({
 
@@ -278,109 +280,140 @@ const Actions = styled("div")(({ theme }) => ({
 }));
 
 const Attend = () => {
+  const [dynamicSection, setDynamicSection] = useState(null);
+
+  useEffect(() => {
+    const fetchRegistration = async () => {
+      try {
+        const res = await fetch(
+          `${baseUrl}/secured/cms/registration/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          if (data.status && Array.isArray(data.data) && data.data.length > 0) {
+            const published = data.data.find(sec => sec.status === "Published") || data.data[0];
+            setDynamicSection(published);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching dynamic registration:", error);
+      }
+    };
+    fetchRegistration();
+  }, []);
+
+  const renderCharge = (val) => {
+    if (!val) return "";
+    const str = String(val).trim();
+    return str.includes("₹") ? str : `₹ ${str}`;
+  };
+
+  const showCharges = dynamicSection?.content?.charges && dynamicSection.content.charges.length > 0;
+
   return (
     <Component>
       {/* <Theme>
                 <img alt="" src={attendImg} />
             </Theme> */}
-      {/* <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        <Cont1>
-          <Typography
-            variant="h4"
-            component="h2"
-            sx={{
-              fontWeight: 600,
-              color: '#000',
-              lineHeight: '130%',
-              fontFamily: 'Poppins',
-              margin: 0
-            }}
+      {showCharges ? (
+        <>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            Conference Registration Charges
-          </Typography>
+            <Cont1>
+              <Typography
+                variant="h4"
+                component="h2"
+                sx={{
+                  fontWeight: 600,
+                  color: '#000',
+                  lineHeight: '130%',
+                  fontFamily: 'Poppins',
+                  margin: 0
+                }}
+              >
+                Conference Registration Charges
+              </Typography>
 
-          <Table>
-            <thead>
-              <tr>
-                <th>Delegate Type</th>
-                <th>Early Bird Registration</th>
-                <th>Standard Registration</th>
-                <th>Early One Day Registration *</th>
-                <th>Standard One Day Registration *</th>
-              </tr>
-            </thead>
-            <tbody>
-              {registrationCharges?.map((elm, idx) => (
-                <motion.tr
-                  key={idx}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.05, duration: 0.3 }}
-                >
-                  <td data-label="Delegate Type">{elm.delegateType}</td>
-                  <td data-label="Early Bird Registration">₹ {elm.earlyBird}</td>
-                  <td data-label="Standard Registration">₹ {elm.standard}</td>
-                  <td data-label="Early One Day Registration">₹ {elm.earlyOneDay}</td>
-                  <td data-label="Standard One Day Registration">₹ {elm.standardOneDay}</td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </Table>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Delegate Type</th>
+                    <th>Early Bird Registration</th>
+                    <th>Standard Registration</th>
+                    <th>Early One Day Registration *</th>
+                    <th>Standard One Day Registration *</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(dynamicSection?.content?.charges || registrationCharges)?.map((elm, idx) => (
+                    <motion.tr
+                      key={idx}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.05, duration: 0.3 }}
+                    >
+                      <td data-label="Delegate Type">{elm.delegateType}</td>
+                      <td data-label="Early Bird Registration">{renderCharge(elm.earlyBird)}</td>
+                      <td data-label="Standard Registration">{renderCharge(elm.standard)}</td>
+                      <td data-label="Early One Day Registration">{renderCharge(elm.earlyOneDay)}</td>
+                      <td data-label="Standard One Day Registration">{renderCharge(elm.standardOneDay)}</td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Cont1>
+          </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Cont2>
+              <h3>Please Note:</h3>
+              <Notes>
+                {(dynamicSection?.content?.notes || notes)?.map((elm, inx) => (
+                  <li key={inx}>
+                    <Note>{elm.note}</Note>
+                    <SubNotes style={{
+                      marginTop: (elm.subNotes && elm.subNotes.length > 0) ? 16 : 0
+                    }}>
+                      {
+                        elm?.subNotes?.map((subNote, idx) => (
+                          <SubNote key={idx}>
+                            <img alt="" src={checkBlue} />
+                            <p>{subNote}</p>
+                          </SubNote>
+                        ))
+                      }
+                    </SubNotes>
+                  </li>
+                ))}
+              </Notes>
+            </Cont2>
+          </motion.div>
+        </>
+      ) : (
+        <h2
+          style={{
+            textAlign: "center",
+            color: "#6b7280",
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: 600,
+            fontSize: "2rem",
+            margin: "40px 0",
+          }}
+        >
+          Stay Tuned, Registration Opening Soon!!
+        </h2>
+      )}
 
-        </Cont1>
-      </motion.div> */}
-
-      {/* <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-      >
-        <Cont2>
-          <h3>Please Note:</h3>
-          <Notes>
-            {
-              notes?.map(elm => (
-                <li>
-                  <Note>{elm.note}</Note>
-                  <SubNotes style={{
-                    marginTop: elm.subNotes.length > 0 ? 16 : 0
-                  }}>
-                    {
-                      elm?.subNotes?.map(subNote => (
-                        <SubNote>
-                          <img alt="" src={checkBlue} />
-                          <p>{subNote}</p>
-                        </SubNote>
-                      ))
-                    }
-                  </SubNotes>
-                </li>
-
-              ))
-            }
-          </Notes>
-        </Cont2>
-      </motion.div> */}
-      <h2
-        style={{
-          textAlign: "center",
-          color: "#6b7280",
-          fontFamily: "Poppins, sans-serif",
-          fontWeight: 600,
-          fontSize: "2rem",
-          margin: "40px 0",
-        }}
-      >
-        Stay Tuned, Registration Opening Soon!!
-      </h2>
       <Container>
         <Header>
           <Typography
@@ -413,7 +446,7 @@ const Attend = () => {
                   <img src={to} alt="Accommodation illustration" />
                 </ImageWrapper>
                 <Content>
-                  <h3>Accommodation</h3>
+                  <h3>{dynamicSection?.content?.accommodation_title || "Accommodation"}</h3>
                   <p>
                     Discover curated hotels, accessible stays, and
                     budget-friendly hostels near IIT Delhi for a safe and
@@ -442,7 +475,7 @@ const Attend = () => {
                   <img src={np} alt="Travel plan illustration" />
                 </ImageWrapper>
                 <Content>
-                  <h3>Travel Plan</h3>
+                  <h3>{dynamicSection?.content?.travel_title || "Travel Plan"}</h3>
                   <p>
                     Get step-by-step guidance on reaching IIT Delhi by air,
                     train, bus, or metro, along with parking and entry details.

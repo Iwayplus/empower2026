@@ -1,18 +1,18 @@
 import { styled, Box } from "@mui/material";
-import { useEffect, useState } from "react";
-import { motion,AnimatePresence } from "framer-motion";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import QRCode from "react-qr-code";
-import bgImage from "../../assets/bg.jpeg"; 
+import bgImage from "../../assets/bg.jpeg";
 
 import calander from "../../assets/calander.svg";
 import locationRed from "../../assets/locationRed.svg";
-import Spon from "../../assets/second.png";
 import { coverTypography } from "./assets/typography";
 import playStore from "../../assets/gp.png";
 import appStore from "../../assets/sto.png";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { baseUrl, fetchPublicDynamicSections } from "../../services/api";
 
 const Component = styled("section")({
   width: "100%",
@@ -22,7 +22,7 @@ const Component = styled("section")({
 const Container = styled("div", {
   shouldForwardProp: (prop) => prop !== "bg",
 })(({ theme, bg }) => ({
-  position: "relative", 
+  position: "relative",
   display: "flex",
   alignItems: "flex-start",
   flexWrap: "wrap",
@@ -127,13 +127,13 @@ const Heading = styled("h1")(({ theme }) => ({
 
 const SubHeading = styled("p")(({ theme }) => ({
   color: "#fff",
-  background:"rgba(117,115,115,0.6)",
+  background: "rgba(117,115,115,0.6)",
   fontFamily: "Poppins",
   fontSize: 48,
   fontWeight: 700,
   lineHeight: "120%",
   margin: "8px 0 0 0",
-    padding: "0 6px",
+  padding: "0 6px",
   [theme.breakpoints.down("md")]: {
     fontSize: 28,
     margin: "4px 0 0 0",
@@ -264,72 +264,106 @@ const Cover = () => {
 
   const [venue, setVenue] = useState(coverTypography.venueLong["en-us"]);
   const [carousel, setCarousel] = useState([]);
-  const [progress, setProgress] = useState(0); 
-
+  const [dynamicHero, setDynamicHero] = useState(null);
   const [currentBg, setCurrentBg] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [timerKey, setTimerKey] = useState(0); // bump to restart the timer
+
   const navigate = useNavigate();
   const userData = useSelector((store) => store.userSlice.profile);
   const exhibitorData = useSelector((store) => store.userSlice.exhibitorProfile);
-    const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true);
 
-const [currentIndex, setCurrentIndex] = useState(-1); 
-const displayTime = 7000; 
-const apiTime = 4000; 
- useEffect(() => {
-    const fetchCarousel = async () => {
-      try {
-        const res = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-carousel/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
-        );
-        const json = await res.json();
-        if (json?.status && Array.isArray(json.data)) {
-          const filtered = json.data.filter((img) => img.priority !== 1);
-          setCarousel(filtered);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchCarousel();
-  }, []);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const SLIDE_DURATION = 5000; // ms per slide
+
+  // Use a ref so the interval callback always sees the latest carousel
+  const carouselRef = useRef([]);
+  const indexRef = useRef(-1);
 
   useEffect(() => {
-    if (!carousel?.length) return;
-
-    let index = -1; 
-    const switchImage = () => {
-      if (index === -1) index = 0;
-      else index = (index + 1) % (carousel.length + 1);
-
-      if (index === carousel.length) {
-        setCurrentIndex(-1);
-        setCurrentBg(bgImage);
-      } else {
-        setCurrentIndex(index);
-        setCurrentBg(
-          `https://maps.iwayplus.in/uploads/${encodeURIComponent(
-            carousel[index].image_url
-          )}`
-        );
-      }
-    };
-
-    const interval = setInterval(
-      switchImage,
-      index === -1 ? displayTime : apiTime
-    );
-
-    return () => clearInterval(interval);
+    carouselRef.current = carousel;
   }, [carousel]);
 
+  // Advance to next slide — stable function, no stale closure
+  const advance = useCallback(() => {
+    const list = carouselRef.current;
+    if (!list.length) return;
+    // total slots = carousel images + 1 (the default bg at index -1)
+    const total = list.length + 1;
+    const next = (indexRef.current + 2) % total - 1; // cycles: -1, 0, 1, ..., N-1, -1, ...
+    indexRef.current = next;
+    setCurrentIndex(next);
+    if (next === -1) {
+      setCurrentBg(bgImage);
+    } else {
+      setCurrentBg(list[next].image_url);
+    }
+    setProgress(0); // reset progress bar on each new slide
+  }, []);
 
-useEffect(() => {
-  const timer = setInterval(() => {
-    setProgress((prev) => (prev >= 100 ? 0 : prev + 5));
-  }, 150); 
+  // Auto-advance interval — restarts whenever timerKey changes (e.g., dot click)
+  useEffect(() => {
+    if (!carousel.length) return;
+    const interval = setInterval(advance, SLIDE_DURATION);
+    return () => clearInterval(interval);
+  }, [carousel, timerKey, advance]);
 
-  return () => clearInterval(timer);
-}, []);
+  // Smooth progress bar that fills over SLIDE_DURATION
+  useEffect(() => {
+    if (!carousel.length) return;
+    setProgress(0);
+    const step = 100 / (SLIDE_DURATION / 50); // update every 50ms
+    const timer = setInterval(() => {
+      setProgress((prev) => Math.min(prev + step, 100));
+    }, 50);
+    return () => clearInterval(timer);
+  }, [currentIndex, carousel]);
+
+  // Fetch CMS Hero Dynamic Content + build carousel from hero images
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      let hasCMSImages = false;
+      try {
+        const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+        const heroSection = sections.find(sec => sec.section_type === 'hero' || sec.section_type === 'cover');
+        if (heroSection) {
+          setDynamicHero(heroSection);
+
+          // Build carousel from hero images array if present
+          const heroImages = heroSection?.content?.images;
+          if (Array.isArray(heroImages) && heroImages.length > 0) {
+            // Normalise plain filename strings into objects with pre-built full URLs
+            setCarousel(heroImages.map((filename) => ({
+              image_url: `${baseUrl}/uploads/${encodeURIComponent(filename)}`
+            })));
+            hasCMSImages = true;
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching dynamic hero section", err);
+      }
+
+      // Fallback if no images found in the CMS content or fetching failed
+      if (!hasCMSImages) {
+        try {
+          const res = await fetch(
+            `${baseUrl}/secured/event/all-carousel/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          );
+          const json = await res.json();
+          if (json?.status && Array.isArray(json.data)) {
+            const filtered = json.data.filter((img) => img.priority !== 1);
+            setCarousel(filtered.map((img) => ({
+              image_url: `${baseUrl}/uploads/${encodeURIComponent(img.image_url)}`
+            })));
+          }
+        } catch (fallbackErr) {
+          console.error("Fallback carousel fetch failed", fallbackErr);
+        }
+      }
+    };
+    fetchHeroData();
+  }, []);
 
 
   useEffect(() => {
@@ -341,72 +375,128 @@ useEffect(() => {
     return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
-  const handleRegister = () => navigate("/auth/signin");
+  // const handleRegister = () => navigate("/auth/signin");
 
   return (
     <Component id="cover">
       <Container >
         <CarouselWrapper>
-  <AnimatePresence>
-    {currentIndex === -1 ? (
-      <CarouselImage
-        key="default-bg"
-        src={bgImage}
+          <AnimatePresence>
+            {currentIndex === -1 ? (
+              <CarouselImage
+                key="default-bg"
+                src={bgImage}
                 aria-hidden="true" // ✅ Hide from screen readers
 
-        initial={{ x: "100%", opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: "-100%", opacity: 0 }}
-        transition={{ duration: 1 }}
-      />
-    ) : (
-      <CarouselImage
-        key={currentIndex}
-        src={`https://maps.iwayplus.in/uploads/${encodeURIComponent(
-          carousel[currentIndex].image_url
-        )}`}
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ duration: 1 }}
+              />
+            ) : (
+              <CarouselImage
+                key={currentIndex}
+                src={carousel[currentIndex].image_url}
                 aria-hidden="true" // ✅ Hide from screen readers
 
-        initial={{ x: "100%", opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: "-100%", opacity: 0 }}
-        transition={{ duration: 1 }}
-      />
-    )}
-  </AnimatePresence>
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ duration: 1 }}
+              />
+            )}
+          </AnimatePresence>
 
-  <DotsWrapper>
-    <Dot
-      active={currentIndex === -1}
-      onClick={() => {
-        setCurrentIndex(-1);
-        setCurrentBg(bgImage);
-      }}
-    />
-    {carousel.map((img, idx) => (
-      <Dot
-        key={idx}
-        active={currentIndex === idx}
-        onClick={() => {
-          setCurrentIndex(idx);
-          setCurrentBg(
-            `https://maps.iwayplus.in/uploads/${encodeURIComponent(
-              img.image_url
-            )}`
-          );
-        }}
-      />
-    ))}
-  </DotsWrapper>
-</CarouselWrapper>
+          {/* Progress bar */}
+          {carousel.length > 1 && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                height: 4,
+                background: "rgba(255,255,255,0.2)",
+                zIndex: 4,
+              }}
+            >
+              <div
+                style={{
+                  height: "100%",
+                  width: `${progress}%`,
+                  background: "#C69300",
+                  transition: "width 0.05s linear",
+                }}
+              />
+            </div>
+          )}
+
+          <DotsWrapper>
+            <Dot
+              active={currentIndex === -1}
+              role="button"
+              tabIndex={0}
+              aria-label="Show slide 1 (default)"
+              aria-pressed={currentIndex === -1}
+              onClick={() => {
+                indexRef.current = -1;
+                setCurrentIndex(-1);
+                setCurrentBg(bgImage);
+                setProgress(0);
+                setTimerKey((k) => k + 1); // restart interval
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  indexRef.current = -1;
+                  setCurrentIndex(-1);
+                  setCurrentBg(bgImage);
+                  setProgress(0);
+                  setTimerKey((k) => k + 1);
+                }
+              }}
+            />
+            {carousel.map((img, idx) => (
+              <Dot
+                key={idx}
+                active={currentIndex === idx}
+                role="button"
+                tabIndex={0}
+                aria-label={`Show slide ${idx + 2}`}
+                aria-pressed={currentIndex === idx}
+                onClick={() => {
+                  indexRef.current = idx;
+                  setCurrentIndex(idx);
+                  setCurrentBg(img.image_url);
+                  setProgress(0);
+                  setTimerKey((k) => k + 1); // restart interval
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    indexRef.current = idx;
+                    setCurrentIndex(idx);
+                    setCurrentBg(img.image_url);
+                    setProgress(0);
+                    setTimerKey((k) => k + 1);
+                  }
+                }}
+              />
+            ))}
+          </DotsWrapper>
+        </CarouselWrapper>
 
         <Content>
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-            <Heading>{coverTypography.title["en-us"]}</Heading>
+            <Heading>
+              {dynamicHero?.content?.title || dynamicHero?.content?.heading || coverTypography.title["en-us"]}
+            </Heading>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 1 }}>
-            <SubHeading>{coverTypography.subTitle["en-us"]}</SubHeading>
+            <SubHeading>
+              {dynamicHero?.content?.subtitle || dynamicHero?.content?.body || coverTypography.subTitle["en-us"]}
+            </SubHeading>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.6 }}>
@@ -419,8 +509,8 @@ useEffect(() => {
             <TimingVenue style={{ marginTop: userData || exhibitorData ? 100 : 32 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <Date>
-                  <img alt="" src={calander} />
-                  <p>{coverTypography.dates["en-us"]}</p>
+                  <img alt="" aria-hidden="true" src={calander} />
+                  <p>{dynamicHero?.content?.dates || coverTypography.dates["en-us"]}</p>
                 </Date>
               </div>
 
@@ -431,8 +521,8 @@ useEffect(() => {
                 rel="noopener noreferrer"
                 style={{ cursor: "pointer", textDecoration: "none", color: "inherit" }}
               >
-                <img alt="" src={locationRed} />
-                <p>{venue}</p>
+                <img alt="" aria-hidden="true" src={locationRed} />
+                <p>{dynamicHero?.content?.venue || venue}</p>
               </Venue>
             </TimingVenue>
           </motion.div>
@@ -451,50 +541,56 @@ useEffect(() => {
             }}
           /> */}
           <MobileAppButtons>
-  <a href={process.env.REACT_APP_PLAYSTORE_URL} target="_blank" rel="noopener noreferrer">
-    <Box component="img" src={playStore} alt="Download on Play Store" sx={{ height: 50, cursor: "pointer" }} />
-  </a>
-  <a href={process.env.REACT_APP_APPSTORE_URL} target="_blank" rel="noopener noreferrer">
-    <Box component="img" src={appStore} alt="Download on App Store" sx={{ height: 50, cursor: "pointer" }} />
-  </a>
-</MobileAppButtons>
+            <a href={process.env.REACT_APP_PLAYSTORE_URL} target="_blank" rel="noopener noreferrer">
+              <Box component="img" src={playStore} alt="Download on Play Store" sx={{ height: 50, cursor: "pointer" }} />
+            </a>
+            <a href={process.env.REACT_APP_APPSTORE_URL} target="_blank" rel="noopener noreferrer">
+              <Box component="img" src={appStore} alt="Download on App Store" sx={{ height: 50, cursor: "pointer" }} />
+            </a>
+          </MobileAppButtons>
         </Content>
 
-      <QRWrapper>
-      {open && (
-        <a
-          href={process.env.REACT_APP_APP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <QRContainer>
-            <QRText>Download Empower App now!</QRText>
-            <QRCode
-              size={90}
-              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              value={process.env.REACT_APP_APP_URL}
-              viewBox="0 0 256 256"
-            />
-          </QRContainer>
-        </a>
-      )}
+        <QRWrapper>
+          {open && (
+            <a
+              href={process.env.REACT_APP_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <QRContainer>
+                <QRText>Download Empower App now!</QRText>
+                <QRCode
+                  size={90}
+                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  value={process.env.REACT_APP_APP_URL}
+                  viewBox="0 0 256 256"
+                />
+              </QRContainer>
+            </a>
+          )}
 
-      {/* Toggle Button */}
-      <div
-        onClick={() => setOpen(!open)}
-        style={{
-          cursor: "pointer",
-          background: "#041a32",
-          borderRadius: "50%",
-          padding: "6px",
-          color: "#fff",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-        }}
-      >
-        {open ? <FaChevronUp size={16} /> : <FaChevronDown size={16} />}
-      </div>
-    </QRWrapper>
-          {/* <div
+          {/* Toggle Button */}
+          <button
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Hide QR code" : "Show QR code to download Empower app"}
+            aria-expanded={open}
+            style={{
+              cursor: "pointer",
+              background: "#041a32",
+              borderRadius: "50%",
+              padding: "6px",
+              color: "#fff",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+              border: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {open ? <FaChevronUp size={16} aria-hidden="true" /> : <FaChevronDown size={16} aria-hidden="true" />}
+          </button>
+        </QRWrapper>
+        {/* <div
   style={{
     position: "absolute",
     bottom: 0,
@@ -513,10 +609,10 @@ useEffect(() => {
     }}
   />
 </div> */}
-{/* <ProgressBarWrapper>
+        {/* <ProgressBarWrapper>
   <ProgressBar progress={progress} />
 </ProgressBarWrapper> */}
-{/* <DotsWrapper>
+        {/* <DotsWrapper>
   <Dot
     active={currentIndex === -1}
     onClick={() => {
@@ -540,7 +636,7 @@ useEffect(() => {
 
 
       </Container>
-    
+
 
     </Component>
   );

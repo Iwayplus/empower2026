@@ -19,7 +19,25 @@ import {
   Event as EventIcon,
 } from "@mui/icons-material";
 
+const baseUrl = process.env.NODE_ENV === "development" ? (process.env.REACT_APP_LOCAL_URL || "http://localhost:8000") : (process.env.REACT_APP_REMOTE_URL || "https://maps.iwayplus.in");
+
 const Summary = () => {
+  console.log("MUI Imports:", {
+    Box,
+    Typography,
+    TextField,
+    Chip,
+    Card,
+    CardContent,
+    CircularProgress,
+    Stack,
+    Collapse,
+    Divider,
+    TeaIcon,
+    DinnerIcon,
+    LunchIcon,
+    EventIcon
+  });
   const [sessions, setSessions] = useState([]);
   const [subEvents, setSubEvents] = useState([]);
   const [filteredData, setFilteredData] = useState({});
@@ -38,17 +56,66 @@ const Summary = () => {
     hours = ((hours + 11) % 12) + 1;
     return `${hours}:${minutes.toString().padStart(2, "0")} ${suffix}`;
   };
+
+  const resolvePhotoUrl = (photoPath) => {
+    if (!photoPath) return null;
+    if (photoPath.startsWith('http')) return photoPath;
+    
+    let cleanPath = photoPath;
+    if (cleanPath.startsWith('/')) {
+      cleanPath = cleanPath.slice(1);
+    }
+    if (cleanPath.startsWith('uploads/')) {
+      cleanPath = cleanPath.substring(8);
+    }
+    
+    return `${baseUrl}/uploads/${encodeURIComponent(cleanPath)}`;
+  };
+
 const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
 
+  // Get sorted unique dates from sessions
+  const uniqueDates = Array.from(
+    new Set(
+      sessions
+        .map((s) => s.date ? s.date.split("T")[0] : null)
+        .filter(Boolean)
+    )
+  ).sort();
 
   const getDay = (dateStr) => {
     if (!dateStr) return "";
-    const day = new Date(dateStr).getUTCDate();
-    if (day === 2) return "day1";
-    if (day === 3) return "day2";
-    if (day === 4) return "day3";
+    const datePart = dateStr.split("T")[0];
+    const index = uniqueDates.indexOf(datePart);
+    if (index !== -1) {
+      return `day${index + 1}`;
+    }
     return "";
   };
+
+  const getDayHeader = (dayKey) => {
+    if (dayKey === "all") return "All Days";
+    const dayIndex = parseInt(dayKey.replace("day", ""), 10) - 1;
+    if (dayIndex >= 0 && dayIndex < uniqueDates.length) {
+      const dateStr = uniqueDates[dayIndex];
+      const dateObj = new Date(dateStr);
+      const dayName = dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+      return `Day ${dayIndex + 1} - ${dayName}`;
+    }
+    return "";
+  };
+
+  const dayChips = [
+    { key: "all", label: "All Days" },
+    ...uniqueDates.map((dateStr, index) => {
+      const dateObj = new Date(dateStr);
+      const dayName = dateObj.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+      return {
+        key: `day${index + 1}`,
+        label: `${dayName} - Day ${index + 1}`,
+      };
+    })
+  ];
 
   const getIconForSession = (type) => {
     if (!type) return <EventIcon />;
@@ -62,8 +129,9 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const apiKey = (process.env.REACT_APP_IWAY_API_KEY || "").replace(/^"(.*)"$/, '$1');
         const res = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${apiKey}`
         );
         const data = await res.json();
         setSessions(data.data || []);
@@ -79,8 +147,9 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
   useEffect(() => {
     const fetchSubEvents = async () => {
       try {
+        const apiKey = (process.env.REACT_APP_IWAY_API_KEY || "").replace(/^"(.*)"$/, '$1');
         const res = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-subEvent/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-subEvent/${process.env.REACT_APP_PROJECT_ID}?api_key=${apiKey}`
         );
         const data = await res.json();
         setSubEvents(data.data || []);
@@ -126,7 +195,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
     });
 
     setFilteredData(grouped);
-  }, [dayFilter, searchQuery, sessions]);
+  }, [dayFilter, searchQuery, sessions]); // uniqueDates is derived from sessions, no need to list separately
 
   const handleToggleExpand = (sessionId) => {
     setExpandedId((prev) => (prev === sessionId ? null : sessionId));
@@ -153,7 +222,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
     return <CircularProgress sx={{ display: "block", m: "auto", mt: 5 }} />;
 
   return (
-    <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: '90%', mx: "auto" }}>
+    <Box sx={{ p: { xs: 2, md: 4 }, maxWidth: { xs: '100%', md: '90%' }, mx: "auto" }}>
       <Typography
         variant="h4"
         sx={{ fontWeight: 600,fontSize: 36, mb: 3, textAlign: "left", fontFamily: "Poppins" }}
@@ -174,12 +243,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
     flexWrap="wrap"
     sx={{ gap: 1 }} 
   >
-    {[
-      { key: "all", label: "All Days" },
-      { key: "day1", label: "Oct 2 - Day 1" },
-      { key: "day2", label: "Oct 3 - Day 2" },
-      { key: "day3", label: "Oct 4 - Day 3" },
-    ].map((chip) => (
+    {dayChips.map((chip) => (
       <Chip
         key={chip.key}
         label={chip.label}
@@ -209,158 +273,6 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
 </Stack>
 
 
-{Object.entries(filteredData).map(([timeKey, sessions]) => {
-  const first = sessions[0];
-  
-  const groupStartTime = first.start_time;
-  const groupEndTime = sessions[sessions.length - 1].end_time || first.end_time;
-
-  return (
-    <Stack
-      key={timeKey}
-      direction={{ xs: "column", md: "row" }}
-      spacing={4}
-      mb={6}
-      alignItems={{ xs: "flex-start", md: "flex-start" }}
-      sx={{ width: "100%" }}
-      role="group"
-      aria-label={`Time slot ${formatTime(first.date, groupStartTime)} to ${formatTime(first.date, groupEndTime)}, ${sessions.length} sessions`}
-    >
-      <Box
-        sx={{
-          width: { xs: "100%", md: 160 },
-          textAlign: { xs: "center", md: "right" },
-          mt: { xs: 0, md: 1 },
-          mb: { xs: 2, md: 0 },
-          flexShrink: 0,
-        }}
-      >
-        <Typography
-          variant="body1"
-          id={`time-label-${timeKey}`}
-          sx={{ fontWeight: 600, fontFamily: "Poppins" }}
-        >
-          {formatTime(first.date, groupStartTime)} - {formatTime(first.date, groupEndTime)}
-        </Typography>
-      </Box>
-
-      <Stack
-        direction="column"
-        spacing={4}
-        flex={1}
-        sx={{ width: "100%" }}
-        aria-labelledby={`time-label-${timeKey}`}
-      >
-        {sessions.map((session) => {
-          const expanded = expandedId === session._id;
-          const subEventsForCard = getSubEventsForSession(session);
-
-          const isExpandable = !nonExpandableTypes.some((type) =>
-            session.session_type?.toLowerCase().includes(type)
-          );
-
-          return (
-            <Card
-              key={session._id}
-              role={isExpandable ? "button" : "region"}
-              tabIndex={isExpandable ? 0 : -1}
-              aria-expanded={isExpandable ? expanded : undefined}
-              aria-controls={isExpandable ? `session-details-${session._id}` : undefined}
-              aria-label={`${session.title}, ${subEventsForCard.length} sub-events`}
-              onClick={isExpandable ? () => handleToggleExpand(session._id) : undefined}
-              onKeyDown={isExpandable ? (e) => handleKeyDown(e, session._id) : undefined}
-              sx={{
-                width: "100%",
-                minHeight: 100,
-                borderRadius: 4,
-                boxShadow: 6,
-                transition: "0.3s",
-                cursor: isExpandable ? "pointer" : "default",
-                "&:hover": isExpandable ? { boxShadow: 10, transform: "translateY(-4px)" } : {},
-                borderLeft: "6px solid #FFD700",
-                p: 1,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <CardContent>
-                <Stack direction="row" spacing={1.5} alignItems="center" mb={1.5}>
-                  {getIconForSession(session.session_type)}
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600, fontFamily: "Poppins" }}>
-                    {session.title}
-                  </Typography>
-                </Stack>
-                {session.location_name && (
-                  <Typography variant="body2" color="text.secondary">
-                    📍 {session.location_name}
-                  </Typography>
-                )}
-              </CardContent>
-{isExpandable && (
-  <Collapse
-    in={expanded}
-    timeout="auto"
-    unmountOnExit
-    id={`session-details-${session._id}`}
-    aria-live="polite"
-    sx={{ width: "100%" }} 
-  >
-    <Divider />
-    <Box
-      sx={{
-        width: "100%",
-        bgcolor: "#fafafa",
-        p: 2,
-        boxSizing: "border-box",
-      }}
-    >
-      {subEventsForCard.length > 0 ? (
-        subEventsForCard.map((se) => (
-          <Box key={se._id} sx={{ mb: 2, width: "100%" }}>
-            <Typography
-              variant="subtitle2"
-              sx={{ fontWeight: 600, wordBreak: "break-word" }}
-            >
-              {se.title}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ whiteSpace: "pre-line", mb: 1, wordBreak: "break-word", width: "100%" }}
-            >
-              {se.description}
-            </Typography>
-            {se.speakers?.length > 0 && (
-              <Box sx={{ width: "100%" }}>
-                <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  Speakers:
-                </Typography>
-                <ul style={{ margin: 0, paddingLeft: 20 }}>
-                  {se.speakers.map((s) => (
-                    <li key={s._id}>
-                      <Typography variant="body2">{s.speakerName}</Typography>
-                    </li>
-                  ))}
-                </ul>
-              </Box>
-            )}
-            <Divider sx={{ mt: 1 }} />
-          </Box>
-        ))
-      ) : (
-        <Typography>No additional details available.</Typography>
-      )}
-    </Box>
-  </Collapse>
-)}
-
-            </Card>
-          );
-        })}
-      </Stack>
-    </Stack>
-  );
-})}
       {/* Session Cards */}
 {Object.entries(
   // Group sessions by day first
@@ -371,7 +283,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
     return acc;
   }, {})
 ).map(([dayKey, daySessions]) => (
-  <Box key={dayKey} sx={{ mb: 6 }}>
+  <Box key={dayKey} sx={{ mb: 6, width: "100%" }}>
     {/* 🔹 Day Header */}
   {/* 🔹 Day Header - show only if All Days is selected */}
 {dayFilter === "all" && (
@@ -379,9 +291,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
     variant="h5"
     sx={{ fontWeight: 500, mb: 3, fontFamily: "Poppins" }}
   >
-    {dayKey === "day1" && "Day 1 - Oct 2"}
-    {dayKey === "day2" && "Day 2 - Oct 3"}
-    {dayKey === "day3" && "Day 3 - Oct 4"}
+    {getDayHeader(dayKey)}
   </Typography>
 )}
 
@@ -393,29 +303,32 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
       const groupEndTime = sessions[sessions.length - 1].end_time || first.end_time;
 
       return (
-        <Stack
+        <Box
           key={timeKey}
-          direction={{ xs: "column", md: "row" }}
-          spacing={4}
-          mb={6}
-          alignItems={{ xs: "flex-start", md: "flex-start" }}
-          sx={{ width: "100%" }}
+          sx={{
+            display: { xs: "block", md: "flex" },
+            flexDirection: { md: "row" },
+            alignItems: { md: "flex-start" },
+            gap: { md: 4 },
+            mb: 6,
+            width: "100%",
+          }}
           role="group"
           aria-label={`Time slot ${formatTime(first.date, groupStartTime)} to ${formatTime(first.date, groupEndTime)}, ${sessions.length} sessions`}
         >
           {/* Time Column */}
           <Box
+            id={`time-label-${timeKey}`}
             sx={{
               width: { xs: "100%", md: 160 },
-              textAlign: { xs: "center", md: "right" },
-              mt: { xs: 0, md: 1 },
-              mb: { xs: 2, md: 0 },
               flexShrink: 0,
+              textAlign: { xs: "left", md: "right" },
+              mb: { xs: 1, md: 0 },
+              mt: { md: 1 },
             }}
           >
             <Typography
               variant="body1"
-              id={`time-label-${timeKey}`}
               sx={{ fontWeight: 600, fontFamily: "Poppins" }}
             >
               {formatTime(first.date, groupStartTime)} - {formatTime(first.date, groupEndTime)}
@@ -423,11 +336,8 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
           </Box>
 
           {/* Session Cards */}
-          <Stack
-            direction="column"
-            spacing={4}
-            flex={1}
-            sx={{ width: "100%" }}
+          <Box
+            sx={{ flex: 1, width: "100%", minWidth: 0, display: "flex", flexDirection: "column", gap: 3 }}
             aria-labelledby={`time-label-${timeKey}`}
           >
             {sessions.map((session) => {
@@ -449,6 +359,8 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
                   onKeyDown={isExpandable ? (e) => handleKeyDown(e, session._id) : undefined}
                   sx={{
                     width: "100%",
+                    boxSizing: "border-box",
+                    minWidth: 0,
                     minHeight: 100,
                     borderRadius: 4,
                     boxShadow: 6,
@@ -469,6 +381,27 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
                         {session.title}
                       </Typography>
                     </Stack>
+
+                    {session.photo && (
+                      <Box
+                        component="img"
+                        src={resolvePhotoUrl(session.photo)}
+                        alt={session.title}
+                        sx={{
+                          width: "100%",
+                          maxHeight: 180,
+                          objectFit: "cover",
+                          borderRadius: 2,
+                          mb: 2,
+                        }}
+                      />
+                    )}
+
+                    {session.description && (
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1, mb: 1, whiteSpace: "pre-line" }}>
+                        {session.description}
+                      </Typography>
+                    )}
 
                     {session.location_name && (
                       <Typography variant="body2" color="text.secondary">
@@ -535,8 +468,8 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
                 </Card>
               );
             })}
-          </Stack>
-        </Stack>
+          </Box>
+        </Box>
       );
     })}
   </Box>

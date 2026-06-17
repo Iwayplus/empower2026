@@ -2,7 +2,7 @@ import axios from 'axios'
 import { cryptoEncryptForWebOTP } from './utils'
 import axiosInstance from './axiosInstance'
 
-const baseUrl = process.env.NODE_ENV === "development" ? process.env.REACT_APP_LOCAL_URL : process.env.REACT_APP_REMOTE_URL
+export const baseUrl = process.env.NODE_ENV === "development" ? (process.env.REACT_APP_LOCAL_URL || "http://localhost:8000") : (process.env.REACT_APP_REMOTE_URL || "https://maps.iwayplus.in");
 
 
 
@@ -153,7 +153,7 @@ export const getExhibitorProfile = async (navigate) => {
     try {
         return await axiosInstance.get(`${baseUrl}/api/empower/exhibitor-profile`)
     }catch(error) {
-        if(!localStorage.getItem("accessToken")) navigate("/auth/exhibitor/signin")
+        if(!localStorage.getItem("accessToken") && typeof navigate === "function") navigate("/auth/exhibitor/signin")
         console.log("Error while getting the exhibitor details ", error)
     }
 }
@@ -295,7 +295,7 @@ export const handleZeroPaymentExhibitor = async (post) => {
 export const getUserTickets = async (userId, token) => {
   try {
     const response = await axiosInstance.post(
-      "https://maps.iwayplus.in/secured/cms/event/tickets",
+      `${baseUrl}/secured/cms/event/tickets`,
       { id: userId }, // body
       {
         headers: {
@@ -312,10 +312,70 @@ export const getUserTickets = async (userId, token) => {
   }
 };
 
+const normalizeDynamicSections = (payload, status) => {
+  const source = Array.isArray(payload)
+    ? payload
+    : Array.isArray(payload?.sections)
+      ? payload.sections
+      : Array.isArray(payload?.data)
+        ? payload.data
+        : Array.isArray(payload?.data?.sections)
+          ? payload.data.sections
+          : [];
 
+  return source
+    .filter((section) => !status || section?.status === status)
+    .sort((a, b) => Number(a?.order || 0) - Number(b?.order || 0));
+};
 
+export const fetchPublicDynamicSections = async (eventId = process.env.REACT_APP_PROJECT_ID, status = 'Published') => {
+  const apiKey = process.env.REACT_APP_IWAY_API_KEY;
+  const candidates = [
+    `${baseUrl}/api/public/events/${eventId}/dynamic-sections?api_key=${apiKey}`,
+    `${baseUrl}/api/dynamic-sections/${eventId}/sections?api_key=${apiKey}`,
+  ];
 
+  for (const url of candidates) {
+    try {
+      const response = await axios.get(url);
+      const normalized = normalizeDynamicSections(response?.data || response, status);
 
+      if (normalized.length > 0) {
+        return normalized;
+      }
+    } catch (error) {
+      console.warn(`Dynamic sections fetch failed for ${url}`, error?.response?.data || error.message);
+    }
+  }
 
+  return [];
+};
 
+export const getDynamicSections = async (eventId = process.env.REACT_APP_PROJECT_ID, status = 'Published') => {
+  const sections = await fetchPublicDynamicSections(eventId, status);
+  return { status: true, data: sections };
+};
 
+export const getNearbyServices = async () => {
+  try {
+    const response = await axios.get(
+      `${baseUrl}/secured/event/all-nearbyservices/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching nearby services", error);
+    return { status: false, data: [] };
+  }
+};
+
+export const getVenueServices = async () => {
+  try {
+    const response = await axios.get(
+      `${baseUrl}/secured/event/all-services/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching venue services", error);
+    return { status: false, data: [] };
+  }
+};

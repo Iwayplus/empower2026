@@ -12,6 +12,7 @@ import checkGreen from '../../assets/checkGreen.svg'
 import emailIcon from "../../assets/mail.svg";
 import websiteIcon from "../../assets/po.jpg";
 import linkedInIcon from "../../assets/link.png";
+import { baseUrl } from "../../services/api";
 const Component = styled('section')({})
 
 const Cont1 = styled('div')(({ theme }) => ({
@@ -396,16 +397,13 @@ const Exhibit = () => {
 
   const [exhibitors, setExhibitors] = useState([]);
   const [loading, setLoading] = useState(true);
-
-
+  const [dynamicSection, setDynamicSection] = useState(null);
 
   useEffect(() => {
     const fetchExhibitors = async () => {
       try {
-
         const res = await fetch(
-          `https://maps.iwayplus.in/api/empower/fetch-paid-exhibitors?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
-
+          `${baseUrl}/secured/event/all-exhibitor/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!res.ok) throw new Error("Failed to fetch exhibitors");
@@ -413,7 +411,6 @@ const Exhibit = () => {
         const data = await res.json();
         console.log("📦 Exhibitors API response:", data);
 
-        // Handle response structure safely
         const exhibitorsArray = Array.isArray(data)
           ? data
           : Array.isArray(data?.data)
@@ -423,8 +420,20 @@ const Exhibit = () => {
               : [];
 
         setExhibitors(exhibitorsArray);
+
+        // Fetch Exhibit Dynamic Section Layout
+        const dynRes = await fetch(
+          `${baseUrl}/secured/cms/exhibit/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+        );
+        if (dynRes.ok) {
+          const dynData = await dynRes.json();
+          if (dynData.status && Array.isArray(dynData.data) && dynData.data.length > 0) {
+            const published = dynData.data.find(sec => sec.status === "Published") || dynData.data[0];
+            setDynamicSection(published);
+          }
+        }
       } catch (err) {
-        console.error("❌ Error fetching exhibitors:", err);
+        console.error("❌ Error fetching exhibitors/dynamic layout:", err);
       } finally {
         setLoading(false);
       }
@@ -435,25 +444,6 @@ const Exhibit = () => {
 
 
 
-  if (loading) {
-    return (
-      <ExhibitorsGrid>
-        {Array.from({ length: 6 }).map((_, idx) => (
-          <SkeletonCard key={idx} />
-        ))}
-      </ExhibitorsGrid>
-    );
-  }
-
-  if (!exhibitors.length) {
-    return (
-      <ExhibitorsGrid>
-        <p style={{ gridColumn: "1 / -1", textAlign: "center", margin: "20px 0" }}>
-          No exhibitors available.
-        </p>
-      </ExhibitorsGrid>
-    );
-  }
 
   const GmailIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -478,7 +468,15 @@ const Exhibit = () => {
       {/* <Theme>
                 <img alt="" src={exhibitCover} />
             </Theme> */}
-      {/* {!loading && exhibitors.length > 0 && (
+      {/* Safely render loading or empty states here without blocking the rest of the page */}
+      {loading ? (
+        <ExhibitorsGrid>
+          {Array.from({ length: 6 }).map((_, idx) => <SkeletonCard key={idx} />)}
+        </ExhibitorsGrid>
+      ) : !exhibitors.length ? (
+        <ExhibitorsGrid><p style={{ gridColumn: "1 / -1", textAlign: "center", margin: "20px 0" }}>No exhibitors available.</p></ExhibitorsGrid>
+      ) : null} 
+      {!loading && exhibitors.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -513,7 +511,7 @@ const Exhibit = () => {
 
                   style={{ cursor: "pointer" }}
                 >
-                  <Logo src={ex.brandingDetails?.companyLogo} alt="logo" />
+                  <Logo src={ex.brandingDetails?.companyLogo ? (ex.brandingDetails.companyLogo.startsWith('http') ? ex.brandingDetails.companyLogo : `${baseUrl}/uploads/${encodeURIComponent(ex.brandingDetails.companyLogo)}`) : ""} alt="logo" />
                   <CompanyName>{ex.organizationDetails?.organizationName}</CompanyName>
                   <BoothType>{ex.boothType}</BoothType>
                   <LinksContainer
@@ -596,19 +594,11 @@ const Exhibit = () => {
 
 
         </motion.div>
-      )} */}
-      <h2 style={{
-        textAlign: "center",
-        color: "#6b7280",
-        fontFamily: "Poppins, sans-serif",
-        fontWeight: 600,
-        fontSize: "2rem",
-        margin: "40px 0",
-      }}>Stay Tuned. Exhibitor Registration Opening Soon!</h2>
+      )}
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
         <Cont1>
-          <h1>{exhibitTypography.title["en-us"]}</h1>
-          <p>{exhibitTypography.para1["en-us"]}</p>
+          <h1>{dynamicSection?.content?.title || exhibitTypography.title["en-us"]}</h1>
+          <p>{dynamicSection?.content?.para1 || exhibitTypography.para1["en-us"]}</p>
         </Cont1>
       </motion.div>
 
@@ -638,6 +628,7 @@ const Exhibit = () => {
           </LeftRightWrapper>
         </BenefitsContainer>
       </motion.div>
+      
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -645,36 +636,51 @@ const Exhibit = () => {
         transition={{ duration: 0.6 }}
       >
         <Cont1>
-          {/* <h2>Exhibition Stall Packages</h2> */}
-          {/* <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <TableBx>
-              <table border={1} cellPadding={8} cellSpacing={0}>
-                <thead>
-                  <tr>
-                    <th style={{
-                      background: "#E5E5E5"
-                    }}>Stall Type</th>
-                    {exhibitPlans.map(plan => (
-                      <th key={plan.stallType} style={{
-                        background: "#E5E5E5",
-                        textAlign: 'center'
-                      }}>{plan.stallType}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowLabels.map(row => (
+          <h2>Exhibition Stall Packages</h2>
+          <TableBx>
+            <table border={1} cellPadding={8} cellSpacing={0}>
+              <thead>
+                <tr>
+                  <th style={{ background: "#E5E5E5" }}>Stall Type</th>
+                  {(dynamicSection?.content?.exhibitPlans || exhibitPlans).map((plan, idx) => (
+                    <th key={plan.stallType || idx} style={{ background: "#E5E5E5", textAlign: 'center' }}>
+                      {plan.stallType}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {dynamicSection?.content?.exhibitPlans ? (
+                  <>
+                    <tr>
+                      <td>Area</td>
+                      {dynamicSection.content.exhibitPlans.map((plan, idx) => (
+                        <td key={idx} style={{ textAlign: 'center' }}>{plan.area}</td>
+                      ))}
+                    </tr>
+                    <tr>
+                      <td>Early Bird Price (inclusive of tax)</td>
+                      {dynamicSection.content.exhibitPlans.map((plan, idx) => (
+                        <td key={idx} style={{ textAlign: 'center', fontWeight: 600, fontSize: 18 }}>
+                          ₹ {Number(plan.earlyBirdRegistrationPrice || 0).toLocaleString()}
+                        </td>
+                      ))}
+                    </tr>
+                    <tr>
+                      <td>Standard Price (inclusive of tax)</td>
+                      {dynamicSection.content.exhibitPlans.map((plan, idx) => (
+                        <td key={idx} style={{ textAlign: 'center' }}>
+                          ₹ {Number(plan.standardRegistrationPrice || 0).toLocaleString()}
+                        </td>
+                      ))}
+                    </tr>
+                  </>
+                ) : (
+                  rowLabels.map(row => (
                     <tr key={row.key}>
                       <td>{row.label}</td>
                       {exhibitPlans.map(plan => (
-                        <td key={plan.stallType + row.key} style={{
-                          textAlign: 'center'
-                        }}>
+                        <td key={plan.stallType + row.key} style={{ textAlign: 'center' }}>
                           {
                             row.isCurrency
                               ? <><span style={{
@@ -692,70 +698,13 @@ const Exhibit = () => {
                         </td>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </TableBx>
-          </motion.div> */}
-
-          {/* {!userData && !exhibitorData && <button
-                        onClick={() => navigate("/auth/exhibitor/register")}
-                        style={{
-                            display: 'flex',
-                            width: 180,
-                            height: 40,
-                            padding: '8px 16px',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 4,
-                            background: 'var(--Color-Primary-500, #2180E4)',
-                            color: 'var(--Light-Light-1, #FFF)',
-                            textAlign: 'center',
-                            fontFeatureSettings: "'liga' off, 'clig' off",
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            fontStyle: 'normal',
-                            fontWeight: 500,
-                            lineHeight: '120%',
-                            border: 'none',
-                            cursor: 'pointer',
-                            marginTop: 32
-                        }}
-                    >
-                        Register Now
-                    </button>} */}
-
-          {/* <div style={{
-            margin: "40px 0 0 0",
-            fontFamily: 'Poppins'
-          }}>
-            <h3 style={{
-              margin: 0,
-              fontSize: 20,
-              fontWeight: 600,
-              lineHeight: '120%'
-            }}>Please Note</h3>
-            <ol style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 16,
-              fontSize: 18,
-              fontWeight: 400,
-              lineHeight: '160%'
-
-            }}>
-              {
-                notes?.map(elm => (
-                  <li>{elm.normal} <span style={{
-                    fontWeight: 500
-                  }}>{elm.bold}</span></li>
-                ))
-              }
-            </ol>
-          </div> */}
+                  ))
+                )}
+              </tbody>
+            </table>
+          </TableBx>
         </Cont1>
       </motion.div>
-      {/* ===== New Exhibitors Section ===== */}
 
 
       <h2 style={{
@@ -768,11 +717,10 @@ const Exhibit = () => {
         Terms and Conditions
       </h2>
       <Cont4>
-
-        {exhibitionDetails?.map((elm, idx) => (
+        {(dynamicSection?.content?.exhibitionDetails || exhibitionDetails)?.map((elm, idx) => (
           <motion.div key={idx} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ delay: idx * 0.2, duration: 0.6 }}>
             <div>
-              <img alt="" src={elm.logo} />
+              <img alt="" src={elm.logo || exhibitionDetails[idx]?.logo || exhibitionDetails[0]?.logo} />
               <h3>{elm.title}</h3>
               <p>{elm.text}</p>
             </div>
@@ -788,6 +736,7 @@ const Exhibit = () => {
                     </div>
                 </Cont3>
             </motion.div> */}
+
     </Component>
   )
 }

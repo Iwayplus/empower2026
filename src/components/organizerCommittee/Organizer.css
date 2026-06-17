@@ -208,3 +208,21 @@
   border-color: #218EFA;
   color: white;
 }
+
+/* Role section styling */
+.role-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.role-heading {
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 600;
+  color: #121417;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 8px;
+  margin: 0;
+}

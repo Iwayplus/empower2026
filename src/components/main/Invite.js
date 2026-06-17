@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import defaultSpeaker from "../../assets/default.png";
 import { Typography, Box, styled } from "@mui/material";
-const API_URL = `https://maps.iwayplus.in/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
+import { baseUrl } from "../../services/api";
+const API_URL = `${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
 
 
 const Component = styled('div')(({ theme }) => ({
@@ -41,7 +42,7 @@ const Invite = () => {
 
   const getImageUrl = (photo) =>
     photo
-      ? `https://maps.iwayplus.in/uploads/${encodeURIComponent(photo)}`
+      ? `${baseUrl}/uploads/${encodeURIComponent(photo)}`
       : defaultSpeaker;
 
   return (
@@ -76,11 +77,7 @@ const Invite = () => {
           component="button"
           aria-label="Explore our invited speakers, click to see more"
           onClick={() => {
-            const isLocal = window.location.hostname === "localhost";
-            const targetUrl = isLocal
-              ? "http://localhost:3000/invited"
-              : "https://empowerconference.in/invited";
-            window.location.href = targetUrl;
+            window.location.href = window.location.origin + "/invited";
           }}
           sx={{
             display: "flex",

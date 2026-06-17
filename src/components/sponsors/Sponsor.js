@@ -10,6 +10,7 @@ import { sponsorshipPlans, rowLabels, sponsorshipBenefits } from "./data";
 import emailIcon from "../../assets/mail.svg";       // your email icon
 import websiteIcon from "../../assets/po.jpg";   // your website icon
 import linkedInIcon from "../../assets/link.png"; // your LinkedIn icon
+import { baseUrl } from "../../services/api";
 const Component = styled('div')({});
 
 const Cont1 = styled('div')(({ theme }) => ({
@@ -146,17 +147,33 @@ const Sponsor = () => {
   const [sponsors, setSponsors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [dynamicSection, setDynamicSection] = useState(null);
 
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const res = await fetch(`https://maps.iwayplus.in/secured/event/all-sponsors/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+        const res = await fetch(`${baseUrl}/secured/event/all-sponsors/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
         const data = await res.json();
         setSponsors(Array.isArray(data?.sponsors) ? data.sponsors : []);
       } catch (err) { setError(err.message); }
       finally { setLoading(false); }
     };
+
+    const fetchDynamicSection = async () => {
+      try {
+        const res = await fetch(`${baseUrl}/secured/cms/sponsor-content/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+        const data = await res.json();
+        if (data.status && Array.isArray(data.data) && data.data.length > 0) {
+          const published = data.data.find(sec => sec.status === "Published") || data.data[0];
+          setDynamicSection(published);
+        }
+      } catch (err) {
+        console.error("Error fetching dynamic sponsor content:", err);
+      }
+    };
+
     fetchSponsors();
+    fetchDynamicSection();
   }, []);
 
   return (
@@ -206,7 +223,14 @@ const Sponsor = () => {
                       );
                   }}
                 >
-                  <Logo src={sponsor.logo_url} alt={sponsor.name} />
+                  <Logo
+                    src={
+                      sponsor.logo_url.startsWith("http")
+                        ? sponsor.logo_url
+                        : `${baseUrl}/uploads/${sponsor.logo_url}` // 👈 Adjust "/uploads/" to match your backend's static folder path
+                    }
+                    alt={sponsor.name}
+                  />
 
                   {sponsor.sponsorship_tier && (
                     <TierBadge tier={sponsor.sponsorship_tier}>
@@ -273,30 +297,32 @@ const Sponsor = () => {
 
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
         <Cont1>
-          <h1>Partner With India’s Largest Assistive Technology Innovation Ecosystem</h1>
-          <p>EMPOWER 2026 invites forward‑thinking organizations to join a national movement that brings breakthrough products, innovations, research, and community‑driven programs under one roof. Building on the remarkable success of EMPOWER 2025, this year’s edition expands its reach, depth, and impact.</p>
+          <h1>{dynamicSection?.content?.title || "Partner With India’s Largest Assistive Technology Innovation Ecosystem"}</h1>
+          <p>{dynamicSection?.content?.description || "EMPOWER 2026 invites forward‑thinking organizations to join a national movement that brings breakthrough products, innovations, research, and community‑driven programs under one roof. Building on the remarkable success of EMPOWER 2025, this year’s edition expands its reach, depth, and impact."}</p>
         </Cont1>
-        <Cont1 style={{ marginTop: 60 }}>
-          <h3>As India’s premier platform for assistive technology, EMPOWER brings together:</h3>
+        {!dynamicSection?.content?.benefits && (
+          <Cont1 style={{ marginTop: 60 }}>
+            <h3>As India’s premier platform for assistive technology, EMPOWER brings together:</h3>
 
-          <ul style={{ marginTop: 10, paddingLeft: 20, lineHeight: 1.6 }}>
-            <li>Innovators and product creators showcasing next-generation AT solutions</li>
-            <li>Researchers presenting state-of-the-art work from leading institutions</li>
-            <li>Practitioners and NGOs sharing scalable community empowerment models</li>
-            <li>Industry leaders and startups demonstrating accessible technologies</li>
-            <li>Government bodies and policymakers shaping national AT priorities</li>
-            <li>Users and lived-experience experts guiding design and evaluation</li>
-          </ul>
+            <ul style={{ marginTop: 10, paddingLeft: 20, lineHeight: 1.6 }}>
+              <li>Innovators and product creators showcasing next-generation AT solutions</li>
+              <li>Researchers presenting state-of-the-art work from leading institutions</li>
+              <li>Practitioners and NGOs sharing scalable community empowerment models</li>
+              <li>Industry leaders and startups demonstrating accessible technologies</li>
+              <li>Government bodies and policymakers shaping national AT priorities</li>
+              <li>Users and lived-experience experts guiding design and evaluation</li>
+            </ul>
 
-          <p style={{ marginTop: 20, lineHeight: 1.7 }}>
-            Your sponsorship directly strengthens India’s inclusive technology ecosystem and accelerates
-            solutions that expand independence, opportunity, and dignity for persons with disabilities.
-          </p>
-        </Cont1>
+            <p style={{ marginTop: 20, lineHeight: 1.7 }}>
+              Your sponsorship directly strengthens India’s inclusive technology ecosystem and accelerates
+              solutions that expand independence, opportunity, and dignity for persons with disabilities.
+            </p>
+          </Cont1>
+        )}
         <Cont1>
           <Benifits>
-            {sponsorshipBenefits?.map((elm, inx) => (
-              <div key={inx} style={{ borderBottom: inx > sponsorshipBenefits.length - 3 ? "1px solid #D1D5DB" : "unset" }}>
+            {(dynamicSection?.content?.benefits || sponsorshipBenefits)?.map((elm, inx, arr) => (
+              <div key={inx} style={{ borderBottom: inx > arr.length - 3 ? "1px solid #D1D5DB" : "unset" }}>
                 <BenifitTitleBx>
                   <img alt="" src={elm?.logo} />
                   <h3>{elm?.title}</h3>
@@ -322,16 +348,16 @@ const Sponsor = () => {
               <thead>
                 <tr>
                   <th>Sponsorship Categories</th>
-                  {sponsorshipPlans.map(plan => <th key={plan.category} style={{ textAlign: 'center' }}>{plan.category}</th>)}
+                  {(dynamicSection?.content?.plans || sponsorshipPlans).map(plan => <th key={plan.category} style={{ textAlign: 'center' }}>{plan.category}</th>)}
                 </tr>
               </thead>
               <tbody>
                 {rowLabels.map(row => (
                   <tr key={row.key}>
                     <td>{row.label}</td>
-                    {sponsorshipPlans.map(plan => (
+                    {(dynamicSection?.content?.plans || sponsorshipPlans).map(plan => (
                       <td key={plan.category + row.key} style={{ textAlign: 'center', fontWeight: row?.key === "amount" ? 600 : 400, fontSize: row?.key === "amount" ? 20 : 16 }}>
-                        {row.isCurrency ? <>₹{plan[row.key].toLocaleString()}</> : row.isYesNo ? plan[row.key] ? <img src={checkGreen} alt="" /> : "-" : plan[row.key]}
+                        {row.isCurrency ? <>₹{(plan[row.key] || 0).toLocaleString()}</> : row.isYesNo ? plan[row.key] ? <img src={checkGreen} alt="" /> : "-" : plan[row.key]}
                       </td>
                     ))}
                   </tr>
@@ -369,10 +395,10 @@ const Sponsor = () => {
         <h3 style={{ color: '#eff1f3' }}>
           Partner With Us
         </h3>
-        <p style={{ fontSize: 16, color: '#eff1f3', margin: "5px 0 0 0" }}>
+        {/* <p style={{ fontSize: 16, color: '#eff1f3', margin: "5px 0 0 0" }}>
           Join us in shaping India’s most influential platform for assistive technology innovation.
           Your partnership accelerates solutions that empower millions.
-        </p>
+        </p> */}
         <p style={{ fontSize: 16, color: '#eff1f3', margin: "10px 0 0 0" }}>
           Join us in shaping India’s most influential platform for assistive technology innovation.
           Your partnership accelerates solutions that empower millions. Please do reach out to us at{" "}
