@@ -1,46 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useDriveImages from "../hooks/useDriveImages";
 import { Typography } from "@mui/material"; // ✅ import MUI Typography
+import { fetchPublicDynamicSections, baseUrl } from "../../services/api";
 
-const MasonryGrid = ({ images, onOpenAt }) => (
-  <div style={{ columnCount: 3, columnGap: "12px" }}>
+const GalleryGrid = ({ images, onOpenAt }) => (
+  <section aria-label="Photo gallery" className="gallery-grid">
     {images.map((src, i) => (
-      <FadeImage key={i} src={src} onClick={() => onOpenAt(i)} />
+      <FadeImage key={i} src={src} index={i} total={images.length} onClick={() => onOpenAt(i)} />
     ))}
-  </div>
+  </section>
 );
 
-const FadeImage = ({ src, onClick }) => {
+const FadeImage = ({ src, onClick, index, total }) => {
   const [loaded, setLoaded] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div style={{ marginBottom: "12px", breakInside: "avoid", cursor: "pointer" }}>
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      aria-label={`Open gallery image ${index + 1} of ${total}`}
+      style={{
+        cursor: "pointer",
+        overflow: "hidden",
+        borderRadius: "12px",
+        aspectRatio: "4/3",
+        boxShadow: "0 6px 15px rgba(0,0,0,0.08)",
+        backgroundColor: "#f5f5f5",
+        position: "relative",
+        padding: 0,
+        border: "none",
+        display: "block",
+        width: "100%",
+      }}
+    >
       <img
         src={src}
+        alt={`Gallery photo ${index + 1}`}
         onLoad={() => setLoaded(true)}
-        onClick={onClick}
         style={{
           width: "100%",
-          borderRadius: "12px",
+          height: "100%",
+          objectFit: "cover",
           transition: "opacity .6s ease, transform .4s ease",
           opacity: loaded ? 1 : 0,
-          transform: loaded ? "scale(1)" : "scale(1.05)",
-          boxShadow: "0 6px 15px rgba(0,0,0,0.08)",
+          transform: loaded ? (hovered ? "scale(1.06)" : "scale(1)") : "scale(1.05)",
         }}
       />
-    </div>
+    </button>
   );
 };
 
 const ImageModal = ({ images, startIndex, onClose }) => {
   const [index, setIndex] = useState(startIndex);
+  const closeRef = useRef(null);
+
+  // Trap focus inside modal and close on Escape
+  useEffect(() => {
+    const previouslyFocused = document.activeElement;
+    closeRef.current?.focus();
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key === "ArrowLeft") setIndex((i) => (i - 1 + images.length) % images.length);
+      if (e.key === "ArrowRight") setIndex((i) => (i + 1) % images.length);
+      // Focus trap: keep Tab within modal
+      if (e.key === "Tab") {
+        const focusable = modalRef.current?.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusable || focusable.length === 0) { e.preventDefault(); return; }
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+          e.preventDefault();
+          (e.shiftKey ? last : first).focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [images.length, onClose]);
+
+  const modalRef = useRef(null);
 
   return (
-    <div style={modal}>
-      <img src={images[index]} style={modalImg} />
+    <div
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Image viewer — photo ${index + 1} of ${images.length}`}
+      style={modal}
+    >
+      <img src={images[index]} alt={`Gallery photo ${index + 1} of ${images.length}`} style={modalImg} />
 
-      <button style={closeBtn} onClick={onClose}>✕</button>
-      <button style={leftBtn} onClick={() => setIndex((i) => (i - 1 + images.length) % images.length)}>‹</button>
-      <button style={rightBtn} onClick={() => setIndex((i) => (i + 1) % images.length)}>›</button>
+      <button ref={closeRef} style={closeBtn} aria-label="Close image viewer" onClick={onClose}>✕</button>
+      <button style={leftBtn} aria-label="Previous image" onClick={() => setIndex((i) => (i - 1 + images.length) % images.length)}>‹</button>
+      <button style={rightBtn} aria-label="Next image" onClick={() => setIndex((i) => (i + 1) % images.length)}>›</button>
     </div>
   );
 };
@@ -81,14 +142,35 @@ const rightBtn = { ...btnBase, right: "22px" };
 const closeBtn = { ...btnBase, top: "20px", right: "20px" };
 
 const Gallery = () => {
-  const images = useDriveImages();
+  const driveImages = useDriveImages();
   const [modal, setModal] = useState({ open: false, index: 0 });
+  const [dynamicSection, setDynamicSection] = useState(null);
 
-  if (!images.length) return <p style={{ textAlign: "center" }}>Loading gallery...</p>;
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+        const gallerySection = sections.find(sec => sec.section_type === 'gallery');
+        if (gallerySection) {
+          setDynamicSection(gallerySection);
+        }
+      } catch (err) {
+        console.error("Error fetching dynamic gallery section", err);
+      }
+    };
+    fetchGalleryData();
+  }, []);
+
+  const displayImages = dynamicSection?.content?.images?.length > 0
+    ? dynamicSection.content.images.map(img => `${baseUrl}/uploads/${encodeURIComponent(img.url || img)}`)
+    : driveImages;
+
+  if (!displayImages.length) return <p style={{ textAlign: "center", padding: "40px" }}>Loading gallery...</p>;
 
   return (
-    <div style={{ display: "grid", gap: "20px", padding: "0px 20px" }}>
+    <section aria-labelledby="gallery-heading" style={{ display: "grid", gap: "20px", padding: "0px 20px" }}>
 <Typography
+  id="gallery-heading"
   variant="h4"
   component="h2"
   sx={{
@@ -102,24 +184,37 @@ const Gallery = () => {
     mt: { xs: 4, md: 6 }
   }}
 >
-  EMPOWER 2025 Highlights
+  {dynamicSection?.content?.title || dynamicSection?.content?.heading || "EMPOWER 2025 Highlights"}
 </Typography>
 
+      {dynamicSection?.content?.description && (
+        <Typography
+          sx={{
+            color: "#4A4A4A",
+            fontFamily: "Poppins",
+            px: { xs: 2, sm: 4, md: 8 },
+            mt: -2,
+            mb: 3
+          }}
+        >
+          {dynamicSection.content.description}
+        </Typography>
+      )}
 
 
-      <MasonryGrid
-        images={images}
+      <GalleryGrid
+        images={displayImages}
         onOpenAt={(i) => setModal({ open: true, index: i })}
       />
 
       {modal.open && (
         <ImageModal
-          images={images}
+          images={displayImages}
           startIndex={modal.index}
           onClose={() => setModal({ open: false })}
         />
       )}
-    </div>
+    </section>
   );
 };
 

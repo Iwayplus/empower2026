@@ -6,6 +6,7 @@ import { useEffect } from "react"
 import { getExhibitorProfile, getProfile } from "../../services/api"
 import { useDispatch } from "react-redux"
 import { setExhibitorProfile, setProfile } from "../../redux/userSlice"
+import SkipNav from "../SkipNav"
 
 
 const Component = styled('div')({
@@ -19,7 +20,7 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             let response = await getProfile()
-            if (response.status === 200) {
+            if (response && response.status === 200) {
                 dispatch(setProfile(response.data.data))
             }
         }
@@ -29,7 +30,7 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async () => {
             let response = await getExhibitorProfile()
-            if (response.status === 200) {
+            if (response && response.status === 200) {
                 dispatch(setExhibitorProfile(response.data.data))
             }
         }
@@ -42,6 +43,7 @@ const Home = () => {
 
     return (
         <Component>
+            <SkipNav />
             <Header />
             <Outlet />
             <Footer />

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import download from "../../assets/app.png"
 import { FaLinkedin, FaInstagram } from "react-icons/fa";
+import { baseUrl } from "../../services/api";
 const Component = styled('section')({
 
 })
@@ -160,6 +161,42 @@ const PrevLinks = styled('div')({
 })
 
 const Footer = () => {
+    const [dynamicSection, setDynamicSection] = useState(null);
+
+    useEffect(() => {
+        const fetchFooter = async () => {
+            try {
+                const res = await fetch(
+                    `${baseUrl}/secured/cms/footer/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+                );
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status && Array.isArray(data.data) && data.data.length > 0) {
+                        const published = data.data.find(sec => sec.status === "Published") || data.data[0];
+                        setDynamicSection(published);
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching dynamic footer:", error);
+            }
+        };
+        fetchFooter();
+    }, []);
+
+    const logoUrl = dynamicSection?.content?.logo
+        ? (dynamicSection.content.logo.startsWith("http")
+            ? dynamicSection.content.logo
+            : `${baseUrl}/uploads/${encodeURIComponent(dynamicSection.content.logo)}`)
+        : logo;
+
+    const getEmbedMapUrl = (url) => {
+        if (!url) return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4153.583722712865!2d77.18925209468964!3d28.543941178796093!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d9a6426d987%3A0x48afdc51e54c8134!2sResearch%20and%20Innovation%20Park%20(RNI)%20-%20IIT%20DELHI!5e0!3m2!1sen!2sin!4v1741772416957!5m2!1sen!2sin";
+        if (url.includes("/embed") || url.includes("embed?")) return url;
+        if (url.includes("google.com/maps")) {
+            return url.replace("/maps", "/maps/embed");
+        }
+        return url;
+    };
 
 
     // const handleClickDirection = () => {
@@ -172,19 +209,18 @@ const Footer = () => {
 
 
     return (
-        <Component id="footer" >
+        <footer id="footer">
             <Container>
                 <LogoBx>
-                    <img src={logo} alt="" />
-                    <Text>Empower 2026 is a global conference dedicated to accessibility in design, tech, and innovation. Learn from industry leaders and participate in hands-on workshops</Text>
-                    {/* <img src={logo} alt="" /> */}
+                    <img src={logoUrl} alt="Empower 2026 Conference Logo" />
+                    <Text>{dynamicSection?.content?.footer_desc || "Empower 2026 is a global conference dedicated to accessibility in design, tech, and innovation. Learn from industry leaders and participate in hands-on workshops"}</Text>
                     <h3 style={{ marginTop: "20px", marginBottom: "8px", fontSize: "20px", fontWeight: "600", color: "#fff" }}>
                         Connect with us
                     </h3>
 
                     <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
                         <a
-                            href="https://www.linkedin.com/company/empower-assisitive-technology-conference/"
+                            href={dynamicSection?.content?.linkedin_url || "https://www.linkedin.com/company/empower-assisitive-technology-conference/"}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Follow us on LinkedIn"
@@ -192,7 +228,7 @@ const Footer = () => {
                             <FaLinkedin size={28} color="#0a66c2" />
                         </a>
                         <a
-                            href="https://www.instagram.com/empower.conf?igsh=MTRobWRwOGF3YXZvaQ=="
+                            href={dynamicSection?.content?.instagram_url || "https://www.instagram.com/empower.conf?igsh=MTRobWRwOGF3YXZvaQ=="}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Follow us on Instagram"
@@ -205,62 +241,54 @@ const Footer = () => {
                 <DetailsBx>
                     <Title>Contact Us</Title>
                     <ContactBx>
-                        {/* <Elm>
-                            <img src={calander} alt="" />
-                            <p>3rd, 4th & 5th October 2026</p>
-                        </Elm> */}
                         <Elm>
-                            <img src={timing} alt="" />
-                            <p>10 am - 5 pm (Monday to Friday)</p>
+                            <img src={timing} alt="" aria-hidden="true" />
+                            <p>{dynamicSection?.content?.contact_timing || "10 am - 5 pm (Monday to Friday)"}</p>
                         </Elm>
                         <Elm>
-                            <img src={call} alt="" />
+                            <img src={call} alt="" aria-hidden="true" />
                             <div>
-                                <a href={`tel:+919717477964`}>+919717477964</a>
-                                {/* <a href="tel:+911126591285">+91-11-26591285</a> */}
+                                <a href={`tel:${dynamicSection?.content?.contact_phone || "+919717477964"}`}>{dynamicSection?.content?.contact_phone || "+919717477964"}</a>
                             </div>
-
                         </Elm>
                         <Elm>
-                            <img src={mail} alt="" />
-                            <a href="mailto:info@empowerconference.in">info@empowerconference.in</a>
+                            <img src={mail} alt="" aria-hidden="true" />
+                            <a href={`mailto:${dynamicSection?.content?.contact_email || "info@empowerconference.in"}`}>{dynamicSection?.content?.contact_email || "info@empowerconference.in"}</a>
                         </Elm>
                         <Elm>
-                            <img src={map} alt="" />
-                            <p>Assistech Lab, Indian Institute of Technology Delhi, New Delhi, India</p>
+                            <img src={map} alt="" aria-hidden="true" />
+                            <p>{dynamicSection?.content?.contact_address || "Assistech Lab, Indian Institute of Technology Delhi, New Delhi, India"}</p>
                         </Elm>
-
-
-
                     </ContactBx>
                 </DetailsBx>
                 <PrevLinks>
                     <Title>Past Conferences</Title>
                     <div>
-                        <a target="_blank" rel="noreferrer" href="https://empowerconferences.in/">Empower 2018 - 2024</a>
-                        <a target="_blank" rel="noreferrer" href="/2025">Empower 2025</a>
-
-                        {/* <a target="_blank"  rel="noreferrer" href="https://empower23.respark.iitm.ac.in/">Empower 2023</a>
-                        <a target="_blank"  rel="noreferrer" href="https://empower2022.in/">Empower 2022</a>
-                        <a target="_blank"  rel="noreferrer" href="https://empower2021.iiitb.ac.in/">Empower 2021</a>
-                        <a target="_blank"  rel="noreferrer" href="https://empower2020.iiitb.ac.in/">Empower 2020</a>
-                        <a target="_blank"  rel="noreferrer" href="https://assistech.iitd.ac.in/empower2019/">Empower 2019</a>
-                        <a target="_blank"  rel="noreferrer" href="https://assistech.iitd.ac.in/empower2018/">Empower 2018</a> */}
+                        {
+                            dynamicSection?.content?.past_conferenes?.map((e, index) => {
+                                return <a key={index} target="_blank" rel="noreferrer" href={e.url}>{e.text || "Empower 2018 - 2024"}</a>
+                            })
+                        }
                     </div>
                 </PrevLinks>
                 <DirectionBx>
                     <Title>Venue Directions</Title>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4153.583722712865!2d77.18925209468964!3d28.543941178796093!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d9a6426d987%3A0x48afdc51e54c8134!2sResearch%20and%20Innovation%20Park%20(RNI)%20-%20IIT%20DELHI!5e0!3m2!1sen!2sin!4v1741772416957!5m2!1sen!2sin" width="269" height="227" style={{ border: 0, borderRadius: 8 }} allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    {/* <DirectionBtn title="direction" onClick={() => handleClickDirection()}>Direction</DirectionBtn> */}
+                    <iframe
+                        title="Venue location map — IIT Delhi Research and Innovation Park"
+                        src={getEmbedMapUrl(dynamicSection?.content?.maps_url)}
+                        width="269"
+                        height="227"
+                        style={{ border: 0, borderRadius: 8 }}
+                        allowFullScreen=""
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                    ></iframe>
                 </DirectionBx>
-
 
             </Container>
 
             <CopyrightBx>
-
-                <p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: '1.125em', marginBottom: '8px' }}>
+                <div role="contentinfo" style={{ display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: '1.125em', marginBottom: '8px' }}>
                         <Link style={{ color: '#fff', whiteSpace: 'nowrap' }} to="/cancellation-refund-policy">
                             Cancellation and Refund Policy
                         </Link>
@@ -271,20 +299,25 @@ const Footer = () => {
                             Terms and Conditions
                         </Link>
                     </div>
-                    Copyright - All rights reserved with Empower 2026,&nbsp;
-                    <a
-                        href="https://assistech.iitd.ac.in/"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="assistech-link"
-                        style={{ color: '#fff' }}
-                    >
-                        Assistech Lab, IIT Delhi
-                    </a>
-                </p>
+                    {dynamicSection?.content?.copyright_text ? (
+                        dynamicSection.content.copyright_text
+                    ) : (
+                        <>
+                            Copyright - All rights reserved with Empower 2026,&nbsp;
+                            <a
+                                href="https://assistech.iitd.ac.in/"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="assistech-link"
+                                style={{ color: '#fff' }}
+                            >
+                                Assistech Lab, IIT Delhi
+                            </a>
+                        </>
+                    )}
             </CopyrightBx>
 
-        </Component>
+        </footer>
     )
 }
 

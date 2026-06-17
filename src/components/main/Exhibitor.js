@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled, Box } from "@mui/system";
 import { Card, Typography, CircularProgress, Button } from "@mui/material";
-
+import { baseUrl } from "../../services/api";
 
 const Component = styled("section")(({ theme }) => ({
   margin: "40px 67px 0 67px",
@@ -24,43 +24,46 @@ const Component = styled("section")(({ theme }) => ({
 
 const ExhibitorCard = styled(Card)({
   width: "100%",
-  borderRadius: "10px",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.06)",
-  transition: "all 0.2s ease",
+  maxWidth: 240,
+  borderRadius: 14,
+  boxShadow: "0 4px 14px rgba(0,0,0,0.08)",
+  transition: "all 0.3s ease",
   cursor: "pointer",
-  "&:hover": {
-    transform: "translateY(-4px)",
-    boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
-  },
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: "10px",
+  padding: "12px 10px 10px 10px",
   background: "#fff",
+  position: "relative",
+  overflow: "hidden",
+
+  "&:hover": {
+    transform: "translateY(-5px)",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
+  },
+});
+
+const ExhibitorName = styled(Typography)({
+  fontSize: 15,
+  fontWeight: 700,
+  fontFamily: "Poppins",
+  color: "#1C1C1C",
+  textAlign: "center",
+  lineHeight: "20px",
+  display: "-webkit-box",
+  overflow: "hidden",
+  WebkitLineClamp: 3,
+  WebkitBoxOrient: "vertical",
+  marginBottom: 0,
 });
 
 const Logo = styled("img")({
-  width: 90,
-  height: 60,
-  borderRadius: "6px",
+  width: 130,
+  height: 80,
+  borderRadius: 6,
   objectFit: "contain",
-  marginBottom: "8px",
-  // border: "1px solid #eee",
+  marginBottom: 10,
   background: "#fff",
-});
-
-const CompanyName = styled(Typography)({
-  fontSize: "12px",
-  fontWeight: 600,
-  fontFamily: "Poppins",
-  color: "#333",
-  textAlign: "center",
-  lineHeight: "16px",
-  minHeight: "32px", // reserve ~2 lines
-  overflow: "hidden",
-  display: "-webkit-box",
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
 });
 
 const Header = styled("div")(({ theme }) => ({
@@ -98,7 +101,7 @@ const Exhibitors = () => {
     const fetchExhibitors = async () => {
       try {
         const response = await fetch(
-          `https://maps.iwayplus.in/api/empower/fetch-paid-exhibitors?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-exhibitor/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!response.ok) throw new Error("Failed to fetch exhibitors");
@@ -108,6 +111,8 @@ const Exhibitors = () => {
           ? data
           : Array.isArray(data?.data)
           ? data.data
+          : Array.isArray(data?.exhibitors)
+          ? data.exhibitors
           : [];
 
         setExhibitors(exhibitorsArray);
@@ -158,44 +163,39 @@ const Exhibitors = () => {
             Exhibitors
           </Typography>
 
-          {/* Accessible Button */}
-       <Button
-  aria-label="View detailed exhibitors"
-  onClick={() => {
-    const isLocal = window.location.hostname === "localhost";
-    const targetUrl = isLocal
-      ? "http://localhost:3000/exhibit"
-      : "https://empowerconference.in/exhibit";
-    window.location.href = targetUrl;
-  }}
-  sx={{
-    minWidth: "auto",
-    p: 1,
-    border: "none !important",   // ⬅️ force override
-    borderRadius: "6px",
-    background: "#fff",
-    "&:hover": {
-      background: "#f3f4f6",
-      transform: "translateY(-2px)",
-    },
-  }}
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="28"
-    height="28"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#FFB300"
-    strokeWidth="4.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <line x1="5" y1="19" x2="19" y2="5" />
-    <polyline points="7 5 19 5 19 17" />
-  </svg>
-</Button>
+          <Button
+            aria-label="View detailed exhibitors"
+            onClick={() => {
+              window.location.href = window.location.origin + "/exhibit";
+            }}
+            sx={{
+              minWidth: "auto",
+              p: 1,
+              border: "none !important",
+              borderRadius: "6px",
+              background: "#fff",
+              "&:hover": {
+                background: "#f3f4f6",
+                transform: "translateY(-2px)",
+              },
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#FFB300"
+              strokeWidth="4.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="19" x2="19" y2="5" />
+              <polyline points="7 5 19 5 19 17" />
+            </svg>
+          </Button>
 
         </Box>
       </Header>
@@ -232,11 +232,11 @@ const Exhibitors = () => {
               >
                 {/* Decorative Logo */}
                 <Logo
-                  src={exhibitor.brandingDetails?.companyLogo}
+                  src={exhibitor.brandingDetails?.companyLogo ? (exhibitor.brandingDetails.companyLogo.startsWith('http') ? exhibitor.brandingDetails.companyLogo : `${baseUrl}/uploads/${encodeURIComponent(exhibitor.brandingDetails.companyLogo)}`) : ""}
                   alt=""
                   aria-hidden="true"
                 />
-                <CompanyName>{companyName}</CompanyName>
+                <ExhibitorName>{companyName}</ExhibitorName>
               </ExhibitorCard>
             );
           })}

@@ -51,18 +51,33 @@ const getOrdinalDate = (dateStr) => {
   return `${day}${suffix} ${month}`;
 };
 
+const baseUrl = process.env.NODE_ENV === "development" ? (process.env.REACT_APP_LOCAL_URL || "http://localhost:8000") : (process.env.REACT_APP_REMOTE_URL || "https://maps.iwayplus.in");
+
 const Max = () => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState("2026-10-02");
+  const [selectedDate, setSelectedDate] = useState("");
   useEffect(() => {
     const fetchSessions = async () => {
       try {
         const res = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
         const data = await res.json();
-        if (data.status) setSessions(data.data);
+        if (data.status) {
+          const fetchedSessions = data.data || [];
+          setSessions(fetchedSessions);
+          const uniqueDates = Array.from(
+            new Set(
+              fetchedSessions
+                .map((s) => s.date ? s.date.split("T")[0] : null)
+                .filter(Boolean)
+            )
+          ).sort();
+          if (uniqueDates.length > 0) {
+            setSelectedDate(uniqueDates[0]);
+          }
+        }
       } catch (error) {
         console.error("Error fetching sessions:", error);
       } finally {
@@ -94,7 +109,13 @@ const Max = () => {
     sessionsByDate[date] = Object.fromEntries(sorted);
   });
 
-  const conferenceDays = ["2026-10-02", "2026-10-03", "2026-10-04"];
+  const conferenceDays = Array.from(
+    new Set(
+      sessions
+        .map((s) => s.date ? s.date.split("T")[0] : null)
+        .filter(Boolean)
+    )
+  ).sort();
 
   return (
     <Box sx={{ px: 3, py: 5, backgroundColor: "#fafafa" }}>
@@ -151,8 +172,8 @@ const Max = () => {
             } else {
               const isLocal = window.location.hostname === "localhost";
               const targetUrl = isLocal
-                ? "http://localhost:3000/empower-schedule"
-                : "https://empowerconference.in/empower-schedule";
+                ? "/empower-schedule"
+                : "/empower-schedule";
               window.location.href = targetUrl;
             }
           }}

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 import { Card, Typography, CircularProgress, Box } from "@mui/material";
+import { baseUrl } from "../../services/api";
 
 const Component = styled("section")(({ theme }) => ({
   margin: "40px 67px 0 67px",
@@ -100,7 +101,7 @@ const Sponsor = () => {
     const fetchSponsors = async () => {
       try {
         const response = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-sponsors/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-sponsors/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!response.ok) throw new Error("Failed to fetch sponsors");
@@ -108,6 +109,8 @@ const Sponsor = () => {
         const data = await response.json();
         const sponsorsArray = Array.isArray(data?.sponsors)
           ? data.sponsors
+          : Array.isArray(data?.data)
+          ? data.data
           : [];
         setSponsors(sponsorsArray);
       } catch (err) {
@@ -170,11 +173,7 @@ const Sponsor = () => {
               alignItems: "center",
             }}
             onClick={() => {
-              const isLocal = window.location.hostname === "localhost";
-              const targetUrl = isLocal
-                ? "http://localhost:3000/sponsor"
-                : "https://empowerconference.in/sponsor";
-              window.location.href = targetUrl;
+              window.location.href = window.location.origin + "/sponsor";
             }}
           >
             <svg
@@ -243,7 +242,7 @@ const Sponsor = () => {
               >
                 {/* Logo is decorative */}
                 <Logo
-                  src={sponsor.logo_url}
+                  src={sponsor.logo_url ? (sponsor.logo_url.startsWith('http') ? sponsor.logo_url : `${baseUrl}/uploads/${encodeURIComponent(sponsor.logo_url)}`) : ""}
                   alt=""
                   aria-hidden="true"
                 />

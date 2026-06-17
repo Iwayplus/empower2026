@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import defaultSpeaker from "../../assets/default.png";
 import { Button, Typography } from "@mui/material";
 
-const API_URL = `https://maps.iwayplus.in/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
+import { baseUrl } from "../../services/api";
+
+const API_URL = `${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
 
 const tagmaps = {
   "panel": "Panelist",
@@ -39,7 +41,7 @@ const InvitedSpeaker = () => {
 
   const getImageUrl = (photo) =>
     photo
-      ? `url("https://maps.iwayplus.in/uploads/${encodeURIComponent(photo)}") lightgray 50% / cover no-repeat`
+      ? `url("${baseUrl}/uploads/${encodeURIComponent(photo)}") lightgray 50% / cover no-repeat`
       : `url("${defaultSpeaker}") lightgray 50% / cover no-repeat`;
 
   return (

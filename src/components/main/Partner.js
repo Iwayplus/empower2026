@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { styled, keyframes } from "@mui/system";
 import { Card, Typography, CircularProgress, Box } from "@mui/material";
+import { baseUrl } from "../../services/api";
 
 // Animation
 const fadeUp = keyframes`
@@ -108,7 +109,7 @@ const Partner = () => {
     const fetchPartners = async () => {
       try {
         const response = await fetch(
-          `https://maps.iwayplus.in/secured/event/all-partner/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-partner/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!response.ok) throw new Error("Failed to fetch partners");
@@ -163,6 +164,7 @@ const Partner = () => {
       <PartnersGrid>
         {partners.map((partner, index) => {
           const accessibleText = `${partner.title || ""} ${partner.description || ""} partner`;
+          const partnerLogo = partner.logo_url || partner.logo;
 
           return (
             <PartnerCard
@@ -180,7 +182,7 @@ const Partner = () => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <Logo
-                src={`https://maps.iwayplus.in/uploads/${partner.logo}`}
+                src={partnerLogo ? (partnerLogo.startsWith('http') ? partnerLogo : `${baseUrl}/uploads/${encodeURIComponent(partnerLogo)}`) : ""}
                 alt=""
                 aria-hidden="true"
               />
