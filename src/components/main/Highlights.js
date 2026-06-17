@@ -390,6 +390,22 @@ const Highlights = () => {
 
     fetchSponsors();
   }, []);
+
+  const cmsUpdates = (aboutData?.latest_updates_items || []).map((item, idx) => ({
+    _id: `cms-${idx}`,
+    title: item.text || item,
+    url: item.link || "#",
+    isExternal: !!item.link
+  }));
+
+  const apiUpdates = announcements.map((item) => ({
+    _id: `api-${item._id}`,
+    title: item.title,
+    url: item.url || "#",
+    isExternal: true
+  }));
+
+  const displayUpdates = [...cmsUpdates, ...apiUpdates];
   
   return (
     <Component id="highlights" aria-labelledby="highlights-heading">
@@ -401,24 +417,24 @@ const Highlights = () => {
         </TextBx>
 
         {/* Latest Updates */}
-        {aboutData?.show_latest_updates && (
+        {((aboutData ? aboutData.show_latest_updates : true) || displayUpdates.length > 0) && (
           <LatestUpdatesWrapper style={{ flex: 1, minWidth: 300 }}>
             {/* Upper heading */}
             <UpdatesHeaderContainer>{aboutData?.latest_updates_title || 'Latest Updates'}</UpdatesHeaderContainer>
 
             {/* Lower container: list of updates */}
             <UpdatesListContainer>
-              {aboutData?.latest_updates_items?.map((item, index) => (
-                <UpdateRow key={index}>
+              {displayUpdates.map((item) => (
+                <UpdateRow key={item._id}>
                   <UpdateLeftIcon>
                     <DoubleArrowIcon />
                   </UpdateLeftIcon>
                   <UpdateRightContent
-                    href={item.link || "#"} 
-                    target={item.link ? "_blank" : "_self"}
-                    rel={item.link ? "noopener noreferrer" : ""}
+                    href={item.url} 
+                    target={item.isExternal ? "_blank" : "_self"}
+                    rel={item.isExternal ? "noopener noreferrer" : ""}
                   >
-                    {item.text || item}
+                    {item.title}
                   </UpdateRightContent>
                 </UpdateRow>
               ))}
