@@ -203,13 +203,17 @@ const StudentDesign = () => {
                     }}>Teams of up to 4 students are eligible. Multidisciplinary and inclusive teams are strongly encouraged to apply. Submit your interest for taking part in the challenge before <span style={{
                         fontWeight: 600,
                         color: "#fff",
-                    }}>15th June 2026.</span></p>
+                    }}>30th June 2026.</span></p>
                     <OpenFormBtn target="_blank" href="https://forms.gle/ZUba2ciVMYxXJqVu5" >
                         Registration Form
                         <img src={redirect} alt="" />
                     </OpenFormBtn>
                 </Section>
             }
+            <Section>
+                <h3>Note:</h3>
+                <p>Problem statements will be allotted on a first-come, first-served basis. In case multiple teams opt for the same problem statement, priority will be given to the team that registers first. Other teams will be required to select an alternative problem statement based on their preferences and availability.</p>
+            </Section>
             <Section>
                 <h3>Important Dates</h3>
                 <TableBx>
