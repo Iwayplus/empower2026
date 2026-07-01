@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { baseUrl, projectId } from "../../services/api";
 import {
   Box,
   Typography,
@@ -19,7 +20,7 @@ import {
   Event as EventIcon,
 } from "@mui/icons-material";
 
-const baseUrl = process.env.NODE_ENV === "development" ? (process.env.REACT_APP_LOCAL_URL || "http://localhost:8000") : (process.env.REACT_APP_REMOTE_URL || "https://maps.iwayplus.in");
+
 
 const Summary = () => {
   console.log("MUI Imports:", {
@@ -131,7 +132,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
       try {
         const apiKey = (process.env.REACT_APP_IWAY_API_KEY || "").replace(/^"(.*)"$/, '$1');
         const res = await fetch(
-          `${baseUrl}/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${apiKey}`
+          `${baseUrl}/secured/event/all-session/${projectId}?api_key=${apiKey}`
         );
         const data = await res.json();
         setSessions(data.data || []);
@@ -149,7 +150,7 @@ const nonExpandableTypes = ["tea", "lunch", "dinner", "registration"];
       try {
         const apiKey = (process.env.REACT_APP_IWAY_API_KEY || "").replace(/^"(.*)"$/, '$1');
         const res = await fetch(
-          `${baseUrl}/secured/event/all-subEvent/${process.env.REACT_APP_PROJECT_ID}?api_key=${apiKey}`
+          `${baseUrl}/secured/event/all-subEvent/${projectId}?api_key=${apiKey}`
         );
         const data = await res.json();
         setSubEvents(data.data || []);

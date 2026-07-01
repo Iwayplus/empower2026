@@ -10,7 +10,7 @@ import { sponsorshipPlans, rowLabels, sponsorshipBenefits } from "./data";
 import emailIcon from "../../assets/mail.svg";       // your email icon
 import websiteIcon from "../../assets/po.jpg";   // your website icon
 import linkedInIcon from "../../assets/link.png"; // your LinkedIn icon
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 const Component = styled('div')({});
 
 const Cont1 = styled('div')(({ theme }) => ({
@@ -152,7 +152,7 @@ const Sponsor = () => {
   useEffect(() => {
     const fetchSponsors = async () => {
       try {
-        const res = await fetch(`${baseUrl}/secured/event/all-sponsors/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+        const res = await fetch(`${baseUrl}/secured/event/all-sponsors/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
         const data = await res.json();
         setSponsors(Array.isArray(data?.sponsors) ? data.sponsors : []);
       } catch (err) { setError(err.message); }
@@ -161,7 +161,7 @@ const Sponsor = () => {
 
     const fetchDynamicSection = async () => {
       try {
-        const res = await fetch(`${baseUrl}/secured/cms/sponsor-content/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+        const res = await fetch(`${baseUrl}/secured/cms/sponsor-content/all/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
         const data = await res.json();
         if (data.status && Array.isArray(data.data) && data.data.length > 0) {
           const published = data.data.find(sec => sec.status === "Published") || data.data[0];

@@ -7,7 +7,7 @@ import { highlightsTypography } from "./assets/typography";
 import rightArrow from "../../assets/rightArrow.svg";
 import { useEffect, useRef, useState } from "react";
 import { keyframes } from "styled-components";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
 const Component = styled("section")(({ theme }) => ({
   margin: "40px 67px 60px 67px",
@@ -338,7 +338,7 @@ const Highlights = () => {
   const fetchAnnouncements = async () => {
     try {
       const res = await fetch(
-        `${baseUrl}/secured/event/all-announcement/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+        `${baseUrl}/secured/event/all-announcement/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
       );
       if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
       const data = await res.json();
@@ -350,7 +350,7 @@ const Highlights = () => {
 
   const fetchAbout = async () => {
     try {
-      const res = await fetch(`${baseUrl}/secured/cms/about/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+      const res = await fetch(`${baseUrl}/secured/cms/about/all/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
       if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
       const json = await res.json();
       if (json.status && Array.isArray(json.data)) {
@@ -373,7 +373,7 @@ const Highlights = () => {
     const fetchSponsors = async () => {
       try {
         const response = await fetch(
-          `${baseUrl}/secured/event/all-sponsors/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-sponsors/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!response.ok) throw new Error("Failed to fetch sponsors");

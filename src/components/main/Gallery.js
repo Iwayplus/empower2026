@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import useDriveImages from "../hooks/useDriveImages";
 import { Typography } from "@mui/material"; // ✅ import MUI Typography
-import { fetchPublicDynamicSections, baseUrl } from "../../services/api";
+import { fetchPublicDynamicSections, baseUrl, projectId } from "../../services/api";
 
 const GalleryGrid = ({ images, onOpenAt }) => (
   <section aria-label="Photo gallery" className="gallery-grid">
@@ -149,7 +149,7 @@ const Gallery = () => {
   useEffect(() => {
     const fetchGalleryData = async () => {
       try {
-        const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+        const sections = await fetchPublicDynamicSections(projectId, 'Published');
         const gallerySection = sections.find(sec => sec.section_type === 'gallery');
         if (gallerySection) {
           setDynamicSection(gallerySection);

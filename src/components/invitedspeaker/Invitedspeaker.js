@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import defaultSpeaker from "../../assets/default.png";
 import { Button, Typography } from "@mui/material";
 
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
-const API_URL = `${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
+const API_URL = `${baseUrl}/secured/event/all-speaker/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
 
 const tagmaps = {
   "panel": "Panelist",

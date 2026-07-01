@@ -1,7 +1,7 @@
 import React , {useEffect,useState} from "react";
 import "./Accommodation.css";
 import hi from "../../assets/accom.jpg"
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
 const Accommodation = () => {
    const [selectedChip, setSelectedChip] = useState("all"); 
@@ -9,7 +9,7 @@ const Accommodation = () => {
 
 
       useEffect(() => {
-    fetch(`${baseUrl}/secured/accommodations/${process.env.REACT_APP_PROJECT_ID}`)
+    fetch(`${baseUrl}/secured/accommodations/${projectId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {

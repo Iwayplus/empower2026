@@ -4,6 +4,10 @@ import axiosInstance from './axiosInstance'
 
 export const baseUrl = process.env.NODE_ENV === "development" ? (process.env.REACT_APP_LOCAL_URL || "http://localhost:8000") : (process.env.REACT_APP_REMOTE_URL || "https://maps.iwayplus.in");
 
+export const projectId = process.env.NODE_ENV === "development"
+  ? process.env.REACT_APP_TEST_PROJECT_ID
+  : process.env.REACT_APP_PROD_PROJECT_ID;
+
 
 
 export const sendOtp = async (post, setSending) => {
@@ -328,7 +332,7 @@ const normalizeDynamicSections = (payload, status) => {
     .sort((a, b) => Number(a?.order || 0) - Number(b?.order || 0));
 };
 
-export const fetchPublicDynamicSections = async (eventId = process.env.REACT_APP_PROJECT_ID, status = 'Published') => {
+export const fetchPublicDynamicSections = async (eventId = projectId, status = 'Published') => {
   const apiKey = process.env.REACT_APP_IWAY_API_KEY;
   const candidates = [
     `${baseUrl}/api/public/events/${eventId}/dynamic-sections?api_key=${apiKey}`,
@@ -351,7 +355,7 @@ export const fetchPublicDynamicSections = async (eventId = process.env.REACT_APP
   return [];
 };
 
-export const getDynamicSections = async (eventId = process.env.REACT_APP_PROJECT_ID, status = 'Published') => {
+export const getDynamicSections = async (eventId = projectId, status = 'Published') => {
   const sections = await fetchPublicDynamicSections(eventId, status);
   return { status: true, data: sections };
 };
@@ -359,7 +363,7 @@ export const getDynamicSections = async (eventId = process.env.REACT_APP_PROJECT
 export const getNearbyServices = async () => {
   try {
     const response = await axios.get(
-      `${baseUrl}/secured/event/all-nearbyservices/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+      `${baseUrl}/secured/event/all-nearbyservices/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
     );
     return response.data;
   } catch (error) {
@@ -371,7 +375,7 @@ export const getNearbyServices = async () => {
 export const getVenueServices = async () => {
   try {
     const response = await axios.get(
-      `${baseUrl}/secured/event/all-services/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+      `${baseUrl}/secured/event/all-services/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
     );
     return response.data;
   } catch (error) {

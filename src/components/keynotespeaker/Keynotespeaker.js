@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Box, Typography, Link, SvgIcon, CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import defaultSpeaker from "../../assets/default.png";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
 function LinkedInIcon(props) {
   return (
@@ -112,7 +112,7 @@ export default function KeynoteSpeaker() {
     const fetchSpeakers = async () => {
 
       try {
-        const res = await fetch(`${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+        const res = await fetch(`${baseUrl}/secured/event/all-speaker/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
 
 
 

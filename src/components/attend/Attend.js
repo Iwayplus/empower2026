@@ -11,7 +11,7 @@ import metro from "../../assets/fill.png";
 import np from "../../assets/drop.png";
 import attendImg from '../../assets/attendCover.svg'
 import { Typography } from "@mui/material";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 import { useState, useEffect } from "react";
 
 const Component = styled('div')({
@@ -286,7 +286,7 @@ const Attend = () => {
     const fetchRegistration = async () => {
       try {
         const res = await fetch(
-          `${baseUrl}/secured/cms/registration/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/cms/registration/all/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
         if (res.ok) {
           const data = await res.json();

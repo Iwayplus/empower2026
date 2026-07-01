@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled, Box } from "@mui/system";
 import { Card, Typography, CircularProgress, Button } from "@mui/material";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
 const Component = styled("section")(({ theme }) => ({
   margin: "40px 67px 0 67px",
@@ -101,7 +101,7 @@ const Exhibitors = () => {
     const fetchExhibitors = async () => {
       try {
         const response = await fetch(
-          `${baseUrl}/secured/event/all-exhibitor/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-exhibitor/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!response.ok) throw new Error("Failed to fetch exhibitors");
