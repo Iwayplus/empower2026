@@ -3,7 +3,7 @@ import { Box, Typography, Button, Skeleton } from "@mui/material";
 import { motion } from "framer-motion";
 import defaultSpeaker from "../../assets/default.png";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
 
 export default function Key() {
@@ -15,7 +15,7 @@ export default function Key() {
     const fetchSpeakers = async () => {
 
       try {
-        const res = await fetch(`${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
+        const res = await fetch(`${baseUrl}/secured/event/all-speaker/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
 
         const result = await res.json();
         const speakersArray = result?.data || [];

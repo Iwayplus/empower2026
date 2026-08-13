@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { baseUrl, projectId } from "../../services/api";
 import {
   Box,
   Typography,
@@ -51,7 +52,7 @@ const getOrdinalDate = (dateStr) => {
   return `${day}${suffix} ${month}`;
 };
 
-const baseUrl = process.env.NODE_ENV === "development" ? (process.env.REACT_APP_LOCAL_URL || "http://localhost:8000") : (process.env.REACT_APP_REMOTE_URL || "https://maps.iwayplus.in");
+
 
 const Max = () => {
   const [sessions, setSessions] = useState([]);
@@ -61,7 +62,7 @@ const Max = () => {
     const fetchSessions = async () => {
       try {
         const res = await fetch(
-          `${baseUrl}/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-session/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
         const data = await res.json();
         if (data.status) {

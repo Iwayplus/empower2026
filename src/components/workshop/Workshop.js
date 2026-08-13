@@ -7,7 +7,7 @@ import {
 import { motion } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
 import redirectGif from "../../assets/pay.gif";
-import { bookWorkshop } from "../../services/api";
+import { bookWorkshop , projectId } from "../../services/api";
 import { useSelector } from "react-redux";
 import { Dialog } from "@mui/material";
 
@@ -373,12 +373,12 @@ const Workshop = () => {
 
 
         const subEventRes = await fetch(
-          `${baseUrl}/secured/event/all-subEvent/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
+          `${baseUrl}/secured/event/all-subEvent/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
         );
         const subEventJson = await subEventRes.json();
 
         const sessionRes = await fetch(
-          `${baseUrl}/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
+          `${baseUrl}/secured/event/all-session/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
         );
         const sessionJson = await sessionRes.json();
 

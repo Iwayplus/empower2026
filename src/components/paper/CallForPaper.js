@@ -4,7 +4,7 @@ import callForPaper from '../../assets/callForPaper.jpeg'
 import { assistiveTechTopics, conferenceTimeline } from "./data"
 import bulletPt from '../../assets/bulletPt.svg'
 import redirect from '../../assets/redirect.svg'
-import { fetchPublicDynamicSections } from "../../services/api"
+import { fetchPublicDynamicSections , projectId } from "../../services/api"
 import DynamicSectionRenderer from "../dynamic/SectionRenderer"
 
 import { motion } from "framer-motion"
@@ -286,7 +286,7 @@ export const CallForPaper = () => {
     useEffect(() => {
         const fetchCFPData = async () => {
             try {
-                const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+                const sections = await fetchPublicDynamicSections(projectId, 'Published');
                 setDynamicSections(sections.filter(sec => sec.section_type === 'paper'));
             } catch (err) {
                 console.error("Error fetching dynamic sections for CFP", err);

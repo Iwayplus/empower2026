@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import defaultSpeaker from "../../assets/default.png";
 import { Typography, Box, styled } from "@mui/material";
-import { baseUrl } from "../../services/api";
-const API_URL = `${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
+import { baseUrl, projectId } from "../../services/api";
+const API_URL = `${baseUrl}/secured/event/all-speaker/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
 
 
 const Component = styled('div')(({ theme }) => ({
