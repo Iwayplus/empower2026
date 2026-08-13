@@ -21,8 +21,8 @@ export const assistiveTechTopics = [
   export const conferenceTimeline = [
     { activity: "Research track call opening", date: "1st June 2026" },
     { activity: "Extended abstract submission deadline", date: "20th Aug 2026" },
-    { activity: "Acceptance notifications will be sent", date: "10th  Sep 2026" },
-    { activity: "Submission of final camera ready extended abstract/complete paper", date: "25th Sep 2026" }
+    { activity: "Acceptance notifications will be sent", date: "10th Sep 2026" },
+    { activity: "Submission of final camera ready extended abstract/Complete paper", date: "25th Sep 2026" }
   ];
   
   export const inclusions = [
