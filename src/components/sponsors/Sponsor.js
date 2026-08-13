@@ -4,6 +4,8 @@ import { styled } from "@mui/material";
 import { Card, Typography, CircularProgress, Box } from "@mui/material";
 import { motion } from "framer-motion";
 
+import redirect from '../../assets/redirect.svg'
+
 import bullet from '../../assets/bullet.svg';
 import checkGreen from '../../assets/checkGreen.svg';
 import { sponsorshipPlans, rowLabels, sponsorshipBenefits } from "./data";
@@ -141,6 +143,18 @@ const SponsorName = styled(Typography)({
   overflow: 'hidden',
   WebkitLineClamp: 3,
   WebkitBoxOrient: 'vertical',
+});
+
+const OpenFormBtn = styled('a')({
+    padding: "10px 16px",
+    display: 'flex',
+    gap: 10,
+    alignItems: 'center',
+    color: "#000",
+    marginTop: 8,
+    background: '#fff',
+    width: "fit-content"
+
 });
 
 const Sponsor = () => {
@@ -391,23 +405,51 @@ const Sponsor = () => {
         </ul>
       </Cont1>
 
-      <Cont1 style={{ background: "#A83D1B", padding: "24px 29px", marginTop: 60 }}>
-        <h3 style={{ color: '#eff1f3' }}>
-          Partner With Us
-        </h3>
-        {/* <p style={{ fontSize: 16, color: '#eff1f3', margin: "5px 0 0 0" }}>
-          Join us in shaping India’s most influential platform for assistive technology innovation.
-          Your partnership accelerates solutions that empower millions.
-        </p> */}
-        <p style={{ fontSize: 16, color: '#eff1f3', margin: "10px 0 0 0" }}>
-          Join us in shaping India’s most influential platform for assistive technology innovation.
-          Your partnership accelerates solutions that empower millions. Please do reach out to us at{" "}
-          <a style={{ color: "#EFF1F3" }} href="mailto:info@empowerconference.in">
+      <Cont1
+    style={{
+        background: "#A83D1B",
+        padding: "24px",
+        marginTop: 60
+    }}
+>
+    <h3
+        style={{
+            fontSize: 20,
+            color: "#eff1f3",
+            margin: 0
+        }}
+    >
+        Partner With Us
+    </h3>
+
+    <p
+        style={{
+            fontSize: 16,
+            color: "#eff1f3",
+            margin: "10px 0 0 0",
+            lineHeight: 1.5
+        }}
+    >
+        Join us in shaping India’s most influential platform for assistive
+        technology innovation. Your partnership accelerates solutions that
+        empower millions. Please do reach out to us at{" "}
+        <a
+            style={{ color: "#EFF1F3" }}
+            href="mailto:info@empowerconference.in"
+        >
             info@empowerconference.in
-          </a>{" "}
-          with the “Sponsorship” keyword at the beginning of the subject line.
-        </p>
-      </Cont1>
+        </a>{" "}
+        with the “Sponsorship” keyword at the beginning of the subject line.
+    </p>
+
+    <OpenFormBtn
+        target="_blank"
+        href="https://forms.gle/kCbGRLb3z7ecTCCQ6"
+    >
+        Sponsorship Interest Form
+        <img src={redirect} alt="" />
+    </OpenFormBtn>
+</Cont1>
     </Component>
   )
 }
