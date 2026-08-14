@@ -248,7 +248,7 @@ const Footer = () => {
                         <Elm>
                             <img src={call} alt="" aria-hidden="true" />
                             <div>
-                                <a href={`tel:${dynamicSection?.content?.contact_phone || "+919717477964"}`}>{dynamicSection?.content?.contact_phone || "+919717477964"}</a>
+                                <a href={`tel:${dynamicSection?.content?.contact_phone || "+918796897338"}`}>{dynamicSection?.content?.contact_phone || "+919717477964"}</a>
                             </div>
                         </Elm>
                         <Elm>
