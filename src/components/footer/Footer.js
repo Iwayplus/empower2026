@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import download from "../../assets/app.png"
 import { FaLinkedin, FaInstagram } from "react-icons/fa";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 const Component = styled('section')({
 
 })
@@ -167,7 +167,7 @@ const Footer = () => {
         const fetchFooter = async () => {
             try {
                 const res = await fetch(
-                    `${baseUrl}/secured/cms/footer/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+                    `${baseUrl}/secured/cms/footer/all/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
                 );
                 if (res.ok) {
                     const data = await res.json();

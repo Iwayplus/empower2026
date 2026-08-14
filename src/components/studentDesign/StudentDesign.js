@@ -6,7 +6,7 @@ import { deadlines, problemset } from "./data"
 import redirect from '../../assets/redirect.svg'
 import { useState, useEffect } from "react"
 import downArrow from '../../assets/downArrow.svg'
-import { fetchPublicDynamicSections } from "../../services/api"
+import { fetchPublicDynamicSections , projectId } from "../../services/api"
 import DynamicSectionRenderer from "../dynamic/SectionRenderer"
 
 const Component = styled("section")({
@@ -139,7 +139,7 @@ const StudentDesign = () => {
     useEffect(() => {
         const fetchSDCData = async () => {
             try {
-                const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+                const sections = await fetchPublicDynamicSections(projectId, 'Published');
                 setDynamicSections(sections.filter(sec => sec.section_type === 'student-design'));
             } catch (err) {
                 console.error("Error fetching dynamic sections for SDC", err);

@@ -8,8 +8,7 @@ import close from '../../assets/close.svg'
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import { useSelector } from "react-redux"
-import { logout } from "../../services/api"
-import { getUserTickets } from "../../services/api"; // adjust path
+import { logout , projectId } from "../../services/api"
 import { Dialog, DialogTitle, DialogContent, CircularProgress } from "@mui/material";
 import QRCode from "react-qr-code"
 import { Menu, MenuItem, Box, Typography, Card, CardContent } from "@mui/material";
@@ -549,7 +548,7 @@ const Header = () => {
       if (!token) return;
 
       const response = await fetch(
-        `https://maps.iwayplus.in/secured/event/all-subEvent/${process.env.REACT_APP_PROJECT_ID}`,
+        `https://maps.iwayplus.in/secured/event/all-subEvent/${projectId}`,
         {
           headers: {
             "x-access-token": token,

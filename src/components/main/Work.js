@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled, Typography,Box } from "@mui/material";
 import { motion } from "framer-motion";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
 const Component = styled("div")({});
 
@@ -157,12 +157,12 @@ useEffect(() => {
     try {
 
       const subEventRes = await fetch(
-        `${baseUrl}/secured/event/all-subEvent/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+        `${baseUrl}/secured/event/all-subEvent/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
       );
       const subEventJson = await subEventRes.json();
 
       const sessionRes = await fetch(
-        `${baseUrl}/secured/event/all-session/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
+        `${baseUrl}/secured/event/all-session/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`,
       );
       const sessionJson = await sessionRes.json();
 

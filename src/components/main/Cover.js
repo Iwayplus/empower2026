@@ -12,7 +12,7 @@ import { coverTypography } from "./assets/typography";
 import playStore from "../../assets/gp.png";
 import appStore from "../../assets/sto.png";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
-import { baseUrl, fetchPublicDynamicSections } from "../../services/api";
+import { baseUrl, fetchPublicDynamicSections, projectId } from "../../services/api";
 
 const Component = styled("section")({
   width: "100%",
@@ -325,7 +325,7 @@ const Cover = () => {
     const fetchHeroData = async () => {
       let hasCMSImages = false;
       try {
-        const sections = await fetchPublicDynamicSections(process.env.REACT_APP_PROJECT_ID, 'Published');
+        const sections = await fetchPublicDynamicSections(projectId, 'Published');
         const heroSection = sections.find(sec => sec.section_type === 'hero' || sec.section_type === 'cover');
         if (heroSection) {
           setDynamicHero(heroSection);
@@ -348,7 +348,7 @@ const Cover = () => {
       if (!hasCMSImages) {
         try {
           const res = await fetch(
-            `${baseUrl}/secured/event/all-carousel/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+            `${baseUrl}/secured/event/all-carousel/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
           );
           const json = await res.json();
           if (json?.status && Array.isArray(json.data)) {

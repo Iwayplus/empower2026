@@ -2,10 +2,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import "./Organizer.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import def from "../../assets/default.png";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
 const Organizer = () => {
-  const [selectedAffiliation, setSelectedAffiliation] = useState("All");
+
   const [groups, setGroups] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,7 +33,7 @@ const Organizer = () => {
   useEffect(() => {
     const fetchCommittee = async () => {
       try {
-        const committeeUrl = `${baseUrl}/secured/event/all-committee/${process.env.REACT_APP_PROJECT_ID}?api_key=${apiKey}`;
+        const committeeUrl = `${baseUrl}/secured/event/all-committee/${projectId}?api_key=${apiKey}`;
         console.log("Fetching organizing committee from:", committeeUrl);
         const res = await fetch(committeeUrl);
         const data = await res.json();
@@ -86,7 +86,7 @@ const Organizer = () => {
                     if (name) {
                       groupMembers.push({
                         name,
-                        designation,
+                        designation: role,
                         image
                       });
                     }
@@ -112,7 +112,7 @@ const Organizer = () => {
         }
 
         if (!hasMembers) {
-          const speakersUrl = `${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${apiKey}`;
+          const speakersUrl = `${baseUrl}/secured/event/all-speaker/${projectId}?api_key=${apiKey}`;
           console.log("No committee members found in committee API. Falling back to speakers from:", speakersUrl);
           const speakerRes = await fetch(speakersUrl);
           const speakerData = await speakerRes.json();
@@ -165,7 +165,7 @@ const Organizer = () => {
     fetchCommittee();
   }, [apiKey]);
 
-  // Flatten members to compute unique designations
+  // Flatten all members from all groups into a single list (role is used as designation)
   const allMembers = useMemo(() => {
     const list = [];
     groups.forEach(g => {
@@ -176,23 +176,7 @@ const Organizer = () => {
     return list;
   }, [groups]);
 
-  const uniqueDesignations = useMemo(() => {
-    const desigs = allMembers.map(m => typeof m.designation === 'string' ? m.designation.trim() : "").filter(Boolean);
-    return ["All", ...Array.from(new Set(desigs))];
-  }, [allMembers]);
 
-  // Filter members inside each group based on designation
-  const filteredGroups = useMemo(() => {
-    return groups.map(group => {
-      const filteredMembers = selectedAffiliation === "All"
-        ? group.members
-        : group.members.filter(m => typeof m.designation === 'string' && m.designation.trim().toLowerCase() === selectedAffiliation.trim().toLowerCase());
-      return {
-        ...group,
-        members: filteredMembers
-      };
-    }).filter(group => group.members.length > 0);
-  }, [groups, selectedAffiliation]);
 
   return (
     <div className="program-container">
@@ -216,38 +200,18 @@ const Organizer = () => {
         </div>
       </div>
 
-      {/* Designation Filter Chips */}
-      {uniqueDesignations.length > 1 && (
-        <div className="program-chips">
-          {uniqueDesignations.map((desig) => (
-            <button
-              key={desig}
-              className={`chip ${selectedAffiliation === desig ? "active-chip" : ""}`}
-              onClick={() => setSelectedAffiliation(desig)}
-            >
-              {desig}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Grouped by Role sections */}
-      {filteredGroups.map((group, groupIdx) => (
-        <div key={groupIdx} className="role-section">
-          <h3 className="role-heading">{group.role}</h3>
-          <div className="program-card-container">
-            {group.members.map((person, index) => (
-              <div className="person-card" key={index}>
-                <img src={person.image} alt={person.name} className="person-img" />
-                <p className="person-name">{person.name}</p>
-                <p className="person-affiliation">{person.designation}</p>
-              </div>
-            ))}
+      {/* All members flat — role shown as designation */}
+      <div className="program-card-container">
+        {allMembers.map((person, index) => (
+          <div className="person-card" key={index}>
+            <img src={person.image} alt={person.name} className="person-img" />
+            <p className="person-name">{person.name}</p>
+            <p className="person-affiliation">{person.designation}</p>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
-      {filteredGroups.length === 0 && (
+      {allMembers.length === 0 && (
         <div className="no-members-message" style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
           No committee members found.
         </div>

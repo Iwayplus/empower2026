@@ -12,7 +12,7 @@ import checkGreen from '../../assets/checkGreen.svg'
 import emailIcon from "../../assets/mail.svg";
 import websiteIcon from "../../assets/po.jpg";
 import linkedInIcon from "../../assets/link.png";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 const Component = styled('section')({})
 
 const Cont1 = styled('div')(({ theme }) => ({
@@ -403,7 +403,7 @@ const Exhibit = () => {
     const fetchExhibitors = async () => {
       try {
         const res = await fetch(
-          `${baseUrl}/secured/event/all-exhibitor/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/event/all-exhibitor/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!res.ok) throw new Error("Failed to fetch exhibitors");
@@ -423,7 +423,7 @@ const Exhibit = () => {
 
         // Fetch Exhibit Dynamic Section Layout
         const dynRes = await fetch(
-          `${baseUrl}/secured/cms/exhibit/all/${process.env.REACT_APP_PROJECT_ID}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/secured/cms/exhibit/all/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
         if (dynRes.ok) {
           const dynData = await dynRes.json();

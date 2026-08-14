@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./Program.css";
 import { useNavigate } from "react-router-dom";
 import def from "../../assets/default.png";
-import { baseUrl } from "../../services/api";
+import { baseUrl, projectId } from "../../services/api";
 
 const Program = () => {
-  const [selectedAffiliation, setSelectedAffiliation] = useState("All");
+
   const [activePage, setActivePage] = useState("Program");
   const [groups, setGroups] = useState([]);
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Program = () => {
   useEffect(() => {
     const fetchCommittee = async () => {
       try {
-        const committeeUrl = `${baseUrl}/secured/event/all-committee/${process.env.REACT_APP_PROJECT_ID}?api_key=${apiKey}`;
+        const committeeUrl = `${baseUrl}/secured/event/all-committee/${projectId}?api_key=${apiKey}`;
         console.log("Fetching program committee from:", committeeUrl);
         const res = await fetch(committeeUrl);
         const data = await res.json();
@@ -53,7 +53,7 @@ const Program = () => {
                 if (Array.isArray(group.members)) {
                   group.members.forEach((member) => {
                     let name = "";
-                    let affiliation = "";
+                    let organization = "";
                     let image = def;
 
                     if (member.photo_url) {
@@ -70,22 +70,22 @@ const Program = () => {
                       if (!name && member.label) {
                         name = member.label.split(',')[0].trim();
                       }
-                      affiliation = user.affiliation || user.designation || "";
+                      organization = user.organization || user.designation || "";
                     } else if (member.label) {
                       name = member.label.split(',')[0].trim();
                       const parts = member.label.split(',');
                       if (parts.length > 1) {
-                        affiliation = parts.slice(1).join(',').trim();
+                        organization = parts.slice(1).join(',').trim();
                       }
                     } else if (member.full_name) {
                       name = `${member.title ? member.title + " " : ""}${member.full_name}`.trim();
-                      affiliation = member.affiliation || member.role || "";
+                      organization = member.organization || member.role || "";
                     }
 
                     if (name) {
                       groupMembers.push({
                         name,
-                        affiliation,
+                        designation: group.role ? group.role : organization,
                         image
                       });
                     }
@@ -111,7 +111,7 @@ const Program = () => {
         }
 
         if (!hasMembers) {
-          const speakersUrl = `${baseUrl}/secured/event/all-speaker/${process.env.REACT_APP_PROJECT_ID}?api_key=${apiKey}`;
+          const speakersUrl = `${baseUrl}/secured/event/all-speaker/${projectId}?api_key=${apiKey}`;
           console.log("No committee members found in committee API. Falling back to speakers from:", speakersUrl);
           const speakerRes = await fetch(speakersUrl);
           const speakerData = await speakerRes.json();
@@ -134,7 +134,7 @@ const Program = () => {
 
               speakerGroups[role].push({
                 name: `${s.title ? s.title + " " : ""}${s.full_name}`,
-                affiliation: s.organization || "",
+                designation: s.organization || "",
                 image: image
               });
             });
@@ -163,7 +163,7 @@ const Program = () => {
     fetchCommittee();
   }, [apiKey]);
 
-  // Flatten members to compute unique affiliations
+  // Flatten all members into a single list
   const allMembers = useMemo(() => {
     const list = [];
     groups.forEach(g => {
@@ -173,24 +173,6 @@ const Program = () => {
     });
     return list;
   }, [groups]);
-
-  const uniqueAffiliations = useMemo(() => {
-    const affs = allMembers.map(m => typeof m.affiliation === 'string' ? m.affiliation.trim() : "").filter(Boolean);
-    return ["All", ...Array.from(new Set(affs))];
-  }, [allMembers]);
-
-  // Filter members inside each group
-  const filteredGroups = useMemo(() => {
-    return groups.map(group => {
-      const filteredMembers = selectedAffiliation === "All"
-        ? group.members
-        : group.members.filter(m => typeof m.affiliation === 'string' && m.affiliation.trim().toLowerCase() === selectedAffiliation.trim().toLowerCase());
-      return {
-        ...group,
-        members: filteredMembers
-      };
-    }).filter(group => group.members.length > 0);
-  }, [groups, selectedAffiliation]);
 
   return (
     <div className="program-container">
@@ -218,38 +200,18 @@ const Program = () => {
         </div>
       </div>
 
-      {/* Affiliation Filter Chips */}
-      {uniqueAffiliations.length > 1 && (
-        <div className="program-chips">
-          {uniqueAffiliations.map((aff) => (
-            <button
-              key={aff}
-              className={`chip ${selectedAffiliation === aff ? "active-chip" : ""}`}
-              onClick={() => setSelectedAffiliation(aff)}
-            >
-              {aff}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Grouped by Role sections */}
-      {filteredGroups.map((group, groupIdx) => (
-        <div key={groupIdx} className="role-section">
-          <h3 className="role-heading">{group.role}</h3>
-          <div className="program-card-container">
-            {group.members.map((person, index) => (
-              <div className="person-card" key={index}>
-                <img src={person.image} alt={person.name} className="person-img" />
-                <p className="person-name">{person.name}</p>
-                <p className="person-affiliation">{person.affiliation}</p>
-              </div>
-            ))}
+      {/* All members flat */}
+      <div className="program-card-container">
+        {allMembers.map((person, index) => (
+          <div className="person-card" key={index}>
+            <img src={person.image} alt={person.name} className="person-img" />
+            <p className="person-name">{person.name}</p>
+            <p className="person-affiliation">{person.designation}</p>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
-      {filteredGroups.length === 0 && (
+      {allMembers.length === 0 && (
         <div className="no-members-message" style={{ textAlign: "center", padding: "40px", color: "#6b7280" }}>
           No committee members found.
         </div>
