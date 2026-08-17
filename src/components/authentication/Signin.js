@@ -672,7 +672,7 @@ const Signin = () => {
     const isPhone = /^\d{10}$/.test(input);
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
 
-    if (isPhone || isEmail) {
+    if (isEmail) {
       setError('');
       setInputType(isPhone ? 'phone' : 'email');
 
@@ -695,11 +695,11 @@ const Signin = () => {
       }
 
     } else {
-      if (/^\d+$/.test(input)) {
-        setError('Please enter a valid 10-digit mobile number');
-      } else {
+      // if (/^\d+$/.test(input)) {
+      //   setError('Please enter a valid 10-digit mobile number');
+      // } else {
         setError('Invalid email format (eg: user@example.com).');
-      }
+      // }
     }
   };
 
@@ -1026,7 +1026,7 @@ const Signin = () => {
                 alignSelf: 'stretch',
               }}
             >
-              Mobile number or email
+              Please provide an email address
             </p>
 
             {/* <div
@@ -1065,7 +1065,7 @@ const Signin = () => {
                 borderRadius: '4px',
               }}
             >
-              {input && /^\d+$/.test(input) && (
+              {/* {input && /^\d+$/.test(input) && (
                 <div
                   style={{
                     padding: '0 8px',
@@ -1085,33 +1085,8 @@ const Signin = () => {
                   }}
                 >
                   <span>+91</span>
-                  {/* <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-    >
-      <mask
-        id="mask0_1155_2814"
-        style={{ maskType: 'alpha' }}
-        maskUnits="userSpaceOnUse"
-        x="0"
-        y="0"
-        width="24"
-        height="24"
-      >
-        <rect width="24" height="24" fill="#D9D9D9" />
-      </mask>
-      <g mask="url(#mask0_1155_2814)">
-        <path
-          d="M12 15.4L6 9.4L7.4 8L12 12.6L16.6 8L18 9.4L12 15.4Z"
-          fill="#1C1C1C"
-        />
-      </g>
-    </svg> */}
                 </div>
-              )}
+              )} */}
 
               <input
                 type="text"
@@ -1126,7 +1101,7 @@ const Signin = () => {
                     await onClick(); // Trigger submit on Enter
                   }
                 }}
-                placeholder="Enter Your Mobile Number or Email"
+                placeholder="Enter Your Email"
                 className="responsive-placeholder"
                 style={{
                   flex: 1,

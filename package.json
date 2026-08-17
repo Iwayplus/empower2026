@@ -2,6 +2,7 @@
   "name": "empower2026",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://empowerconference.in",
   "dependencies": {
     "@accessible/checkbox": "^4.0.2",
     "@emotion/react": "^11.14.0",
