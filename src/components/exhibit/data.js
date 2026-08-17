@@ -18,8 +18,8 @@ export const exhibitPlans = [
         conferenceBooklet: true,
         welcomeKit: true,
         advertisements: true,
-        earlyBirdRegistrationPrice: 14000,
-        standardRegistrationPrice: 17000,
+        earlyBirdRegistrationPrice: 15500,
+        standardRegistrationPrice: 18000,
         logo: platinumLogo
     },
     {
@@ -31,15 +31,15 @@ export const exhibitPlans = [
         conferenceBooklet: true,
         welcomeKit: true,
         advertisements: false,
-        earlyBirdRegistrationPrice: 10500,
-        standardRegistrationPrice: 12500,
+        earlyBirdRegistrationPrice: 11500,
+        standardRegistrationPrice: 14000,
         logo: goldLogo
     },
     {
         stallType: "Silver Booth",
         stallSize:  "2 x 2 m",   //"6 x 3 ft",
-        earlyBirdRegistrationPrice: 7000,
-        standardRegistrationPrice: 8500,
+        earlyBirdRegistrationPrice: 7800,
+        standardRegistrationPrice: 9500,
         complimentaryRegistration: 1,
         tablesChairsCount: true,
         powerConnection: true,

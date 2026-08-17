@@ -2,20 +2,20 @@
 export const registrationCharges = [
     {
         delegateType: "Delegate",
-        earlyBird: 4750,
-        standard: 6000,
-        earlyOneDay: 1750,
-        standardOneDay: 2400,
+        earlyBird: 5250,
+        standard: 6600,
+        earlyOneDay: 2000,
+        standardOneDay: 2640,
         registrationTypes: [
             "Delegate"
         ]
     },
     {
         delegateType: "Discounted (for Students and Persons with Disability)",
-        earlyBird: 2400,
-        standard: 3000,
-        earlyOneDay: 1200,
-        standardOneDay: 1500,
+        earlyBird: 2650,
+        standard: 3300,
+        earlyOneDay: 1300,
+        standardOneDay: 1650,
         registrationTypes : [ 
             "Student", 
             "Person with Disability"
@@ -23,10 +23,10 @@ export const registrationCharges = [
     },
     {
         delegateType: "Accompanying Person #",
-        earlyBird: 1200,
-        standard: 1200,
-        earlyOneDay: 600,
-        standardOneDay: 600,
+        earlyBird: 1300,
+        standard: 1300,
+        earlyOneDay: 660,
+        standardOneDay: 660,
         registrationTypes: [
             "Accompanying Person"
         ]
