@@ -598,16 +598,20 @@ const ExhibitorSignin = () => {
   };
 
   const handleSubmit = async () => {
-    const isPhone = /^\d{10}$/.test(input);
+    // const isPhone = /^\d{10}$/.test(input);
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
 
-    if (isPhone || isEmail) {
+    if (isEmail) {
       setError('');
-      setInputType(isPhone ? 'phone' : 'email');
+      setInputType(
+        // isPhone ? 'phone' : 
+        'email');
 
       try {
         const response = await sendOtp({
-          username: isPhone ? '+91' + input : input,
+          username: 
+          // isPhone ? '+91' + input : 
+          input,
           appName: process.env.REACT_APP_APP_NAME,
           digits: process.env.REACT_APP_OTP_DIGITS,
         });
@@ -621,13 +625,9 @@ const ExhibitorSignin = () => {
         setError('Something went wrong while sending OTP.');
       }
 
-    } else {
-      if (/^\d+$/.test(input)) {
-        setError('Please enter a valid 10-digit mobile number');
-      } else {
+    } else{
         setError('Invalid email format (eg: user@example.com).');
       }
-    }
   };
 
   const handleSigninWithGoogle = () => {
@@ -952,7 +952,7 @@ const ExhibitorSignin = () => {
                 alignSelf: 'stretch',
               }}
             >
-              Mobile number or email
+              Please provide an Email
             </p>
 
             {/* <div
@@ -991,7 +991,7 @@ const ExhibitorSignin = () => {
                 borderRadius: '4px',
               }}
             >
-              {input && /^\d+$/.test(input) && (
+              {/* {input && /^\d+$/.test(input) && (
                 <div
                   style={{
                     padding: '0 8px',
@@ -1037,7 +1037,7 @@ const ExhibitorSignin = () => {
                     </g>
                   </svg>
                 </div>
-              )}
+              )} */}
 
               <input
                 type="text"
@@ -1051,7 +1051,7 @@ const ExhibitorSignin = () => {
                     await onClick(); // Trigger submit on Enter
                   }
                 }}
-                placeholder='Enter Your Mobile Number or Email'
+                placeholder='Enter Email'
                 className="responsive-placeholder"
                 style={{
                   flex: 1,

@@ -140,14 +140,14 @@ const baseRoutes = createBrowserRouter([
         path: "/auth/payment-failed",
         element: withSuspense(FailedPayment)
       },
-      // {
-      //   path: "/auth/exhibitor/register",
-      //   element: withSuspense(ExhibitorRegister)
-      // },
-      // {
-      //   path: "/auth/exhibitor/signin",
-      //   element: withSuspense(ExhibitorSignin)
-      // },
+      {
+        path: "/auth/exhibitor/register",
+        element: withSuspense(ExhibitorRegister)
+      },
+      {
+        path: "/auth/exhibitor/signin",
+        element: withSuspense(ExhibitorSignin)
+      },
       {
         path: "/auth/organization-registrations",
         element: withSuspense(OrganizationRegistration)
