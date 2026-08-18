@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import download from "../../assets/app.png"
 import { FaLinkedin, FaInstagram } from "react-icons/fa";
-import { baseUrl, projectId } from "../../services/api";
+import { baseUrl, getFooterData } from "../../services/api";
 const Component = styled('section')({
 
 })
@@ -165,19 +165,9 @@ const Footer = () => {
 
     useEffect(() => {
         const fetchFooter = async () => {
-            try {
-                const res = await fetch(
-                    `${baseUrl}/secured/cms/footer/all/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
-                );
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.status && Array.isArray(data.data) && data.data.length > 0) {
-                        const published = data.data.find(sec => sec.status === "Published") || data.data[0];
-                        setDynamicSection(published);
-                    }
-                }
-            } catch (error) {
-                console.error("Error fetching dynamic footer:", error);
+            const data = await getFooterData();
+            if (data) {
+                setDynamicSection(data);
             }
         };
         fetchFooter();
