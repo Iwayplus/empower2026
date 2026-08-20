@@ -446,8 +446,6 @@ const Header = () => {
   }
 
   const handleRegisterExhibitor = () => {
-    alert("Exhibitor registration is closed")
-    return
     localStorage.clear()
     navigate("/auth/exhibitor/signin")
   }
