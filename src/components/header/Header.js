@@ -721,203 +721,203 @@ const Header = () => {
           </HambBtn>
           <RightNav>
             {
-//               userData?.paymentStatus ?
-//                 <div style={{
-//                   display: 'flex',
-//                   gap: 15
-//                 }}>
-//                   {/* <ProfileBx>
-//                     <img alt="" src={userData?.photoUrl} />
-//                   </ProfileBx> */}
-//                   {/* <Button style={{
-//                     background: "#CD191F",
-//                     color: "#fff",
-//                     fontWeight: 700
-//                   }} title="Logout" onClick={() => handleLogout()}>Logout</Button> */}
-//                   <Button
-//                     variant="contained"
-//                     color="primary"
-//                     onClick={handleClick}
-//                     sx={{ textTransform: "none" }}
-//                   >
-//                     My Profile
-//                   </Button>
+              userData?.paymentStatus ?
+                <div style={{
+                  display: 'flex',
+                  gap: 15
+                }}>
+                  {/* <ProfileBx>
+                    <img alt="" src={userData?.photoUrl} />
+                  </ProfileBx> */}
+                  {/* <Button style={{
+                    background: "#CD191F",
+                    color: "#fff",
+                    fontWeight: 700
+                  }} title="Logout" onClick={() => handleLogout()}>Logout</Button> */}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClick}
+                    sx={{ textTransform: "none" }}
+                  >
+                    My Profile
+                  </Button>
 
-//                   {/* Dropdown menu with animation + offset */}
-//                   <Menu
-//                     anchorEl={anchorEl}
-//                     open={open}
-//                     onClose={handleCloseMenu}
-//                     TransitionComponent={Grow}   // 🔹 adds smooth grow animation
-//                     anchorOrigin={{
-//                       vertical: "bottom",
-//                       horizontal: "right",
-//                     }}
-//                     transformOrigin={{
-//                       vertical: "top",
-//                       horizontal: "right",
-//                     }}
-//                     slotProps={{
-//                       paper: {
-//                         sx: {
-//                           mt: 1.5,              // 🔹 adds gap below button
-//                           borderRadius: "12px", // rounded corners
-//                           boxShadow: "0 4px 12px rgba(0,0,0,0.15)", // soft shadow
-//                           minWidth: 180,
-//                           animation: "fadeSlide 0.25s ease-in-out", // custom keyframe
-//                         },
-//                       },
-//                     }}
-//                   >
-//                     <MenuItem onClick={handleViewReceipt}>View Receipt</MenuItem>
-//                     <MenuItem onClick={handleMyBookings}>My Bookings</MenuItem>
-//                   </Menu>
+                  {/* Dropdown menu with animation + offset */}
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleCloseMenu}
+                    TransitionComponent={Grow}   // 🔹 adds smooth grow animation
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "right",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    slotProps={{
+                      paper: {
+                        sx: {
+                          mt: 1.5,              // 🔹 adds gap below button
+                          borderRadius: "12px", // rounded corners
+                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)", // soft shadow
+                          minWidth: 180,
+                          animation: "fadeSlide 0.25s ease-in-out", // custom keyframe
+                        },
+                      },
+                    }}
+                  >
+                    <MenuItem onClick={handleViewReceipt}>View Receipt</MenuItem>
+                    <MenuItem onClick={handleMyBookings}>My Bookings</MenuItem>
+                  </Menu>
 
-//                   {/* Custom animation */}
-//                   <style>
-//                     {`
-//   @keyframes fadeSlide {
-//     from {
-//       opacity: 0;
-//       transform: translateY(-8px);
-//     }
-//     to {
-//       opacity: 1;
-//       transform: translateY(0);
-//     }
-//   }
-// `}
-//                   </style>
+                  {/* Custom animation */}
+                  <style>
+                    {`
+  @keyframes fadeSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`}
+                  </style>
 
-//                   {/* Dialog for My Bookings */}
-//                   <Dialog open={openBookings} onClose={() => setOpenBookings(false)} fullWidth maxWidth="sm">
-//                     <DialogTitle sx={{ fontWeight: "600", textAlign: "center", color: "#041a32" }}>
-//                       My Bookings
-//                     </DialogTitle>
+                  {/* Dialog for My Bookings */}
+                  <Dialog open={openBookings} onClose={() => setOpenBookings(false)} fullWidth maxWidth="sm">
+                    <DialogTitle sx={{ fontWeight: "600", textAlign: "center", color: "#041a32" }}>
+                      My Bookings
+                    </DialogTitle>
 
-//                     <DialogContent dividers>
-//                       {loading ? (
-//                         <Box display="flex" justifyContent="center" alignItems="center" py={4}>
-//                           <CircularProgress />
-//                         </Box>
-//                       ) : tickets.length === 0 ? (
-//                         <Typography align="center" color="text.secondary" sx={{ py: 2 }}>
-//                           No bookings found.
-//                         </Typography>
-//                       ) : (
-//                         <Box display="flex" flexDirection="column" gap={2}>
-//                           {tickets.map((ticket) => (
-//                             <Card
-//                               key={ticket._id}
-//                               variant="outlined"
-//                               sx={{
-//                                 borderRadius: 2,
-//                                 boxShadow: 3,
-//                                 transition: "0.3s",
-//                                 "&:hover": { boxShadow: 6, transform: "scale(1.02)" },
-//                               }}
-//                             >
-//                               <CardContent>
-//                                 {/* Event Title */}
-//                                 <Typography
-//                                   variant="h6"
-//                                   sx={{ fontWeight: 600, color: "#041a32", mb: 1 }}
-//                                 >
-//                                   {subEvents[ticket.eventId] || `Event ID: ${ticket.eventId}`}
-//                                 </Typography>
+                    <DialogContent dividers>
+                      {loading ? (
+                        <Box display="flex" justifyContent="center" alignItems="center" py={4}>
+                          <CircularProgress />
+                        </Box>
+                      ) : tickets.length === 0 ? (
+                        <Typography align="center" color="text.secondary" sx={{ py: 2 }}>
+                          No bookings found.
+                        </Typography>
+                      ) : (
+                        <Box display="flex" flexDirection="column" gap={2}>
+                          {tickets.map((ticket) => (
+                            <Card
+                              key={ticket._id}
+                              variant="outlined"
+                              sx={{
+                                borderRadius: 2,
+                                boxShadow: 3,
+                                transition: "0.3s",
+                                "&:hover": { boxShadow: 6, transform: "scale(1.02)" },
+                              }}
+                            >
+                              <CardContent>
+                                {/* Event Title */}
+                                <Typography
+                                  variant="h6"
+                                  sx={{ fontWeight: 600, color: "#041a32", mb: 1 }}
+                                >
+                                  {subEvents[ticket.eventId] || `Event ID: ${ticket.eventId}`}
+                                </Typography>
 
-//                                 {/* Status */}
-//                                 <Typography
-//                                   variant="body2"
-//                                   sx={{
-//                                     fontWeight: 600,
-//                                     color: ticket.status === "Booked" ? "green" : "text.secondary",
-//                                     mb: 0.5,
-//                                   }}
-//                                 >
-//                                   Status: {ticket.status}
-//                                 </Typography>
+                                {/* Status */}
+                                <Typography
+                                  variant="body2"
+                                  sx={{
+                                    fontWeight: 600,
+                                    color: ticket.status === "Booked" ? "green" : "text.secondary",
+                                    mb: 0.5,
+                                  }}
+                                >
+                                  Status: {ticket.status}
+                                </Typography>
 
-//                                 {/* Booked On */}
-//                                 <Box display="flex" alignItems="center" gap={1}>
-//                                   <CalendarTodayIcon fontSize="small" color="action" />
-//                                   <Typography variant="body2" color="text.secondary">
-//                                     Booked On:{" "}
-//                                     <strong>{new Date(ticket.createdAt).toLocaleDateString()}</strong>
-//                                   </Typography>
-//                                 </Box>
-//                               </CardContent>
-//                             </Card>
-//                           ))}
-//                         </Box>
+                                {/* Booked On */}
+                                <Box display="flex" alignItems="center" gap={1}>
+                                  <CalendarTodayIcon fontSize="small" color="action" />
+                                  <Typography variant="body2" color="text.secondary">
+                                    Booked On:{" "}
+                                    <strong>{new Date(ticket.createdAt).toLocaleDateString()}</strong>
+                                  </Typography>
+                                </Box>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </Box>
 
-//                       )}
-//                     </DialogContent>
-//                   </Dialog>
+                      )}
+                    </DialogContent>
+                  </Dialog>
 
-//                   <Button style={{
-//                     background: "#CD191F",
-//                     color: "#fff",
-//                     fontWeight: 700
-//                   }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
-//                 </div> :
-//                 (userData && !userData?.paymentStatus) ?
-//                   <Buttons>
-//                     <ButtonRegister title="complete your registration" onClick={() => handleCompleteRegisteration()}>Complete your Registration</ButtonRegister>
-//                     <Button style={{
-//                       background: "#CD191F",
-//                       color: "#fff",
-//                       fontWeight: 700
-//                     }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
-//                   </Buttons>
-//                   :
-//                   exhibitorData?.paymentStatus ?
-//                     <div style={{
-//                       display: 'flex',
-//                       gap: 15
-//                     }}>
-//                       <ProfileBx>
-//                         <img alt="" src={userData?.photoUrl} />
-//                       </ProfileBx>
-//                       <Button style={{
-//                         background: "#CD191F",
-//                         color: "#fff",
-//                         fontWeight: 700
-//                       }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
-//                       <ButtonRegister title="View Receipt" onClick={() => handleViewReceipt()}> Receipt</ButtonRegister>
-//                     </div>
-//                     :
-//                     (exhibitorData && !exhibitorData?.paymentStatus) ?
-//                       <Buttons>
-//                         <ButtonRegister title="complete your registration" onClick={() => handleCompleteRegisteration()}>Complete your Registration</ButtonRegister>
-//                         <Button style={{
-//                           background: "#CD191F",
-//                           color: "#fff",
-//                           fontWeight: 700
-//                         }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
-//                       </Buttons>
-//                       :
-//                       <Buttons>
-//                         {window.location.href.includes("/exhibit") ? (
-//                           <ButtonRegister
-//                             title="register as exhibitor"
-//                             onClick={() => handleRegisterExhibitor()}
-//                           >
-//                             Register as Exhibitor
-//                           </ButtonRegister>
-//                         ) : window.location.href.includes("/workshops") ? (
-//                           <ButtonRegister
-//                             title="register for workshop"
-//                             onClick={() => handleRegisterWorkshop()}
-//                           >
-//                             Register for Workshop
-//                           </ButtonRegister>
-//                         ) : (
-//                           <ButtonRegister title="register" onClick={() => handleRegister()}>
-//                             Register Now
-//                           </ButtonRegister>
-//                         )}
-//                       </Buttons>
+                  <Button style={{
+                    background: "#CD191F",
+                    color: "#fff",
+                    fontWeight: 700
+                  }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
+                </div> :
+                (userData && !userData?.paymentStatus) ?
+                  <Buttons>
+                    <ButtonRegister title="complete your registration" onClick={() => handleCompleteRegisteration()}>Complete your Registration</ButtonRegister>
+                    <Button style={{
+                      background: "#CD191F",
+                      color: "#fff",
+                      fontWeight: 700
+                    }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
+                  </Buttons>
+                  :
+                  exhibitorData?.paymentStatus ?
+                    <div style={{
+                      display: 'flex',
+                      gap: 15
+                    }}>
+                      <ProfileBx>
+                        <img alt="" src={userData?.photoUrl} />
+                      </ProfileBx>
+                      <Button style={{
+                        background: "#CD191F",
+                        color: "#fff",
+                        fontWeight: 700
+                      }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
+                      <ButtonRegister title="View Receipt" onClick={() => handleViewReceipt()}> Receipt</ButtonRegister>
+                    </div>
+                    :
+                    (exhibitorData && !exhibitorData?.paymentStatus) ?
+                      <Buttons>
+                        <ButtonRegister title="complete your registration" onClick={() => handleCompleteRegisteration()}>Complete your Registration</ButtonRegister>
+                        <Button style={{
+                          background: "#CD191F",
+                          color: "#fff",
+                          fontWeight: 700
+                        }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
+                      </Buttons>
+                      :
+                      <Buttons>
+                        {window.location.href.includes("/exhibit") ? (
+                          <ButtonRegister
+                            title="register as exhibitor"
+                            onClick={() => handleRegisterExhibitor()}
+                          >
+                            Register as Exhibitor
+                          </ButtonRegister>
+                        ) : window.location.href.includes("/workshops") ? (
+                          <ButtonRegister
+                            title="register for workshop"
+                            onClick={() => handleRegisterWorkshop()}
+                          >
+                            Register for Workshop
+                          </ButtonRegister>
+                        ) : (
+                          <ButtonRegister title="register" onClick={() => handleRegister()}>
+                            Register Now
+                          </ButtonRegister>
+                        )}
+                      </Buttons>
 
             }
           </RightNav>
