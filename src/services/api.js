@@ -383,3 +383,34 @@ export const getVenueServices = async () => {
     return { status: false, data: [] };
   }
 };
+
+let footerCache = null;
+let footerPromise = null;
+
+export const getFooterData = async () => {
+  if (footerCache) return footerCache;
+  if (footerPromise) return footerPromise;
+
+  footerPromise = (async () => {
+    try {
+      const res = await fetch(
+        `${baseUrl}/secured/cms/footer/all/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        if (data.status && Array.isArray(data.data) && data.data.length > 0) {
+          const published = data.data.find((sec) => sec.status === "Published") || data.data[0];
+          footerCache = published;
+          return published;
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching dynamic footer:", error);
+    } finally {
+      footerPromise = null;
+    }
+    return null;
+  })();
+
+  return footerPromise;
+};
