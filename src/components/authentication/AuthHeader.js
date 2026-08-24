@@ -120,7 +120,7 @@ const AuthHeader = () => {
           />
         </Link>
 
-        {/* {
+        {
           !window.location.href.includes("/auth/organization-registrations") &&
            !(userData || exhibitorData) &&
           <>
@@ -139,7 +139,7 @@ const AuthHeader = () => {
                 Register as Exhibitor
               </ButtonRegister>}
           </>
-        } */}
+        }
 
         {(userData || exhibitorData) && (
           <Button

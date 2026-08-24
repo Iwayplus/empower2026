@@ -742,14 +742,14 @@ const Header = () => {
                   display: 'flex',
                   gap: 15
                 }}>
-                  {/* <ProfileBx>
+                  <ProfileBx>
                     <img alt="" src={userData?.photoUrl} />
-                  </ProfileBx> */}
-                  {/* <Button style={{
+                  </ProfileBx> 
+                 <Button style={{
                     background: "#CD191F",
                     color: "#fff",
                     fontWeight: 700
-                  }} title="Logout" onClick={() => handleLogout()}>Logout</Button> */}
+                  }} title="Logout" onClick={() => handleLogout()}>Logout</Button>
                   <Button
                     variant="contained"
                     color="primary"
@@ -958,7 +958,7 @@ const Header = () => {
             </button>
           </TopBar>
           <BottomNav>
-            {/* {!userData && !exhibitorData &&
+            {!userData && !exhibitorData &&
               <>
                 {window.location.href.includes("/exhibit") ? (
                   <ButtonRegister
@@ -983,7 +983,7 @@ const Header = () => {
                   </ButtonRegister>
                 )}
               </>
-            } */}
+            }
 
             {(userData || exhibitorData) && <Button style={{
               background: "#CD191F",
