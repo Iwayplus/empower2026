@@ -29,9 +29,10 @@ const Container = styled("div")(({ theme }) => ({
 
 const LogoBx = styled('div')(({ theme }) => ({
     maxWidth: 462,
-    '&>img': {
-        height: 35,
-        width: 150
+    '& > img': {
+        width: 150,
+        height: 'auto', 
+        objectFit: 'contain'
     },
     [theme.breakpoints.down("md")]: {
         display: 'flex',
