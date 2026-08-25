@@ -39,9 +39,9 @@ export const registrationCategories = [
 ]
 
 export const daysAvailable = [
+  "Oct 2",
   "Oct 3",
-  "Oct 4",
-  "Oct 5"
+  "Oct 4"
 ]
 
 export const genders = [

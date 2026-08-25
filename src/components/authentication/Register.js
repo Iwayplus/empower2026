@@ -1115,12 +1115,12 @@ const PriceBx = ({
     coupon
 }) => {
 
-    let category = user.registrationCategory === "Full Conference" ? "standard" : "standardOneDay"
+    let category = user.registrationCategory === "Full Conference" ? "earlyBird" : "earlyOneDay"
 
     let registrationFee = registrationCharges?.filter(elm => elm?.registrationTypes?.includes(user?.registrationType))[0]?.[category]
     let accompanyPersonFee = registrationCharges?.filter(elm => elm?.registrationTypes?.includes("Accompanying Person"))[0]?.[category]
 
-    if (category === "standardOneDay") {
+    if (category === "earlyOneDay") {
         registrationFee = registrationFee * user.daySelects.length
         accompanyPersonFee = accompanyPersonFee * user.daySelects.length
     }
@@ -1512,12 +1512,12 @@ const Register = () => {
     };
 
     const payNow = async () => {
-        let category = user.registrationCategory === "Full Conference" ? "standard" : "standardOneDay"
+        let category = user.registrationCategory === "Full Conference" ? "earlyBird" : "earlyOneDay"
 
         let registrationFee = registrationCharges?.filter(elm => elm?.registrationTypes?.includes(user?.registrationType))[0]?.[category]
         let accompanyPersonFee = registrationCharges?.filter(elm => elm?.registrationTypes?.includes("Accompanying Person"))[0]?.[category]
 
-        if (category === "standardOneDay") {
+        if (category === "earlyOneDay") {
             registrationFee = registrationFee * user.daySelects.length
             accompanyPersonFee = accompanyPersonFee * user.daySelects.length
         }
@@ -1564,13 +1564,13 @@ const Register = () => {
     }
 
     const getPrice = () => {
-        let category = user.registrationCategory === "Full Conference" ? "standard" : "standardOneDay"
+        let category = user.registrationCategory === "Full Conference" ? "earlyBird" : "earlyOneDay"
 
         let registrationFee = registrationCharges?.filter(elm => elm?.registrationTypes?.includes(user?.registrationType))[0]?.[category]
         let accompanyPersonFee = registrationCharges?.filter(elm => elm?.registrationTypes?.includes("Accompanying Person"))[0]?.[category]
 
 
-        if (category === "standardOneDay") {
+        if (category === "earlyOneDay") {
             registrationFee = registrationFee * user.daySelects.length
             accompanyPersonFee = accompanyPersonFee * user.daySelects.length
         }
