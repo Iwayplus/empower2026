@@ -250,7 +250,14 @@ const SubmitBtn = styled('button')({
     cursor: 'pointer',
     '&:hover': {
         opacity: 0.7
+    },
+       '&:disabled': {
+        background: '#A9A9A9',
+        color: '#fff',
+        opacity: 0.9,
+        cursor: 'not-allowed',
     }
+
 })
 
 const Container = styled('div')(({ theme }) => ({
@@ -305,15 +312,29 @@ export const CallForPaper = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
             >
-                <Container>
-                    {/* <Img src={callForPaper} /> */}
-                    {/* <SubmitBtn>Make a Paper Submission</SubmitBtn> */}
-                    <Quote>
-                        <h2>Call for Papers</h2>
-                        <p>EMPOWER 2026 invites contributions on all aspects related to <span>technology and disability</span> ranging from Research and Development, Manufacturing, Dissemination, Service Delivery, Training and Education, Usability and Impact.</p>
-                        <SubmitBtn title="make a paper submission" onClick={handleSubmitPaper}>Make a Paper Submission</SubmitBtn>
-                    </Quote>
-                </Container>
+            <Container>
+
+                <Quote>
+
+                    <h2>Call for Papers</h2>
+
+                        <p>
+                            EMPOWER 2026 invites contributions on all aspects related to{" "}
+                            <span>technology and disability</span> ranging from Research and
+                            Development, Manufacturing, Dissemination, Service Delivery,
+                            Training and Education, Usability and Impact.
+                        </p>
+
+                            <SubmitBtn
+                             title="Call for paper submission closed"
+                             disabled
+                            >
+                                Call for Papers Closed
+                            </SubmitBtn>
+                </Quote>
+
+            </Container>
+                
             </motion.div>
 
 
