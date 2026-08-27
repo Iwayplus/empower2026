@@ -474,7 +474,7 @@ const Exhibit = () => {
           {Array.from({ length: 6 }).map((_, idx) => <SkeletonCard key={idx} />)}
         </ExhibitorsGrid>
       ) : !exhibitors.length ? (
-        <ExhibitorsGrid><p style={{ gridColumn: "1 / -1", textAlign: "center", margin: "20px 0" }}>No exhibitors available.</p></ExhibitorsGrid>
+        <ExhibitorsGrid><p style={{ gridColumn: "1 / -1", textAlign: "center", margin: "20px 0" }}>List of exhibitors will be available soon.</p></ExhibitorsGrid>
       ) : null} 
       {!loading && exhibitors.length > 0 && (
         <motion.div
