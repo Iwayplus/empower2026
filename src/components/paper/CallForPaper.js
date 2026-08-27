@@ -319,7 +319,7 @@ export const CallForPaper = () => {
                     <h2>Call for Papers</h2>
 
                         <p>
-                            EMPOWER 2026 invites contributions on all aspects related to{" "}
+                            {process.env.REACT_APP_APP_NAME} invites contributions on all aspects related to{" "}
                             <span>technology and disability</span> ranging from Research and
                             Development, Manufacturing, Dissemination, Service Delivery,
                             Training and Education, Usability and Impact.
@@ -456,7 +456,7 @@ export const CallForPaper = () => {
             </motion.div> */}
             <Cont1>
                 <h3>Guidelines and Submission Procedure</h3>
-                <p>EMPOWER 2026 calls for groundbreaking contributions that present innovative ideas, novel methodologies, or transformative breakthroughs. Submissions should demonstrate a strong potential for real-world applications and significant contributions to the advancement of the field. We seek rigorously conducted research supported by robust experimentation, comprehensive data analysis, and evidence-based conclusions.</p>
+                <p>{process.env.REACT_APP_APP_NAME} calls for groundbreaking contributions that present innovative ideas, novel methodologies, or transformative breakthroughs. Submissions should demonstrate a strong potential for real-world applications and significant contributions to the advancement of the field. We seek rigorously conducted research supported by robust experimentation, comprehensive data analysis, and evidence-based conclusions.</p>
                 <p>Please ensure that the extended abstract is submitted in an accessible format. All authors must be listed on the extended abstract document as well as final camera ready paper (subject to acceptance) and must be disclosed before the review. Do designate one author as the contact author along with the email id and contact number for all related communication. At least one author must register and present at the conference for each selected paper.</p>
             </Cont1>
             <Cont1 style={{

@@ -121,7 +121,7 @@ export const deadlines = [
         date: "20th September 2026 (Sunday)"
     },
     {
-        activity: "Presentation by shortlisted teams at EMPOWER 2026 and selection of winners",
+        activity: `Presentation by shortlisted teams at ${process.env.REACT_APP_APP_NAME} and selection of winners`,
         date: "4th October 2026 (Sunday)"
     }
 ]

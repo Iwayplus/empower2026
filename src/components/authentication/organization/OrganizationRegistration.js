@@ -100,7 +100,7 @@ const OrganizationRegistration = () => {
         let response = await sendOtp({
             username: orgDetails.email,
             digits: 4,
-            appName: "Empower 2026"
+            appName: process.env.REACT_APP_APP_NAME
         }, setSending)
         setSending(false)
         if (response.status === 200) {

@@ -312,7 +312,7 @@ const Sponsor = () => {
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
         <Cont1>
           <h1>{dynamicSection?.content?.title || "Partner With India’s Largest Assistive Technology Innovation Ecosystem"}</h1>
-          <p>{dynamicSection?.content?.description || "EMPOWER 2026 invites forward‑thinking organizations to join a national movement that brings breakthrough products, innovations, research, and community‑driven programs under one roof. Building on the remarkable success of EMPOWER 2026, this year’s edition expands its reach, depth, and impact."}</p>
+          <p>{dynamicSection?.content?.description || `${process.env.REACT_APP_APP_NAME} invites forward‑thinking organizations to join a national movement that brings breakthrough products, innovations, research, and community‑driven programs under one roof. Building on the remarkable success of ${process.env.REACT_APP_APP_NAME}, this year’s edition expands its reach, depth, and impact.`}</p>
         </Cont1>
         {!dynamicSection?.content?.benefits && (
           <Cont1 style={{ marginTop: 60 }}>
@@ -395,7 +395,7 @@ const Sponsor = () => {
           <li>International collaborators and development agencies</li>
         </ul>
 
-        <h3 style={{ marginTop: 30 }}>What’s New in EMPOWER 2026?</h3>
+        <h3 style={{ marginTop: 30 }}>What’s New in {process.env.REACT_APP_APP_NAME}?</h3>
         <ul style={{ marginTop: 10, paddingLeft: 20, lineHeight: 1.6 }}>
           <li>Expanded exhibition hall with dedicated user-testing zones</li>
           <li>New practitioner track for community programs and field innovations</li>
