@@ -3,11 +3,14 @@ import { highlights } from "./assets/data";
 import { deadlines } from "./assets/data";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { highlightsTypography } from "./assets/typography";
+import { highlightsTypography, coverTypography } from "./assets/typography";
 import rightArrow from "../../assets/rightArrow.svg";
 import { useEffect, useRef, useState } from "react";
 import { keyframes } from "styled-components";
 import { baseUrl, projectId } from "../../services/api";
+
+import calander from "../../assets/calander.svg";
+import locationRed from "../../assets/locationRed.svg";
 
 const Component = styled("section")(({ theme }) => ({
   margin: "40px 67px 60px 67px",
@@ -51,13 +54,16 @@ const TextBx = styled("div")({
     margin: "0 0 24px 0",
   },
   "&>p": {
-    color: "var(--Color-Body-text, #494949)",
-    fontFamily: "Poppins",
-    fontSize: "18px",
-    fontWeight: 400,
-    lineHeight: "150%",
-    marginBottom: 16,
-  },
+  color: "var(--Color-Body-text, #494949)",
+  fontFamily: "Poppins",
+  fontSize: "18px",
+  fontWeight: 400,
+  lineHeight: "150%",
+  marginBottom: 16,
+  textAlign: "justify",
+  textJustify: "inter-word",
+  hyphens: "auto",
+},
 });
 
 const Header = styled("div")(({ theme }) => ({
@@ -94,6 +100,88 @@ const Header = styled("div")(({ theme }) => ({
     marginTop: 24,
   },
 }));
+
+/* ========== Relocated hero title/subtitle (moved from Cover.js) ========== */
+const HeroHeadingWrapper = styled("div")(({ theme }) => ({
+  marginBottom: 32,
+  textAlign: "center",
+  [theme.breakpoints.down("md")]: {
+    marginBottom: 20,
+  },
+}));
+
+const HeroHeading = styled("h1")(({ theme }) => ({
+  display: "inline-block",
+  color: "#fbb206",
+  fontFamily: "Poppins",
+  fontSize: 48,
+  fontWeight: 700,
+  lineHeight: "120%",
+  textTransform: "uppercase",
+  margin: "0 0 16px 0",
+  background: "#041a32",
+  padding: "4px 10px",
+  [theme.breakpoints.down("md")]: {
+    fontSize: 32,
+    margin: "0 0 12px 0",
+  },
+}));
+
+const HeroSubHeading = styled("h2")(({ theme }) => ({
+  color: "var(--Color-Heading, #1C1C1C)",
+  fontFamily: "Poppins",
+  fontSize: 32,
+  fontWeight: 600,
+  lineHeight: "130%",
+  margin: 0,
+  [theme.breakpoints.down("md")]: {
+    fontSize: 22,
+  },
+}));
+
+const TimingVenue = styled("div")({
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  gap: "8px 20px",
+  marginTop: 20,
+});
+
+const Date = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 8,
+  borderRadius: 4,
+  padding: "8px 16px",
+  background: "#040136",
+  "&>p": {
+    color: "#F5F0EC",
+    fontSize: 18,
+    fontWeight: 500,
+    margin: 0,
+  },
+});
+
+const Venue = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 8,
+  borderRadius: 4,
+  padding: "8px 16px",
+  background: "#040136",
+  "&>p": {
+    color: "#F5F0EC",
+    fontSize: 18,
+    fontWeight: 500,
+    margin: 0,
+  },
+  "&:hover > p": {
+    textDecoration: "underline",
+    textDecorationColor: "#EE4C01",
+  },
+});
 
 /* ========== Updates + Dates wrapper (row) ========== */
 const RowWrapper = styled("div")(({ theme }) => ({
@@ -409,7 +497,29 @@ const Highlights = () => {
   
   return (
     <Component id="highlights" aria-labelledby="highlights-heading">
-      <h2 id="highlights-heading" className="sr-only">Conference Highlights and About</h2>
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+        <HeroHeadingWrapper>
+          <HeroHeading id="highlights-heading">{coverTypography.title["en-us"]}</HeroHeading>
+          <HeroSubHeading>{coverTypography.subTitle["en-us"]}</HeroSubHeading>
+          <TimingVenue>
+            <Date>
+              <img alt="" aria-hidden="true" src={calander} />
+              <p>{coverTypography.dates["en-us"]}</p>
+            </Date>
+            <Venue
+              as="a"
+              href="https://maps.app.goo.gl/vhuk9rFRuHYrwk6g9"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ cursor: "pointer", textDecoration: "none", color: "inherit" }}
+            >
+              <img alt="" aria-hidden="true" src={locationRed} />
+              <p>{coverTypography.venueLong["en-us"]}</p>
+            </Venue>
+          </TimingVenue>
+
+        </HeroHeadingWrapper>
+      </motion.div>
       <RowWrapper>
         {/* Paragraphs */}
         <TextBx style={{ flex: 1, minWidth: 300 }}>
