@@ -29,7 +29,7 @@ const Main = () => {
                          <Part/>
             {/* <Info/> */}
             {/* <Exhibit/> */}
-            <Gallery/>
+            {/* <Gallery/> */}
             {/* <Part/> */}
             {/* <Spon/> */}
             {/* <Agenda /> */}

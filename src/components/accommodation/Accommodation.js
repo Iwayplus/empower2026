@@ -9,7 +9,7 @@ const Accommodation = () => {
 
 
       useEffect(() => {
-    fetch(`${baseUrl}/secured/accommodations/${projectId}`)
+    fetch(`${baseUrl}/secured/accommodations/688de24a29573c6c0b8240f5`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
