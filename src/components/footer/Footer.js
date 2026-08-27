@@ -203,8 +203,8 @@ const Footer = () => {
         <footer id="footer">
             <Container>
                 <LogoBx>
-                    <img src={logoUrl} alt="Empower 2026 Conference Logo" />
-                    <Text>{dynamicSection?.content?.footer_desc || "Empower 2026 is a global conference dedicated to accessibility in design, tech, and innovation. Learn from industry leaders and participate in hands-on workshops"}</Text>
+                    <img src={logoUrl} alt={`${process.env.REACT_APP_APP_NAME} Conference Logo`} />
+                    <Text>{dynamicSection?.content?.footer_desc || `${process.env.REACT_APP_APP_NAME} is a global conference dedicated to accessibility in design, tech, and innovation. Learn from industry leaders and participate in hands-on workshops`}</Text>
                     <h3 style={{ marginTop: "20px", marginBottom: "8px", fontSize: "20px", fontWeight: "600", color: "#fff" }}>
                         Connect with us
                     </h3>
@@ -294,7 +294,7 @@ const Footer = () => {
                         dynamicSection.content.copyright_text
                     ) : (
                         <>
-                            Copyright - All rights reserved with Empower 2026,&nbsp;
+                            Copyright - All rights reserved with {process.env.REACT_APP_APP_NAME},&nbsp;
                             <a
                                 href="https://assistech.iitd.ac.in/"
                                 target="_blank"

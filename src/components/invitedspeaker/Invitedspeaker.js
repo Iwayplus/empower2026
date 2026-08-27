@@ -180,7 +180,7 @@ const InvitedSpeaker = () => {
             Speakers
           </h2>
           <p style={{ fontFamily: "Poppins, sans-serif", fontSize: "16px", fontWeight: 400, margin: 0, color: "#4A4A4A" }}>
-            Meet the experts joining Empower 2026.
+            Meet the experts joining {process.env.REACT_APP_APP_NAME}.
           </p>
         </div>
 

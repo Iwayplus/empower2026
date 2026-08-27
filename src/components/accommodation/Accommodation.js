@@ -76,7 +76,7 @@ const Accommodation = () => {
           
           <div className="container-x">
             
-            <h2>Accommodation for Empower 2026</h2>
+            <h2>Accommodation for {process.env.REACT_APP_APP_NAME}</h2>
           </div>
        <div className="container-y">
   {[
@@ -126,7 +126,7 @@ const Accommodation = () => {
         {/* Container 1 */}
         <div className="container-1">
           <div className="container-a">
-            <h3>Welcome to Empower 2026 — we’re excited to host you at IIT Delhi!</h3>
+            <h3>Welcome to {process.env.REACT_APP_APP_NAME} — we’re excited to host you at IIT Delhi!</h3>
           </div>
           <div className="container-b">
             <p>
@@ -153,7 +153,7 @@ const Accommodation = () => {
           </div>
           <div className="container-d">
             <p>
-              Participants registered for Empower 2026 may contact the listed hotels
+              Participants registered for {process.env.REACT_APP_APP_NAME} may contact the listed hotels
               directly for booking. For properties without official websites, we
               recommend using trusted platforms such as MakeMyTrip, Goibibo, or
               Booking.com for a secure and smooth booking experience.

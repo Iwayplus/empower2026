@@ -1,6 +1,6 @@
 export const coverTypography = {
     title: {
-        "en-us": "Empower 2026",
+        "en-us": process.env.REACT_APP_APP_NAME,
         "hi-in": ""
     },
     subTitle: {
@@ -36,7 +36,7 @@ export const highlightsTypography = {
         "hi-in": ""
     },
     para1: {
-        "en-us": "EMPOWER 2026 builds on the momentum of the 2025 edition, where breakthrough products, innovations, state‑of‑the‑art research, and community‑driven programs came together under one roof to transform real lives. Last year, we saw innovations that enabled students to learn independently, professionals with disabilities to navigate workplaces with confidence, and educators to access tools that strengthened communication and dignity. This year, EMPOWER 2026 brings innovators, researchers, industry leaders, and practitioners into a shared space where lived experience guides design, research drives discovery, and field‑tested strategies empower communities. As India’s premier platform for assistive technology, EMPOWER 2026 accelerates the journey from ideas to impactful, scalable solutions that expand independence, opportunity, and inclusion for all.",
+        "en-us": `${process.env.REACT_APP_APP_NAME} builds on the momentum of the 2025 edition, where breakthrough products, innovations, state‑of‑the‑art research, and community‑driven programs came together under one roof to transform real lives. Last year, we saw innovations that enabled students to learn independently, professionals with disabilities to navigate workplaces with confidence, and educators to access tools that strengthened communication and dignity. This year, ${process.env.REACT_APP_APP_NAME} brings innovators, researchers, industry leaders, and practitioners into a shared space where lived experience guides design, research drives discovery, and field‑tested strategies empower communities. As India’s premier platform for assistive technology, ${process.env.REACT_APP_APP_NAME} accelerates the journey from ideas to impactful, scalable solutions that expand independence, opportunity, and inclusion for all.`,
         "hi-in": ""
     },
     para2: {

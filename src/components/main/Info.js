@@ -176,7 +176,7 @@ const Home = () => {
                 <h3>Accommodation</h3>
                 <p>
                   Discover curated hotels, accessible stays, and budget-friendly
-                  hostels near IIT Delhi, handpicked to make your Empower 2026
+                  hostels near IIT Delhi, handpicked to make your {process.env.REACT_APP_APP_NAME}
                   visit safe and comfortable.
                 </p>
               </Content>

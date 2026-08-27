@@ -8,13 +8,13 @@ const CancellationRefundPolicy = () => {
           <p><strong>Effective Date:</strong> 12/06/2025</p>
 
           <p>
-            At <strong>Empower Conference</strong>, we strive to provide all attendees with a seamless and valuable experience. 
+            At <strong>{process.env.REACT_APP_APP_NAME}</strong>, we strive to provide all attendees with a seamless and valuable experience. 
             We understand that unforeseen circumstances can arise. This policy outlines the terms for cancellations and refunds.
           </p>
 
           <h2>1. General Policy</h2>
           <p>
-            All registrations for Empower Conference are considered final. However, cancellations may be considered on a case-by-case basis under the following conditions:
+            All registrations for {process.env.REACT_APP_APP_NAME} are considered final. However, cancellations may be considered on a case-by-case basis under the following conditions:
           </p>
 
           <h2>2. Valid Reasons for Cancellation</h2>

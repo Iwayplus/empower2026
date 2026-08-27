@@ -669,7 +669,7 @@ const Header = () => {
 
           <Img
             src={headerIcon}
-            alt="Empower 2026 — Home"
+            alt={`${process.env.REACT_APP_APP_NAME} — Home`}
             onClick={() => navigate('/')}
             role="link"
             tabIndex={0}

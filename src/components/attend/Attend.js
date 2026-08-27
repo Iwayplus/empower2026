@@ -450,7 +450,7 @@ const Attend = () => {
                   <p>
                     Discover curated hotels, accessible stays, and
                     budget-friendly hostels near IIT Delhi for a safe and
-                    comfortable Empower 2026 visit.
+                    comfortable {process.env.REACT_APP_APP_NAME} visit.
                   </p>
                 </Content>
                 <Actions>
