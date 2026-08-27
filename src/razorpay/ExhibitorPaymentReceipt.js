@@ -284,14 +284,14 @@ const ExhibitorPaymentReceipt = ({ setFormState, setSearchParams }) => {
         const docDefinition = {
             content: [
                 {
-                    text: 'Empower 2026 Exhibitor Registration Fee Receipt',
+                    text: `${process.env.REACT_APP_APP_NAME} Exhibitor Registration Fee Receipt`,
                     style: 'header'
                 },
                 {
                     table: {
                         widths: ['*', '*'],
                         body: [
-                            ['Registration ID', `empower25-exhibitor/${index + 1000}` || ""],
+                            ['Registration ID', `empower-exhibitor/${index + 1000}` || ""],
                             ['Payment ID', receipt?.id || "N/A"],
                             ['Name', `${user?.exhibitorProfile?.primaryContactDetails?.fullName}` || "N/A"],
                             ['Mode of Payment', `${!receipt ? "N/A" : receipt?.method === "card" ? `${receipt?.card?.type} ${receipt?.card?.entity}` : receipt?.method.toUpperCase()}`],
@@ -386,7 +386,7 @@ const ExhibitorPaymentReceipt = ({ setFormState, setSearchParams }) => {
             window.pdfMake.createPdf(docDefinition).getBlob(async (blob) => {
                 // 2. Append the Blob to FormData
                 const formData = new FormData();
-                formData.append('file', blob, 'Empower2025_Exhibitor_Receipt.pdf');
+                formData.append('file', blob, `${process.env.REACT_APP_APP_NAME}_Exhibitor_Receipt.pdf`);
 
                 // 3. Send it to your backend
                 await handleSendExhibitorReceipt(formData);
@@ -442,8 +442,8 @@ const ExhibitorPaymentReceipt = ({ setFormState, setSearchParams }) => {
                         <GreenTick><img alt="" width={52} src={checkGreen} /></GreenTick>
                         <img style={{ marginBottom: 3, width: 250 }} src={empowerLogoWhite} alt="Empower Logo" />
                         <h2>Payment Receipt</h2>
-                        <p>Your Exhibitor registration for Empower 2026 is completed</p>
-                        <p>Exhibitor ID: <span>empower26/{index + 1000}</span></p>
+                        <p>Your Exhibitor registration for {process.env.REACT_APP_APP_NAME} is completed</p>
+                        <p>Exhibitor ID: <span>empower/{index + 1000}</span></p>
                     </Success>
 
                     <Details>

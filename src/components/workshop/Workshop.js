@@ -637,7 +637,7 @@ const Workshop = () => {
   return (
     <WorkshopMain>
       <WorkshopUpper>
-        <WorkshopTitle>EMPOWER 2026 Workshops</WorkshopTitle>
+        <WorkshopTitle>{process.env.REACT_APP_APP_NAME} Workshops</WorkshopTitle>
         {/* {profile?.isCompleted && (
   <RegisterButton onClick={() => setOpen(true)}>
     Register for Workshops

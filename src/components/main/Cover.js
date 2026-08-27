@@ -6,8 +6,9 @@ import { useSelector } from "react-redux";
 import QRCode from "react-qr-code";
 import bgImage from "../../assets/bg.jpeg";
 
-import calander from "../../assets/calander.svg";
-import locationRed from "../../assets/locationRed.svg";
+// import calander from "../../assets/calander.svg";
+// import locationRed from "../../assets/locationRed.svg";
+
 import { coverTypography } from "./assets/typography";
 import playStore from "../../assets/gp.png";
 import appStore from "../../assets/sto.png";
@@ -29,8 +30,7 @@ const Container = styled("div", {
   justifyContent: "flex-start",
   padding: "80px 70px",
   width: "100%",
-  height: "auto",
-  minHeight: "100%",
+  aspectRatio: "2 / 1",
   gap: 10,
   background: bg
     ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("${bg}")`
@@ -40,7 +40,6 @@ const Container = styled("div", {
   boxSizing: "border-box",
   transition: "background 0.5s ease-in-out",
   [theme.breakpoints.down("md")]: {
-    height: "100%",
     flexDirection: "column",
     padding: 16,
     justifyContent: "flex-start",
@@ -108,37 +107,6 @@ const Venue = styled("div")({
     textDecorationColor: "#FFFFFF",
   },
 });
-
-const Heading = styled("h1")(({ theme }) => ({
-  color: "#fff",
-  fontFamily: "Poppins",
-  fontSize: 48,
-  fontWeight: 700,
-  lineHeight: "120%",
-  textTransform: "uppercase",
-  margin: "24px 0 0 0",
-  background: "#C69300",
-  padding: "0 6px",
-  [theme.breakpoints.down("md")]: {
-    fontSize: 32,
-    margin: "12px 0 0 0",
-  },
-}));
-
-const SubHeading = styled("p")(({ theme }) => ({
-  color: "#fff",
-  background: "rgba(117,115,115,0.6)",
-  fontFamily: "Poppins",
-  fontSize: 48,
-  fontWeight: 700,
-  lineHeight: "120%",
-  margin: "8px 0 0 0",
-  padding: "0 6px",
-  [theme.breakpoints.down("md")]: {
-    fontSize: 28,
-    margin: "4px 0 0 0",
-  },
-}));
 
 const RegisterBtn = styled("button")({
   marginTop: 16,
@@ -487,45 +455,6 @@ const Cover = () => {
         </CarouselWrapper>
 
         <Content>
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-            <Heading>
-              {dynamicHero?.content?.title || dynamicHero?.content?.heading || coverTypography.title["en-us"]}
-            </Heading>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 1 }}>
-            <SubHeading>
-              {dynamicHero?.content?.subtitle || dynamicHero?.content?.body || coverTypography.subTitle["en-us"]}
-            </SubHeading>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.6 }}>
-            {/* {!userData && !exhibitorData && (
-              <RegisterBtn onClick={handleRegister}>{coverTypography.registerButton["en-us"]}</RegisterBtn>
-            )} */}
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 1 }}>
-            <TimingVenue style={{ marginTop: userData || exhibitorData ? 100 : 32 }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <Date>
-                  <img alt="" aria-hidden="true" src={calander} />
-                  <p>{dynamicHero?.content?.dates || coverTypography.dates["en-us"]}</p>
-                </Date>
-              </div>
-
-              <Venue
-                as="a"
-                href="https://maps.app.goo.gl/vhuk9rFRuHYrwk6g9"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ cursor: "pointer", textDecoration: "none", color: "inherit" }}
-              >
-                <img alt="" aria-hidden="true" src={locationRed} />
-                <p>{dynamicHero?.content?.venue || venue}</p>
-              </Venue>
-            </TimingVenue>
-          </motion.div>
 
           {/* <Box
             component="img"

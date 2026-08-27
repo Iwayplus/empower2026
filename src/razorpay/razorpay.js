@@ -32,8 +32,8 @@ export const handlePayment = async (payload, setPaymentLoader, setFormState, set
       key: process.env.NODE_ENV === "development" ? process.env.REACT_APP_RAZORPAY_KEY_ID_TEST : process.env.REACT_APP_RAZORPAY_KEY_ID_LIVE, // Razorpay key_id
       amount: orderData.amount,
       currency: orderData.currency,
-      name: "Empower 2026",
-      description: "Empower 2026 Conference Registration",
+      name: process.env.REACT_APP_APP_NAME,
+      description: `${process.env.REACT_APP_APP_NAME} Conference Registration`,
       order_id: orderData.id,
       handler: async function (response) {
         // Optional: verify signature on backend
@@ -94,8 +94,8 @@ export const handlePaymentExhibitor = async (payload, setPaymentLoader, setFormS
       key: process.env.NODE_ENV === "development" ? process.env.REACT_APP_RAZORPAY_KEY_ID_TEST : process.env.REACT_APP_RAZORPAY_KEY_ID_LIVE, // Razorpay key_id
       amount: orderData.amount,
       currency: orderData.currency,
-      name: "Empower 2026",
-      description: "Empower 2026 Exhibitor Registration",
+      name: process.env.REACT_APP_APP_NAME,
+      description: `${process.env.REACT_APP_APP_NAME} Exhibitor Registration`,
       order_id: orderData.id,
       handler: async function (response) {
         // Optional: verify signature on backend
@@ -155,8 +155,8 @@ export const handlePaymetOrganization = async (payload, fetchUser, navigate, set
     key: process.env.NODE_ENV === "development" ? process.env.REACT_APP_RAZORPAY_KEY_ID_TEST : process.env.REACT_APP_RAZORPAY_KEY_ID_LIVE, // Razorpay key_id
     amount: orderData.amount,
     currency: orderData.currency,
-    name: "Empower 2026",
-    description: "Empower 2026 Organization Registration",
+    name: process.env.REACT_APP_APP_NAME,
+    description: `${process.env.REACT_APP_APP_NAME} Organization Registration`,
     order_id: orderData.id,
     handler: async function (response) {
       // Optional: verify signature on backend

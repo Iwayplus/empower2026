@@ -37,7 +37,7 @@ const Travel = () => {
 
 
         <div className="c1-b">
-          Empower 2026 stands as India’s premier conference focused on advancing
+          {process.env.REACT_APP_APP_NAME} stands as India’s premier conference focused on advancing
           Assistive Technologies and promoting inclusive innovation. Whether you
           are arriving by air, rail, road, or metro, reaching IIT Delhi is
           convenient and well-supported by the capital’s extensive

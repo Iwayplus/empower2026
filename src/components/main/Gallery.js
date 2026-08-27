@@ -184,7 +184,7 @@ const Gallery = () => {
     mt: { xs: 4, md: 6 }
   }}
 >
-  {dynamicSection?.content?.title || dynamicSection?.content?.heading || "EMPOWER 2025 Highlights"}
+  {dynamicSection?.content?.title || dynamicSection?.content?.heading || `${process.env.REACT_APP_APP_NAME} Highlights`}
 </Typography>
 
       {dynamicSection?.content?.description && (

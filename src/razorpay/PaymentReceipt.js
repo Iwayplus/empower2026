@@ -245,7 +245,7 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
         const docDefinition = {
             content: [
                 {
-                    text: 'Empower 2026 Registration Fee Receipt',
+                    text: `${process.env.REACT_APP_APP_NAME} Registration Fee Receipt`,
                     style: 'header'
                 },
                 {
@@ -327,7 +327,7 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
             window.pdfMake.createPdf(docDefinition).getBlob(async (blob) => {
                 // 2. Append the Blob to FormData
                 const formData = new FormData();
-                formData.append('file', blob, 'Empower2025_Receipt.pdf');
+                formData.append('file', blob, `${process.env.REACT_APP_APP_NAME}_Receipt.pdf`);
 
                 // 3. Send it to your backend
                 await handleSendInvoiceThroughMail(formData);
@@ -384,9 +384,9 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
                         <img style={{ marginBottom: 3, width: 250 }} src={empowerLogoWhite} alt="Empower Logo" />
                         <h2>Payment Receipt</h2>
                         <p>
-                            Your registration for Empower 2026 is completed
+                            Your registration for {process.env.REACT_APP_APP_NAME} is completed
                             <br />
-                            Registration ID: <span>empower26/{index + 1000}</span>
+                            Registration ID: <span>empower/{index + 1000}</span>
                         </p>
 
                     </Success>
