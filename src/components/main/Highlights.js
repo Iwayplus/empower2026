@@ -1,10 +1,6 @@
-import { styled, Typography } from "@mui/material";
-import { highlights } from "./assets/data";
-import { deadlines } from "./assets/data";
-import { Link, useNavigate } from "react-router-dom";
+import { styled } from "@mui/material";
 import { motion } from "framer-motion";
 import { highlightsTypography, coverTypography } from "./assets/typography";
-import rightArrow from "../../assets/rightArrow.svg";
 import { useEffect, useRef, useState } from "react";
 import { keyframes } from "styled-components";
 import { baseUrl, projectId } from "../../services/api";
@@ -401,7 +397,6 @@ const DoubleArrowIcon = () => (
 
 /* ================== COMPONENT ================== */
 const Highlights = () => {
-  const navigate = useNavigate();
   const scrollRef = useRef();
   const [announcements, setAnnouncements] = useState([]);
   const [sponsors, setSponsors] = useState([]);

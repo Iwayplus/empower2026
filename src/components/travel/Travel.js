@@ -4,7 +4,6 @@ import qr1 from "../../assets/qr1.jpg";
 import gplay from "../../assets/gplay.png";
 import org from "../../assets/orgqr.jpg";
 import apple from "../../assets/apple.png";
-import hi from "../../assets/hi.png";
 import li from "../../assets/lhc new.jpg";
 import { getNearbyServices, getVenueServices } from "../../services/api";
 

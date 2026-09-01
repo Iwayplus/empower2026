@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { styled } from "@mui/material"
-import callForPaper from '../../assets/callForPaper.jpeg'
+import callForPaper from '../../assets/callForPaper.webp'
 import { assistiveTechTopics, conferenceTimeline } from "./data"
 import bulletPt from '../../assets/bulletPt.svg'
 import redirect from '../../assets/redirect.svg'

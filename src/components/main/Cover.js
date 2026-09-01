@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import QRCode from "react-qr-code";
-import bgImage from "../../assets/bg.jpeg";
+import bgImage from "../../assets/bg.webp";
 
 // import calander from "../../assets/calander.svg";
 // import locationRed from "../../assets/locationRed.svg";
@@ -355,6 +355,8 @@ const Cover = () => {
                 key="default-bg"
                 src={bgImage}
                 aria-hidden="true" // ✅ Hide from screen readers
+                decoding="async"
+                fetchPriority="high"
 
                 initial={{ x: "100%", opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
@@ -366,6 +368,8 @@ const Cover = () => {
                 key={currentIndex}
                 src={carousel[currentIndex].image_url}
                 aria-hidden="true" // ✅ Hide from screen readers
+                decoding="async"
+                fetchPriority="high"
 
                 initial={{ x: "100%", opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}

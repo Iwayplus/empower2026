@@ -1,13 +1,11 @@
 import { styled } from "@mui/material"
-import logo from '../../assets/data.png'
+import logo from '../../assets/data.webp'
 import mail from '../../assets/mail.svg'
 import call from '../../assets/call.svg'
-import calander from '../../assets/calander.svg'
 import map from '../../assets/map.svg'
 import timing from '../../assets/timing.svg'
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import download from "../../assets/app.png"
 import { FaLinkedin, FaInstagram } from "react-icons/fa";
 import { baseUrl, getFooterData } from "../../services/api";
 const Component = styled('section')({
@@ -203,7 +201,12 @@ const Footer = () => {
         <footer id="footer">
             <Container>
                 <LogoBx>
-                    <img src={logoUrl} alt={`${process.env.REACT_APP_APP_NAME} Conference Logo`} />
+                    <img
+                        src={logoUrl}
+                        alt={`${process.env.REACT_APP_APP_NAME} Conference Logo`}
+                        loading="lazy"
+                        decoding="async"
+                    />
                     <Text>{dynamicSection?.content?.footer_desc || `${process.env.REACT_APP_APP_NAME} is a global conference dedicated to accessibility in design, tech, and innovation. Learn from industry leaders and participate in hands-on workshops`}</Text>
                     <h3 style={{ marginTop: "20px", marginBottom: "8px", fontSize: "20px", fontWeight: "600", color: "#fff" }}>
                         Connect with us

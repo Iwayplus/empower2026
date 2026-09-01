@@ -185,6 +185,8 @@ const Partner = () => {
                 src={partnerLogo ? (partnerLogo.startsWith('http') ? partnerLogo : `${baseUrl}/uploads/${encodeURIComponent(partnerLogo)}`) : ""}
                 alt=""
                 aria-hidden="true"
+                loading="lazy"
+                decoding="async"
               />
               {partner.tier && <TierBadge tier={partner.tier}>{partner.tier}</TierBadge>}
               <PartnerTitle>{partner.title}</PartnerTitle>

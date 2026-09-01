@@ -38,6 +38,8 @@ const FadeImage = ({ src, onClick, index, total }) => {
       <img
         src={src}
         alt={`Gallery photo ${index + 1}`}
+        loading="lazy"
+        decoding="async"
         onLoad={() => setLoaded(true)}
         style={{
           width: "100%",
@@ -97,7 +99,12 @@ const ImageModal = ({ images, startIndex, onClose }) => {
       aria-label={`Image viewer — photo ${index + 1} of ${images.length}`}
       style={modal}
     >
-      <img src={images[index]} alt={`Gallery photo ${index + 1} of ${images.length}`} style={modalImg} />
+      <img
+        src={images[index].replace("&sz=w600", "&sz=w1600")}
+        alt={`Gallery photo ${index + 1} of ${images.length}`}
+        decoding="async"
+        style={modalImg}
+      />
 
       <button ref={closeRef} style={closeBtn} aria-label="Close image viewer" onClick={onClose}>✕</button>
       <button style={leftBtn} aria-label="Previous image" onClick={() => setIndex((i) => (i - 1 + images.length) % images.length)}>‹</button>
@@ -142,9 +149,14 @@ const rightBtn = { ...btnBase, right: "22px" };
 const closeBtn = { ...btnBase, top: "20px", right: "20px" };
 
 const Gallery = () => {
-  const driveImages = useDriveImages();
   const [modal, setModal] = useState({ open: false, index: 0 });
   const [dynamicSection, setDynamicSection] = useState(null);
+  const [dynamicSectionsLoaded, setDynamicSectionsLoaded] = useState(false);
+
+  const cmsImages = dynamicSection?.content?.images?.length > 0
+    ? dynamicSection.content.images.map(img => `${baseUrl}/uploads/${encodeURIComponent(img.url || img)}`)
+    : [];
+  const driveImages = useDriveImages(dynamicSectionsLoaded && cmsImages.length === 0);
 
   useEffect(() => {
     const fetchGalleryData = async () => {
@@ -156,14 +168,14 @@ const Gallery = () => {
         }
       } catch (err) {
         console.error("Error fetching dynamic gallery section", err);
+      } finally {
+        setDynamicSectionsLoaded(true);
       }
     };
     fetchGalleryData();
   }, []);
 
-  const displayImages = dynamicSection?.content?.images?.length > 0
-    ? dynamicSection.content.images.map(img => `${baseUrl}/uploads/${encodeURIComponent(img.url || img)}`)
-    : driveImages;
+  const displayImages = cmsImages.length > 0 ? cmsImages : driveImages;
 
   if (!displayImages.length) return <p style={{ textAlign: "center", padding: "40px" }}>Loading gallery...</p>;
 
