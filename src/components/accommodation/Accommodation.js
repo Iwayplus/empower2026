@@ -1,6 +1,5 @@
 import React , {useEffect,useState} from "react";
 import "./Accommodation.css";
-import hi from "../../assets/accom.jpg"
 import { baseUrl, projectId } from "../../services/api";
 
 const Accommodation = () => {

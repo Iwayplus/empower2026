@@ -18,6 +18,8 @@ const Home = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        if (!localStorage.getItem("accessToken")) return
+
         const fetchData = async () => {
             let response = await getProfile()
             if (response && response.status === 200) {
@@ -28,6 +30,8 @@ const Home = () => {
     }, [])
 
     useEffect(() => {
+        if (!localStorage.getItem("accessToken")) return
+
         const fetchData = async () => {
             let response = await getExhibitorProfile()
             if (response && response.status === 200) {

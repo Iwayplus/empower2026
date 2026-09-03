@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.50) 100%), 
-              url('../../assets/accom.jpg') lightgray 50% / cover no-repeat;
+              url('../../assets/accom.webp') lightgray 50% / cover no-repeat;
   box-sizing: border-box; /* ensures padding is included in width */
 }
 
