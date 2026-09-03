@@ -305,7 +305,7 @@ const Footer = () => {
                                 className="assistech-link"
                                 style={{ color: '#fff' }}
                             >
-                                Assistech Lab, IIT Delhi
+                                Lecture Hall Complex (LHC), IIT Delhi
                             </a>
                         </>
                     )}
