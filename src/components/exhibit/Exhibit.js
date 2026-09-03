@@ -403,7 +403,7 @@ const Exhibit = () => {
     const fetchExhibitors = async () => {
       try {
         const res = await fetch(
-          `${baseUrl}/secured/event/all-exhibitor/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/api/empower/fetch-paid-exhibitors?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!res.ok) throw new Error("Failed to fetch exhibitors");

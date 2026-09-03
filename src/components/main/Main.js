@@ -28,10 +28,10 @@ const Main = () => {
             {/* <Spon/> */}
                          <Part/>
             {/* <Info/> */}
-            {/* <Exhibit/> */}
+            <Exhibit/>
             {/* <Gallery/> */}
             {/* <Part/> */}
-            {/* <Spon/> */}
+            <Spon/>
             {/* <Agenda /> */}
             {/* <Faqs /> */}
         </main>

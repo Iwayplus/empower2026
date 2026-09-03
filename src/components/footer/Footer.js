@@ -181,7 +181,7 @@ const Footer = () => {
         : logo;
 
     const getEmbedMapUrl = (url) => {
-        if (!url) return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4153.583722712865!2d77.18925209468964!3d28.543941178796093!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d9a6426d987%3A0x48afdc51e54c8134!2sResearch%20and%20Innovation%20Park%20(RNI)%20-%20IIT%20DELHI!5e0!3m2!1sen!2sin!4v1741772416957!5m2!1sen!2sin";
+        if (!url) return "https://maps.app.goo.gl/Vqr82PEmPQqPZESPA?g_st=ic";
         if (url.includes("/embed") || url.includes("embed?")) return url;
         if (url.includes("google.com/maps")) {
             return url.replace("/maps", "/maps/embed");
@@ -248,7 +248,7 @@ const Footer = () => {
                         </Elm>
                         <Elm>
                             <img src={map} alt="" aria-hidden="true" />
-                            <p>{dynamicSection?.content?.contact_address || "Assistech Lab, Indian Institute of Technology Delhi, New Delhi, India"}</p>
+                            <p>{dynamicSection?.content?.contact_address || "Lecture Hall Complex (LHC), IIT Delhi"}</p>
                         </Elm>
                     </ContactBx>
                 </DetailsBx>
