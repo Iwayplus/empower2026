@@ -720,6 +720,9 @@ const Header = () => {
               </DropdownMenu>
             </DropdownWrapper>
             <Link to="/exhibit" onClick={handleScrollUp} className={pathname === "/exhibit" ? "active" : ""}>Exhibit</Link>
+
+            <Link to="/visit-exhibition" onClick={handleScrollUp} className={pathname === "/visit-exhibition" ? "active" : ""}>Visit Exhibition</Link>
+
             <Link to="/sponsor" onClick={handleScrollUp} className={pathname === "/sponsor" ? "active" : ""}>Sponsor</Link>
             <Link to="/program-committee" onClick={handleScrollUp} className={pathname === "/program-committee" ? "active" : ""}>Committees</Link>
             {/* <a href="#footer">Contact Us</a> */}
@@ -1379,6 +1382,9 @@ const Header = () => {
 
 
             <Link onClick={handleClose} to="/exhibit">Exhibit</Link>
+
+            <Link onClick={handleClose} to="/visit-exhibition">Visit Exhibition</Link>
+
             <Link onClick={handleClose} to="/sponsor">Sponsor</Link>
             <Link onClick={handleClose} to="/program-committee">Committees</Link>
             {/* <a onClick={handleCloseFooter} href="#footer">Contact Us</a> */}

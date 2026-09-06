@@ -114,7 +114,7 @@ export const deadlines = [
     },
     {
         activity: "Second Review by Mentors - Shortlisting of Teams",
-        date: "6th September 2026 (Sunday)"
+        date: "5th September 2026 (Sunday)"
     },
     {
         activity: "Submission of Final Write-ups/Videos by Shortlisted Teams",

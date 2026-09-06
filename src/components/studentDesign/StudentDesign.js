@@ -136,6 +136,19 @@ const StudentDesign = () => {
     const [dynamicSections, setDynamicSections] = useState([]);
     const [expanded, setExpanded] = useState(false);
 
+    // Helper function to parse date string like "1st June 2026 (Monday)"
+    const parseDate = (dateString) => {
+        try {
+            // Extract date part before the parenthesis
+            const datePart = dateString.split('(')[0].trim();
+            // Remove ordinal suffixes (st, nd, rd, th)
+            const cleanedDate = datePart.replace(/(\d+)(st|nd|rd|th)/g, '$1');
+            return new Date(cleanedDate);
+        } catch (err) {
+            return null;
+        }
+    };
+
     useEffect(() => {
         const fetchSDCData = async () => {
             try {
@@ -241,16 +254,24 @@ const StudentDesign = () => {
                             }}>Date</th>
                         </tr>
                         {
-                            deadlines?.map(elm => (
-                                <tr>
-                                    <td style={{
-                                        width: 739
-                                    }}>{elm?.activity}</td>
-                                    <td style={{
-                                        width: 272
-                                    }}>{elm?.date}</td>
-                                </tr>
-                            ))
+                            deadlines?.map((elm, idx) => {
+                                console.log(elm?.date);
+                                const parsedDate = parseDate(elm?.date);
+                                const isCompleted = parsedDate && parsedDate < new Date();
+                                return (
+                                    <tr key={idx} style={{
+                                        textDecoration: isCompleted ? "line-through" : "none",
+                                        color: isCompleted ? "#999999" : "inherit"
+                                    }}>
+                                        <td style={{
+                                            width: 739
+                                        }}>{elm?.activity}</td>
+                                        <td style={{
+                                            width: 272
+                                        }}>{elm?.date}</td>
+                                    </tr>
+                                )
+                            })
                         }
                     </table>
                 </TableBx>

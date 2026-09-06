@@ -31,6 +31,8 @@ const Accommodations = lazy(() => import("../components/accommodation/Accommodat
 const Travel = lazy(() => import("../components/travel/Travel"));
 const Invite = lazy(() => (import("../components/invitedspeaker/Invitedspeaker")));
 
+const Visit = lazy(() => import("../components/visit/Visit"));
+
 const withSuspense = (Component) => (
   <Suspense fallback={<h1> </h1>}>
     <Component />
@@ -49,6 +51,10 @@ const baseRoutes = createBrowserRouter([
       {
         path: "/exhibit",
         element: withSuspense(Exhibit),
+      },
+      {
+        path: "/visit-exhibition",
+        element: withSuspense(Visit),
       },
       {
         path: "/sponsor",

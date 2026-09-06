@@ -5,7 +5,7 @@ import gplay from "../../assets/gplay.png";
 import org from "../../assets/orgqr.jpg";
 import apple from "../../assets/apple.png";
 import hi from "../../assets/hi.png";
-import li from "../../assets/lhc new.jpg";
+import li from "../../assets/lhc.jpeg";
 import { getNearbyServices, getVenueServices } from "../../services/api";
 
 const Travel = () => {
