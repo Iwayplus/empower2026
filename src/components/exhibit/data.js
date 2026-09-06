@@ -4,8 +4,8 @@ import cards from '../../assets/cards.svg'
 import insurance from '../../assets/shield.svg'
 import hammer from '../../assets/hammer.svg'
 import restriction from '../../assets/restriction.svg'
-import goldLogo from '../../assets/gold.png'
-import silverLogo from '../../assets/silver.png'
+import goldLogo from '../../assets/gold.webp'
+import silverLogo from '../../assets/silver.webp'
 import check from '../../assets/tick.svg'
 
 export const exhibitPlans = [

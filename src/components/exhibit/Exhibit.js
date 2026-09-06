@@ -6,8 +6,6 @@ import { useSelector } from "react-redux"
 
 import { exhibitPlans, exhibitionDetails, notes, rowLabels, leftBenefits, rightBenefits } from "./data"
 import { exhibitTypography } from "./typography"
-import check from "../../assets/check.svg"
-import exhibitCover from '../../assets/exhibitCover.svg'
 import checkGreen from '../../assets/checkGreen.svg'
 import emailIcon from "../../assets/mail.svg";
 import websiteIcon from "../../assets/po.jpg";
@@ -403,7 +401,7 @@ const Exhibit = () => {
     const fetchExhibitors = async () => {
       try {
         const res = await fetch(
-          `${baseUrl}/secured/event/all-exhibitor/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
+          `${baseUrl}/api/empower/fetch-paid-exhibitors?api_key=${process.env.REACT_APP_IWAY_API_KEY}`
         );
 
         if (!res.ok) throw new Error("Failed to fetch exhibitors");
@@ -465,9 +463,6 @@ const Exhibit = () => {
 
   return (
     <Component>
-      {/* <Theme>
-                <img alt="" src={exhibitCover} />
-            </Theme> */}
       {/* Safely render loading or empty states here without blocking the rest of the page */}
       {loading ? (
         <ExhibitorsGrid>

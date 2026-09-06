@@ -1,7 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, styled } from "@mui/material"
 
 
-import callForStudent from '../../assets/callForStudent.svg'
+import callForStudent from '../../assets/callForStudent.webp'
 import { deadlines, problemset } from "./data"
 import redirect from '../../assets/redirect.svg'
 import { useState, useEffect } from "react"

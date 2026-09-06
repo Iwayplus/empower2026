@@ -1,13 +1,11 @@
 import { styled } from "@mui/material"
-import logo from '../../assets/data.png'
+import logo from '../../assets/data.webp'
 import mail from '../../assets/mail.svg'
 import call from '../../assets/call.svg'
-import calander from '../../assets/calander.svg'
 import map from '../../assets/map.svg'
 import timing from '../../assets/timing.svg'
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import download from "../../assets/app.png"
 import { FaLinkedin, FaInstagram } from "react-icons/fa";
 import { baseUrl, getFooterData } from "../../services/api";
 const Component = styled('section')({
@@ -181,7 +179,7 @@ const Footer = () => {
         : logo;
 
     const getEmbedMapUrl = (url) => {
-        if (!url) return "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4153.583722712865!2d77.18925209468964!3d28.543941178796093!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d9a6426d987%3A0x48afdc51e54c8134!2sResearch%20and%20Innovation%20Park%20(RNI)%20-%20IIT%20DELHI!5e0!3m2!1sen!2sin!4v1741772416957!5m2!1sen!2sin";
+        if (!url) return "https://maps.app.goo.gl/Vqr82PEmPQqPZESPA?g_st=ic";
         if (url.includes("/embed") || url.includes("embed?")) return url;
         if (url.includes("google.com/maps")) {
             return url.replace("/maps", "/maps/embed");
@@ -203,7 +201,12 @@ const Footer = () => {
         <footer id="footer">
             <Container>
                 <LogoBx>
-                    <img src={logoUrl} alt={`${process.env.REACT_APP_APP_NAME} Conference Logo`} />
+                    <img
+                        src={logoUrl}
+                        alt={`${process.env.REACT_APP_APP_NAME} Conference Logo`}
+                        loading="lazy"
+                        decoding="async"
+                    />
                     <Text>{dynamicSection?.content?.footer_desc || `${process.env.REACT_APP_APP_NAME} is a global conference dedicated to accessibility in design, tech, and innovation. Learn from industry leaders and participate in hands-on workshops`}</Text>
                     <h3 style={{ marginTop: "20px", marginBottom: "8px", fontSize: "20px", fontWeight: "600", color: "#fff" }}>
                         Connect with us
@@ -248,7 +251,7 @@ const Footer = () => {
                         </Elm>
                         <Elm>
                             <img src={map} alt="" aria-hidden="true" />
-                            <p>{dynamicSection?.content?.contact_address || "Assistech Lab, Indian Institute of Technology Delhi, New Delhi, India"}</p>
+                            <p>{dynamicSection?.content?.contact_address || "Lecture Hall Complex (LHC), IIT Delhi"}</p>
                         </Elm>
                     </ContactBx>
                 </DetailsBx>
@@ -302,7 +305,7 @@ const Footer = () => {
                                 className="assistech-link"
                                 style={{ color: '#fff' }}
                             >
-                                Assistech Lab, IIT Delhi
+                                Lecture Hall Complex (LHC), IIT Delhi
                             </a>
                         </>
                     )}

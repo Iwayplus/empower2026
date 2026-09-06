@@ -4,7 +4,8 @@ import { Backdrop, CircularProgress, styled } from "@mui/material"
 
 import checkGreen from '../assets/checkGreen.svg'
 import downloadIcon from '../assets/download.svg'
-import empowerLogoWhite from '../assets/data.png'
+import empowerLogoWhite from '../assets/data.webp'
+import { loadPdfMake } from '../utils/loadPdfMake'
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { setExhibitorProfile } from "../redux/userSlice"
@@ -274,6 +275,7 @@ const ExhibitorPaymentReceipt = ({ setFormState, setSearchParams }) => {
 
 
     const handleInvoice = async (action) => {
+        const pdfMake = await loadPdfMake()
 
         let totalFee = selectedStall?.earlyBirdRegistrationPrice
         if(user?.exhibitorProfile?.paymentDetails?.coupon?.price) totalFee = totalFee - user?.exhibitorProfile?.paymentDetails?.coupon?.price
@@ -380,10 +382,10 @@ const ExhibitorPaymentReceipt = ({ setFormState, setSearchParams }) => {
         };
 
         if (action === "download") {
-            window.pdfMake.createPdf(docDefinition).download('Empower_Exhibitor_Registration_Receipt.pdf');
+            pdfMake.createPdf(docDefinition).download('Empower_Exhibitor_Registration_Receipt.pdf');
         }
         else if (action === "mail") {
-            window.pdfMake.createPdf(docDefinition).getBlob(async (blob) => {
+            pdfMake.createPdf(docDefinition).getBlob(async (blob) => {
                 // 2. Append the Blob to FormData
                 const formData = new FormData();
                 formData.append('file', blob, `${process.env.REACT_APP_APP_NAME}_Exhibitor_Receipt.pdf`);

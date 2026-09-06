@@ -332,27 +332,45 @@ const normalizeDynamicSections = (payload, status) => {
     .sort((a, b) => Number(a?.order || 0) - Number(b?.order || 0));
 };
 
+const dynamicSectionsInFlight = new Map();
+
 export const fetchPublicDynamicSections = async (eventId = projectId, status = 'Published') => {
+  const requestKey = `${eventId}:${status || ''}`;
+  const inFlightRequest = dynamicSectionsInFlight.get(requestKey);
+  if (inFlightRequest) return inFlightRequest;
+
   const apiKey = process.env.REACT_APP_IWAY_API_KEY;
   const candidates = [
     `${baseUrl}/api/public/events/${eventId}/dynamic-sections?api_key=${apiKey}`,
     `${baseUrl}/api/dynamic-sections/${eventId}/sections?api_key=${apiKey}`,
   ];
 
-  for (const url of candidates) {
-    try {
-      const response = await axios.get(url);
-      const normalized = normalizeDynamicSections(response?.data || response, status);
+  const request = (async () => {
+    for (const url of candidates) {
+      try {
+        const response = await axios.get(url);
+        const normalized = normalizeDynamicSections(response?.data || response, status);
 
-      if (normalized.length > 0) {
-        return normalized;
+        if (normalized.length > 0) {
+          return normalized;
+        }
+      } catch (error) {
+        console.warn(`Dynamic sections fetch failed for ${url}`, error?.response?.data || error.message);
       }
-    } catch (error) {
-      console.warn(`Dynamic sections fetch failed for ${url}`, error?.response?.data || error.message);
+    }
+
+    return [];
+  })();
+
+  dynamicSectionsInFlight.set(requestKey, request);
+
+  try {
+    return await request;
+  } finally {
+    if (dynamicSectionsInFlight.get(requestKey) === request) {
+      dynamicSectionsInFlight.delete(requestKey);
     }
   }
-
-  return [];
 };
 
 export const getDynamicSections = async (eventId = projectId, status = 'Published') => {

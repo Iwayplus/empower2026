@@ -4,11 +4,12 @@ import { Backdrop, CircularProgress, styled } from "@mui/material"
 
 import checkGreen from '../assets/checkGreen.svg'
 import downloadIcon from '../assets/download.svg'
-import empowerLogoWhite from '../assets/data.png'
+import empowerLogoWhite from '../assets/data.webp'
 import { useDispatch, useSelector } from "react-redux"
 import { registrationCharges } from "../components/attend/data"
 import { useNavigate } from "react-router-dom"
 import { setProfile } from "../redux/userSlice"
+import { loadPdfMake } from "../utils/loadPdfMake"
 const TIMESTAMP_OPTIONS = {
     year: 'numeric',
     month: 'long',
@@ -242,6 +243,7 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
 
 
     const handleInvoice = async (action) => {
+        const pdfMake = await loadPdfMake()
         const docDefinition = {
             content: [
                 {
@@ -321,10 +323,10 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
         };
 
         if (action === "download") {
-            window.pdfMake.createPdf(docDefinition).download('Empower_Registration_Receipt.pdf');
+            pdfMake.createPdf(docDefinition).download('Empower_Registration_Receipt.pdf');
         }
         else if (action === "mail" && receipt?.id && user?.profile?.firstName) {
-            window.pdfMake.createPdf(docDefinition).getBlob(async (blob) => {
+            pdfMake.createPdf(docDefinition).getBlob(async (blob) => {
                 // 2. Append the Blob to FormData
                 const formData = new FormData();
                 formData.append('file', blob, `${process.env.REACT_APP_APP_NAME}_Receipt.pdf`);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
-import headerIcon from '../../assets/data.png';
+import headerIcon from '../../assets/data.webp';
 import { Button, styled } from '@mui/material';
 import { logout } from '../../services/api';
 import { useSelector } from 'react-redux';

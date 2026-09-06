@@ -1,5 +1,5 @@
 import { Button, Divider, Drawer, styled, } from "@mui/material"
-import headerIcon from '../../assets/data.png'
+import headerIcon from '../../assets/data.webp'
 import email from '../../assets/email.svg'
 import phone from '../../assets/phone.svg'
 import hamburger from '../../assets/hamburger.svg'

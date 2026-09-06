@@ -4,12 +4,9 @@ import checkBlue from '../../assets/checkBlue.svg'
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom";
 
-import red from "../../assets/rad.png";
-import to from "../../assets/try.png";
+import to from "../../assets/try.webp";
 
-import metro from "../../assets/fill.png";
 import np from "../../assets/drop.png";
-import attendImg from '../../assets/attendCover.svg'
 import { Typography } from "@mui/material";
 import { baseUrl, projectId } from "../../services/api";
 import { useState, useEffect } from "react";
@@ -312,9 +309,6 @@ const Attend = () => {
 
   return (
     <Component>
-      {/* <Theme>
-                <img alt="" src={attendImg} />
-            </Theme> */}
       {showCharges ? (
         <>
           <motion.div
