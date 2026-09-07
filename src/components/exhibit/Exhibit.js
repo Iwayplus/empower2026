@@ -10,6 +10,8 @@ import checkGreen from '../../assets/checkGreen.svg'
 import emailIcon from "../../assets/mail.svg";
 import websiteIcon from "../../assets/po.jpg";
 import linkedInIcon from "../../assets/link.png";
+import exhibitionPageBanner from "../../assets/page-banners/exhibition-page-banner.png";
+import exhibitorFaqs from "../../assets/page-banners/EMPOWER 2026 Exhibitor FAQs Final.pdf";
 import { baseUrl, projectId } from "../../services/api";
 const Component = styled('section')({})
 
@@ -323,6 +325,26 @@ const LinksContainer = styled('div')({
   marginTop: 8,
 });
 
+const FaqDownload = styled('a')(({ theme }) => ({
+  display: 'inline-block',
+  width: 'fit-content',
+  marginTop: 20,
+  padding: '12px 20px',
+  background: '#2180E4',
+  color: '#fff',
+  borderRadius: 4,
+  fontFamily: 'Poppins',
+  fontSize: 16,
+  fontWeight: 500,
+  textDecoration: 'none',
+  '&:hover': {
+    background: '#4996E9',
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: 15,
+  },
+}));
+
 const TableBx = styled('div')(({ theme }) => ({
   '&>h3': {
     color: '#CD7F00',
@@ -463,6 +485,10 @@ const Exhibit = () => {
 
   return (
     <Component>
+      <Theme>
+        <img src={exhibitionPageBanner} alt="EMPOWER 2026 exhibition" />
+      </Theme>
+
       {/* Safely render loading or empty states here without blocking the rest of the page */}
       {loading ? (
         <ExhibitorsGrid>
@@ -594,6 +620,9 @@ const Exhibit = () => {
         <Cont1>
           <h1>{dynamicSection?.content?.title || exhibitTypography.title["en-us"]}</h1>
           <p>{dynamicSection?.content?.para1 || exhibitTypography.para1["en-us"]}</p>
+          <FaqDownload href={exhibitorFaqs} download="EMPOWER-2026-Exhibitor-FAQs.pdf">
+            Download Exhibitor FAQs
+          </FaqDownload>
         </Cont1>
       </motion.div>
 
