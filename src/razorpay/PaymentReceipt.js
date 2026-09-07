@@ -254,7 +254,7 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
                     table: {
                         widths: ['*', '*'],
                         body: [
-                            ['Registration ID', `empower25/${index + 1000}` || ""],
+                            ['Registration ID', `empower26/${index + 1000}` || ""],
                             ['Payment ID', receipt?.id || "N/A"],
                             ['Name', `${user?.profile?.firstName} ${user?.profile?.lastName}` || "N/A"],
                             ['Mode of Payment', `${!receipt ? "N/A" : receipt?.method === "card" ? `${receipt?.card?.type} ${receipt?.card?.entity}` : receipt?.method.toUpperCase()}`],
