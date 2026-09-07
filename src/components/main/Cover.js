@@ -1,4 +1,4 @@
-import { styled, Box } from "@mui/material";
+import { styled, Box, keyframes } from "@mui/material";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -181,6 +181,19 @@ const CarouselWrapper = styled("div")({
   zIndex: 0,
 });
 
+const fillProgress = keyframes`
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+`;
+
+const ProgressBar = styled("div")({
+  height: "100%",
+  width: "100%",
+  background: "#C69300",
+  transformOrigin: "left center",
+  animation: `${fillProgress} 5s linear forwards`,
+});
+
 
 const QRContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -234,7 +247,6 @@ const Cover = () => {
   const [carousel, setCarousel] = useState([]);
   const [dynamicHero, setDynamicHero] = useState(null);
   const [currentBg, setCurrentBg] = useState("");
-  const [progress, setProgress] = useState(0);
   const [timerKey, setTimerKey] = useState(0); // bump to restart the timer
 
   const navigate = useNavigate();
@@ -267,7 +279,6 @@ const Cover = () => {
     } else {
       setCurrentBg(list[next].image_url);
     }
-    setProgress(0); // reset progress bar on each new slide
   }, []);
 
   // Auto-advance interval — restarts whenever timerKey changes (e.g., dot click)
@@ -276,17 +287,6 @@ const Cover = () => {
     const interval = setInterval(advance, SLIDE_DURATION);
     return () => clearInterval(interval);
   }, [carousel, timerKey, advance]);
-
-  // Smooth progress bar that fills over SLIDE_DURATION
-  useEffect(() => {
-    if (!carousel.length) return;
-    setProgress(0);
-    const step = 100 / (SLIDE_DURATION / 50); // update every 50ms
-    const timer = setInterval(() => {
-      setProgress((prev) => Math.min(prev + step, 100));
-    }, 50);
-    return () => clearInterval(timer);
-  }, [currentIndex, carousel]);
 
   // Fetch CMS Hero Dynamic Content + build carousel from hero images
   useEffect(() => {
@@ -392,14 +392,7 @@ const Cover = () => {
                 zIndex: 4,
               }}
             >
-              <div
-                style={{
-                  height: "100%",
-                  width: `${progress}%`,
-                  background: "#C69300",
-                  transition: "width 0.05s linear",
-                }}
-              />
+              <ProgressBar key={`${currentIndex}-${timerKey}`} />
             </div>
           )}
 
@@ -414,7 +407,6 @@ const Cover = () => {
                 indexRef.current = -1;
                 setCurrentIndex(-1);
                 setCurrentBg(bgImage);
-                setProgress(0);
                 setTimerKey((k) => k + 1); // restart interval
               }}
               onKeyDown={(e) => {
@@ -423,7 +415,6 @@ const Cover = () => {
                   indexRef.current = -1;
                   setCurrentIndex(-1);
                   setCurrentBg(bgImage);
-                  setProgress(0);
                   setTimerKey((k) => k + 1);
                 }
               }}
@@ -440,7 +431,6 @@ const Cover = () => {
                   indexRef.current = idx;
                   setCurrentIndex(idx);
                   setCurrentBg(img.image_url);
-                  setProgress(0);
                   setTimerKey((k) => k + 1); // restart interval
                 }}
                 onKeyDown={(e) => {
@@ -449,7 +439,6 @@ const Cover = () => {
                     indexRef.current = idx;
                     setCurrentIndex(idx);
                     setCurrentBg(img.image_url);
-                    setProgress(0);
                     setTimerKey((k) => k + 1);
                   }
                 }}

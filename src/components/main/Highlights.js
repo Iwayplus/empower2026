@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { highlightsTypography, coverTypography } from "./assets/typography";
 import { useEffect, useRef, useState } from "react";
 import { keyframes } from "styled-components";
-import { baseUrl, projectId } from "../../services/api";
+import { baseUrl, fetchPublicDynamicSections, projectId } from "../../services/api";
 
 import calander from "../../assets/calander.svg";
 import locationRed from "../../assets/locationRed.svg";
@@ -433,15 +433,9 @@ const Highlights = () => {
 
   const fetchAbout = async () => {
     try {
-      const res = await fetch(`${baseUrl}/secured/cms/about/all/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
-      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
-      const json = await res.json();
-      if (json.status && Array.isArray(json.data)) {
-        const publishedAbout = json.data.find(sec => sec.status === "Published");
-        if (publishedAbout) {
-          setAboutData(publishedAbout.content);
-        }
-      }
+      const sections = await fetchPublicDynamicSections(projectId, "Published");
+      const publishedAbout = sections.find((section) => section.section_type === "about");
+      if (publishedAbout) setAboutData(publishedAbout.content);
     } catch (err) {
       console.error(err);
     }

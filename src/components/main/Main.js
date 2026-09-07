@@ -1,39 +1,26 @@
-import Agenda from "./Agenda"
-
+import { lazy, Suspense } from "react"
 import Cover from "./Cover"
-import Faqs from "./Faqs"
 import Highlights from "./Highlights"
-import Work from "./Work"
-import Info from "./Info"
-import Exhibit from "./Exhibitor"
-import Spon from "./Sponsor"
-import Part from "./Partner"
-import Keynote from "./Key"
-import Session from "../../components/EmpowerSchedule/Session"
-import Notice from "./Notice"
-import Max from "./max"
-import Invite from "./Invite"
-import Gallery from "./Gallery"
+
+const Max = lazy(() => import("./max"))
+const Part = lazy(() => import("./Partner"))
+const Exhibit = lazy(() => import("./Exhibitor"))
+const Spon = lazy(() => import("./Sponsor"))
+
+const SectionFallback = ({ height }) => (
+    <div aria-hidden="true" style={{ minHeight: height }} />
+)
+
 const Main = () => {
     return (
         <main id="main-content">
             {/* <Notice/> */}
             <Cover />
             <Highlights />
-            <Max/>
-            {/* <Session/> */}
-            {/* <Keynote/> */}
-            {/* <Invite/> */}
-            {/* <Work/> */}
-            {/* <Spon/> */}
-                         <Part/>
-            {/* <Info/> */}
-            <Exhibit/>
-            {/* <Gallery/> */}
-            {/* <Part/> */}
-            <Spon/>
-            {/* <Agenda /> */}
-            {/* <Faqs /> */}
+            <Suspense fallback={<SectionFallback height={420} />}><Max /></Suspense>
+            <Suspense fallback={<SectionFallback height={360} />}><Part /></Suspense>
+            <Suspense fallback={<SectionFallback height={520} />}><Exhibit /></Suspense>
+            <Suspense fallback={<SectionFallback height={420} />}><Spon /></Suspense>
         </main>
     )
    

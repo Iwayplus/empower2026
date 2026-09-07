@@ -1,17 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Auth from "../components/authentication/Auth";
-import StudentDesign from "../components/studentDesign/StudentDesign";
-import FailedPayment from "../razorpay/FailedPayment";
-import ExhibitorRegister from "../components/authentication/exhibior/ExhibitorRegister";
-import CancellationRefundPolicy from "../components/policies/CancellationRefundPolicy";
-import PrivacyPolicy from "../components/policies/PrivacyPolicy";
-import TermsAndConditions from "../components/policies/TermsConditions";
-import PaymentReceipt from "../razorpay/PaymentReceipt";
-import Empower25 from "../redirects/Empower25";
-
 const Home = lazy(() => import("../components/home/Home"));
 const Main = lazy(() => import("../components/main/Main"));
+const Auth = lazy(() => import("../components/authentication/Auth"));
+const StudentDesign = lazy(() => import("../components/studentDesign/StudentDesign"));
+const FailedPayment = lazy(() => import("../razorpay/FailedPayment"));
+const ExhibitorRegister = lazy(() => import("../components/authentication/exhibior/ExhibitorRegister"));
+const CancellationRefundPolicy = lazy(() => import("../components/policies/CancellationRefundPolicy"));
+const PrivacyPolicy = lazy(() => import("../components/policies/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("../components/policies/TermsConditions"));
+const PaymentReceipt = lazy(() => import("../razorpay/PaymentReceipt"));
+const Empower25 = lazy(() => import("../redirects/Empower25"));
 const Exhibit = lazy(() => import("../components/exhibit/Exhibit"));
 const Sponsor = lazy(() => import("../components/sponsors/Sponsor"));
 const Attend = lazy(() => import("../components/attend/Attend"));
@@ -68,15 +67,15 @@ const baseRoutes = createBrowserRouter([
       },
       {
         path: "/cancellation-refund-policy",
-        element: <CancellationRefundPolicy />
+        element: withSuspense(CancellationRefundPolicy)
       },
       {
         path: "/privacy-policy",
-        element: <PrivacyPolicy />
+        element: withSuspense(PrivacyPolicy)
       },
       {
         path: "/terms-condition",
-        element: <TermsAndConditions />
+        element: withSuspense(TermsAndConditions)
       },
       {
         path: "/program-committee",
@@ -126,7 +125,7 @@ const baseRoutes = createBrowserRouter([
   },
   {
     path: '/auth',
-    element: <Auth />,
+    element: withSuspense(Auth),
     children: [
       {
         path: "/auth/signin",

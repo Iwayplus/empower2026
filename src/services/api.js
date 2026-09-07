@@ -339,26 +339,15 @@ export const fetchPublicDynamicSections = async (eventId = projectId, status = '
   const inFlightRequest = dynamicSectionsInFlight.get(requestKey);
   if (inFlightRequest) return inFlightRequest;
 
-  const apiKey = process.env.REACT_APP_IWAY_API_KEY;
-  const candidates = [
-    `${baseUrl}/api/public/events/${eventId}/dynamic-sections?api_key=${apiKey}`,
-    `${baseUrl}/api/dynamic-sections/${eventId}/sections?api_key=${apiKey}`,
-  ];
+  const url = `${baseUrl}/api/dynamic-sections/${eventId}/sections`;
 
   const request = (async () => {
-    for (const url of candidates) {
-      try {
-        const response = await axios.get(url);
-        const normalized = normalizeDynamicSections(response?.data || response, status);
-
-        if (normalized.length > 0) {
-          return normalized;
-        }
-      } catch (error) {
-        console.warn(`Dynamic sections fetch failed for ${url}`, error?.response?.data || error.message);
-      }
+    try {
+      const response = await axios.get(url);
+      return normalizeDynamicSections(response?.data || response, status);
+    } catch (error) {
+      console.warn(`Dynamic sections fetch failed for ${url}`, error?.response?.data || error.message);
     }
-
     return [];
   })();
 
