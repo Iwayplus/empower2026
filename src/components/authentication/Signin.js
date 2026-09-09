@@ -52,7 +52,7 @@ const OtpContainer = ({ type, input, onChangeNumber }) => {
 
   const [isResending, setIsResending] = useState(false);
 
-  const message = `Enter the 4-digit code sent to your ${type === "email" ? "email" : "mobile"}`;
+  const message = `Enter the 4-digit code sent to your ${type === "email" ? "email" : "mobile"} (make sure to check the spam folder)`;
 
   const dispatch = useDispatch()
   const navigate = useNavigate()

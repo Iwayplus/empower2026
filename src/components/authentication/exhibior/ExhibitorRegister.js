@@ -954,7 +954,10 @@ const ExhibitorRegister = () => {
 
     const [user, setUser] = useState(initialValues)
     const [fileSizeErr, setFileSizeErr] = useState(false)
-    const [uploading, setUploading] = useState(false)
+    const [uploading, setUploading] = useState({
+        companyLogo: false,
+        promotionalMaterial: false
+    })
     const [photoName, setPhotoName] = useState("Company Logo")
     const [disabilityCertificateSizeErr, setDisabilityCertificateSizeErr] = useState(null)
     const [showInputError, setShowInputError] = useState(false)
@@ -1084,9 +1087,15 @@ const ExhibitorRegister = () => {
         }
         const imageFormData = new FormData();
         imageFormData.append('image', file);
-        setUploading(true);
+        setUploading({
+            ...uploading,
+            [event.target.name]: true
+        });
         let response = await uploadFile(imageFormData);
-        setUploading(false);
+        setUploading({
+            ...uploading,
+            [event.target.name]: false
+        });
         if (response.data.status) {
             let fileName = response.data.filename;
             setUser({
@@ -1571,7 +1580,7 @@ const ExhibitorRegister = () => {
 
                                                     <UploadPhotoBx>
                                                         {
-                                                            uploading ?
+                                                            uploading?.companyLogo ?
                                                                 <CircularProgress /> :
                                                                 <UploadImg aria-hidden="true" src={user?.brandingDetails?.companyLogo || uploadPhoto} alt="upload_photo" />
 
@@ -1632,11 +1641,11 @@ const ExhibitorRegister = () => {
                                                     <DisabilityCertificate>
                                                         <p>Promotional Material</p>
                                                         <FileChoose>
-                                                            {uploading ?
+                                                            {uploading?.promotionalMaterial ?
                                                                 <CircularProgress /> :
                                                                 <label role="button" htmlFor="disability_cert">Choose file</label>
                                                             }
-                                                            <PhotoName>{user?.brandingDetails?.promotionalMaterial?.split(")-")[1]}</PhotoName>
+                                                            <PhotoName>{user?.brandingDetails?.promotionalMaterial?.split("uploads/")[1]}</PhotoName>
                                                             {user?.brandingDetails?.promotionalMaterial && <CloseBtn title="remove photo" onClick={() => {
                                                                 setUser({
                                                                     ...user,
@@ -1664,7 +1673,7 @@ const ExhibitorRegister = () => {
                                                             id="disability_cert"
                                                             accept=".pdf,.jpg,.png,.jpeg,.docx,.mp4"
                                                             name="promotionalMaterial"
-                                                            onChange={(e) => handleFileChange(e)}
+                                                            onChange={handleFileChange}
                                                         />
                                                     </DisabilityCertificate>
 
