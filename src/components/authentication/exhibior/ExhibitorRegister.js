@@ -1687,6 +1687,15 @@ const ExhibitorRegister = () => {
                                                         handleChange={handleBrandingDetailsChange}
 
                                                     />
+                                                    <InputField
+                                                        label="Share Google Drive URL (optional)"
+                                                        placeholder="Enter Google Drive URL"
+                                                        name="gdriveUrl"
+                                                        bottmText="Eg. https://drive.google.com/file/d/yourfile/view?usp=sharing"
+                                                        value={user?.brandingDetails?.gdriveUrl}
+                                                        handleChange={handleBrandingDetailsChange}
+
+                                                    />
 
                                                     <H2>Special Requests</H2>
                                                     <AccompanyPerson>
@@ -1975,7 +1984,7 @@ const ExhibitorRegister = () => {
                                                 />
                                             </Payment>
                             }
-                        </Content>
+                        </Content>                        
 
                     </Container>
             }
