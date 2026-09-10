@@ -216,11 +216,12 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
     //   let registrationFee = registrationCharges?.find(elm => elm?.registrationTypes?.includes(user?.profile?.registrationType))?.earlyBird
     //   let accompanyPersonFee = registrationCharges?.find(elm => elm?.registrationTypes?.includes("Accompanying Person"))?.earlyBird
 
-    let category = user?.profile?.registrationCategory === "Full Conference" ? "standard" : "standardOneDay"
+    let category = user?.profile?.registrationCategory === "Full Conference" ? "earlyBird" : "earlyOneDay"
 
     let registrationFee = registrationCharges?.filter(elm => elm?.registrationTypes?.includes(user?.profile?.registrationType))[0]?.[category]
     let accompanyPersonFee = registrationCharges?.filter(elm => elm?.registrationTypes?.includes("Accompanying Person"))[0]?.[category]
 
+    let categoryLabel = category === "earlyBird" ? "Early Bird" : "Standard"
 
 
     if (category === "standardOneDay") {
@@ -273,7 +274,7 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
                     table: {
                         widths: ['*', 'auto', 'auto'],
                         body: [
-                            [user?.profile?.registrationCategory || "", user?.profile?.daySelects?.length === 0 ? "Fee For full conference" : "Fee for " + user?.profile?.daySelects?.join(", "), 'Fee (Incl. GST)'],
+                            [user?.profile?.registrationCategory || "", user?.profile?.daySelects?.length === 0 ? "Fee For full conference ("+categoryLabel+")" : "Fee for " + user?.profile?.daySelects?.join(", ")+" ("+categoryLabel+")", 'Fee (Incl. GST)'],
                             [user?.profile?.registrationType || "N/A", registrationFee || 0, registrationFee || 0],
                             ["Accompany Person Fee", user?.profile?.accompanyPerson ? accompanyPersonFee : 0, user?.profile?.accompanyPerson ? accompanyPersonFee : 0],
                             ["Total", totalFee || 0, totalFee || 0],
@@ -485,7 +486,7 @@ const PaymentReceipt = ({ setFormState, setSearchParams }) => {
                                 role="text"
                                 aria-label={`Registration Fee ₹ ${registrationFee}`}
                             >
-                                <span className="label">Registration Fee</span>
+                                <span className="label">Registration Fee ({categoryLabel})</span>
                                 <span className="value">₹ {registrationFee}</span>
                             </Row>
 
