@@ -4,6 +4,7 @@ import { highlightsTypography, coverTypography } from "./assets/typography";
 import { useEffect, useRef, useState } from "react";
 import { keyframes } from "styled-components";
 import { baseUrl, projectId } from "../../services/api";
+import { sortByPriority } from "../../utils/sortByPriority";
 
 import calander from "../../assets/calander.svg";
 import locationRed from "../../assets/locationRed.svg";
@@ -463,7 +464,7 @@ const Highlights = () => {
 
         const data = await response.json();
         const sponsorsArray = Array.isArray(data?.sponsors) ? data.sponsors : [];
-        setSponsors(sponsorsArray);
+        setSponsors(sortByPriority(sponsorsArray));
       } catch (err) {
         setError(err.message);
       } finally {

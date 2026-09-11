@@ -14,6 +14,7 @@ import playStore from "../../assets/gp.png";
 import appStore from "../../assets/sto.png";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { baseUrl, fetchPublicDynamicSections, projectId } from "../../services/api";
+import { sortByPriority } from "../../utils/sortByPriority";
 
 const Component = styled("section")({
   width: "100%",
@@ -320,7 +321,7 @@ const Cover = () => {
           );
           const json = await res.json();
           if (json?.status && Array.isArray(json.data)) {
-            const filtered = json.data.filter((img) => img.priority !== 1);
+            const filtered = sortByPriority(json.data);
             setCarousel(filtered.map((img) => ({
               image_url: `${baseUrl}/uploads/${encodeURIComponent(img.image_url)}`
             })));
