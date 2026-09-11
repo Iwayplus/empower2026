@@ -124,9 +124,10 @@ const Max = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          gap: 1.5,
+          gap: 2,
           mb: 4,
           ml: 2,
+          flexWrap: "wrap",
         }}
       >
         <Typography
@@ -135,7 +136,7 @@ const Max = () => {
           sx={{
             fontWeight: 600,
             color: "#000",
-            lineHeight: "130%",
+            lineHeight: 1.2,
             fontFamily: "Poppins",
             margin: 0,
           }}
@@ -143,21 +144,34 @@ const Max = () => {
           Schedule Summary
         </Typography>
 
-        {/* Accessible Arrow Button */}
+        {/* Accessible See All Button */}
         <Box
-          role="button"
+          component="button"
           tabIndex={0}
           aria-label="View detailed agenda"
           sx={{
-            display: "flex",
+            display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
-            "& svg": {
-              transition: "transform 0.3s ease",
-            },
-            "&:hover svg": {
-              transform: "translateX(4px) translateY(-2px) scale(1.1)",
+            background: "transparent",
+            border: "1.5px solid #FFB300",
+            borderRadius: "20px",
+            px: 2,
+            py: 0.5,
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "#000",
+            lineHeight: 1,
+            m: 0,
+            outline: "none",
+            transition: "all 0.2s ease",
+            "&:hover": {
+              backgroundColor: "#FFB300",
+              color: "#000",
+              transform: "translateY(-1px)",
+              boxShadow: "0 2px 6px rgba(255, 179, 0, 0.3)",
             },
           }}
           onClick={() => {
@@ -171,11 +185,7 @@ const Max = () => {
                 window.open(process.env.REACT_APP_APP_URL, "_blank", "noopener,noreferrer");
               }
             } else {
-              const isLocal = window.location.hostname === "localhost";
-              const targetUrl = isLocal
-                ? "/empower-schedule"
-                : "/empower-schedule";
-              window.location.href = targetUrl;
+              window.location.href = "/empower-schedule";
             }
           }}
           onKeyDown={(e) => {
@@ -190,29 +200,12 @@ const Max = () => {
                   window.open(process.env.REACT_APP_APP_URL, "_blank", "noopener,noreferrer");
                 }
               } else {
-                const isLocal = window.location.hostname === "localhost";
-                const targetUrl = isLocal
-                  ? "http://localhost:3000/empower-schedule"
-                  : "https://empowerconference.in/empower-schedule";
-                window.location.href = targetUrl;
+                window.location.href = "/empower-schedule";
               }
             }
           }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#FFB300"
-            strokeWidth="4.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="5" y1="19" x2="19" y2="5" />
-            <polyline points="7 5 19 5 19 17" />
-          </svg>
+          See All
         </Box>
 
       </Box>

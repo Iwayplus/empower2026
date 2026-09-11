@@ -13,6 +13,7 @@ import emailIcon from "../../assets/mail.svg";       // your email icon
 import websiteIcon from "../../assets/po.jpg";   // your website icon
 import linkedInIcon from "../../assets/link.png"; // your LinkedIn icon
 import { baseUrl, projectId } from "../../services/api";
+import { sortByPriority } from "../../utils/sortByPriority";
 const Component = styled('div')({});
 
 const Cont1 = styled('div')(({ theme }) => ({
@@ -168,7 +169,7 @@ const Sponsor = () => {
       try {
         const res = await fetch(`${baseUrl}/secured/event/all-sponsors/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`);
         const data = await res.json();
-        setSponsors(Array.isArray(data?.sponsors) ? data.sponsors : []);
+        setSponsors(sortByPriority(Array.isArray(data?.sponsors) ? data.sponsors : []));
       } catch (err) { setError(err.message); }
       finally { setLoading(false); }
     };
