@@ -485,9 +485,9 @@ const Exhibit = () => {
 
   return (
     <Component>
-      <Theme>
+      {/* <Theme>
         <img src={exhibitionPageBanner} alt="EMPOWER 2026 exhibition" />
-      </Theme>
+      </Theme>   */}
 
       {/* Safely render loading or empty states here without blocking the rest of the page */}
       {loading ? (
