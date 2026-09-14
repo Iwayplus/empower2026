@@ -148,14 +148,14 @@ const Exhibitors = () => {
   return (
     <Component>
       <Header>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
           <Typography
             variant="h4"
             component="h2"
             sx={{
               fontWeight: 600,
               color: "#000",
-              lineHeight: "130%",
+              lineHeight: 1.2,
               fontFamily: "Poppins",
               margin: 0,
             }}
@@ -163,40 +163,41 @@ const Exhibitors = () => {
             Exhibitors
           </Typography>
 
-          <Button
+          {/* Accessible See All Button */}
+          <Box
+            component="button"
             aria-label="View detailed exhibitors"
             onClick={() => {
               window.location.href = window.location.origin + "/exhibit";
             }}
             sx={{
-              minWidth: "auto",
-              p: 1,
-              border: "none !important",
-              borderRadius: "6px",
-              background: "#fff",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              background: "transparent",
+              border: "1.5px solid #FFB300",
+              borderRadius: "20px",
+              px: 2,
+              py: 0.5,
+              fontFamily: "Poppins, sans-serif",
+              fontSize: "14px",
+              fontWeight: 600,
+              color: "#000",
+              lineHeight: 1,
+              m: 0,
+              outline: "none",
+              transition: "all 0.2s ease",
               "&:hover": {
-                background: "#f3f4f6",
-                transform: "translateY(-2px)",
+                backgroundColor: "#FFB300",
+                color: "#000",
+                transform: "translateY(-1px)",
+                boxShadow: "0 2px 6px rgba(255, 179, 0, 0.3)",
               },
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#FFB300"
-              strokeWidth="4.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <line x1="5" y1="19" x2="19" y2="5" />
-              <polyline points="7 5 19 5 19 17" />
-            </svg>
-          </Button>
-
+            See All
+          </Box>
         </Box>
       </Header>
 

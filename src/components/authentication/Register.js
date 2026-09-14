@@ -1090,7 +1090,7 @@ const InputField = ({
                 color: disabled ? "#ababab" : null,
                 border: error && showInputError ? "1px solid #E76363" : "1px solid var(--Color-Neutral-500, #D1D5DB)"
             }}
-                maxLength={150}
+                maxLength={max || 150}
                 placeholder={placeholder}
                 name={name}
                 value={value}
@@ -1719,12 +1719,13 @@ const Register = () => {
                                                         <InputField
                                                             label="Mobile"
                                                             placeholder="Enter Mobile Number"
-                                                            // bottmText="(e.g., company, university)"
+                                                            bottmText="Enter 10 digit number without any country code or '0'"
                                                             // mandatory
                                                             prefix="+91"
                                                             name="secondaryMobile"
                                                             error={!user?.secondaryMobile && !isValidEmail(user?.secondaryMobile) && !user?.secondaryMobile}
-                                                            value={user?.secondaryMobile}
+                                                            value={user?.secondaryMobile?.split("+91")[1]}
+                                                            max={10}
                                                             handleChange={handleChange}
                                                             errorTxt="please enter a valid Mobile Number"
                                                             showInputError={showInputError}

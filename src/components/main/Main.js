@@ -23,7 +23,7 @@ const Main = () => {
             <Max/>
             {/* <Session/> */}
             {/* <Keynote/> */}
-            {/* <Invite/> */}
+            <Invite/>
             {/* <Work/> */}
             {/* <Spon/> */}
                          <Part/>

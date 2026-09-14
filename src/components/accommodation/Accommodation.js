@@ -1,28 +1,44 @@
 import React , {useEffect,useState} from "react";
 import "./Accommodation.css";
-import { baseUrl, projectId } from "../../services/api";
+import { getNearbyServices } from "../../services/api";
 
 const Accommodation = () => {
    const [selectedChip, setSelectedChip] = useState("all"); 
     const [accommodations, setAccommodations] = useState([]);
 
 
-      useEffect(() => {
-    fetch(`${baseUrl}/secured/accommodations/688de24a29573c6c0b8240f5`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status) {
-          setAccommodations(data.accommodations);
-        }
-      })
-      .catch((err) => console.error("Error fetching accommodations:", err));
+  useEffect(() => {
+    const fetchAccommodations = async () => {
+      const response = await getNearbyServices();
+
+      if (response?.status) {
+        const nearbyServices = Array.isArray(response.data) ? response.data : [];
+        const accommodationTypes = new Set(["hotel", "hostel"]);
+
+        setAccommodations(
+          nearbyServices.filter((service) =>
+            accommodationTypes.has(service.type?.trim().toLowerCase())
+          )
+        );
+      }
+    };
+
+    fetchAccommodations();
   }, []);
 
-        const handleDirections = (address) => {
-    const encodedAddress = encodeURIComponent(address);
-    const iitDelhi = encodeURIComponent("IIT Delhi, Hauz Khas, New Delhi");
-    const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${iitDelhi}&destination=${encodedAddress}`;
-    window.open(mapsUrl, "_blank");
+  const openMapLocation = (location) => {
+    if (!location) return;
+
+    const mapsUrl = /^https?:\/\//i.test(location)
+      ? location
+      : `https://${location}`;
+    window.open(mapsUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDirections = (destination) => {
+    const origin = encodeURIComponent("IIT Delhi, Hauz Khas, New Delhi");
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${encodeURIComponent(destination)}`;
+    window.open(mapsUrl, "_blank", "noopener,noreferrer");
   };
 
       const chips = [
@@ -34,7 +50,7 @@ const Accommodation = () => {
     <path d="M11 21H5C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H11V21ZM9 19V5H5V19H9ZM13 11V3H19C19.55 3 20.0208 3.19583 20.4125 3.5875C20.8042 3.97917 21 4.45 21 5V11H13ZM15 9H19V5H15V9ZM13 21V13H21V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H13ZM15 19H19V15H15V19Z" fill="currentColor"/>
   </g>
 </svg> },
-    { label: "Hotel near campus", type :"Hotel Near Campus",svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    { label: "Hotel near campus", type :"hotel",svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <mask id="mask0_3116_7460" style={{maskType:"alpha"}} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
     <rect width="24" height="24" fill="currentColor"/>
   </mask>
@@ -42,7 +58,7 @@ const Accommodation = () => {
     <path d="M2 19V13C2 12.55 2.09167 12.1417 2.275 11.775C2.45833 11.4083 2.7 11.0833 3 10.8V8C3 7.16667 3.29167 6.45833 3.875 5.875C4.45833 5.29167 5.16667 5 6 5H10C10.3833 5 10.7417 5.07083 11.075 5.2125C11.4083 5.35417 11.7167 5.55 12 5.8C12.2833 5.55 12.5917 5.35417 12.925 5.2125C13.2583 5.07083 13.6167 5 14 5H18C18.8333 5 19.5417 5.29167 20.125 5.875C20.7083 6.45833 21 7.16667 21 8V10.8C21.3 11.0833 21.5417 11.4083 21.725 11.775C21.9083 12.1417 22 12.55 22 13V19H20V17H4V19H2ZM13 10H19V8C19 7.71667 18.9042 7.47917 18.7125 7.2875C18.5208 7.09583 18.2833 7 18 7H14C13.7167 7 13.4792 7.09583 13.2875 7.2875C13.0958 7.47917 13 7.71667 13 8V10ZM5 10H11V8C11 7.71667 10.9042 7.47917 10.7125 7.2875C10.5208 7.09583 10.2833 7 10 7H6C5.71667 7 5.47917 7.09583 5.2875 7.2875C5.09583 7.47917 5 7.71667 5 8V10ZM4 15H20V13C20 12.7167 19.9042 12.4792 19.7125 12.2875C19.5208 12.0958 19.2833 12 19 12H5C4.71667 12 4.47917 12.0958 4.2875 12.2875C4.09583 12.4792 4 12.7167 4 13V15Z" fill="currentColor"/>
   </g>
 </svg> },
-    { label: "Accessible Hotels",type :"Accessible Hotel" ,svg: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+    { label: "Accessible Hotels",type :"accessible" ,svg: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
   <mask id="mask0_3116_7463" style={{maskType:"alpha"}} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
     <rect width="20" height="20" fill="#D9D9D9"/>
   </mask>
@@ -50,7 +66,7 @@ const Accommodation = () => {
     <path d="M6.66667 18.3333C5.51389 18.3333 4.53125 17.9271 3.71875 17.1146C2.90625 16.3021 2.5 15.3194 2.5 14.1666C2.5 13.0139 2.90625 12.0312 3.71875 11.2187C4.53125 10.4062 5.51389 9.99998 6.66667 9.99998V11.6666C5.97222 11.6666 5.38194 11.9097 4.89583 12.3958C4.40972 12.8819 4.16667 13.4722 4.16667 14.1666C4.16667 14.8611 4.40972 15.4514 4.89583 15.9375C5.38194 16.4236 5.97222 16.6666 6.66667 16.6666C7.36111 16.6666 7.95139 16.4236 8.4375 15.9375C8.92361 15.4514 9.16667 14.8611 9.16667 14.1666H10.8333C10.8333 15.3194 10.4271 16.3021 9.61458 17.1146C8.80208 17.9271 7.81944 18.3333 6.66667 18.3333ZM14.1667 17.5V13.3333H9.16667C8.55556 13.3333 8.08333 13.0729 7.75 12.5521C7.41667 12.0312 7.375 11.4861 7.625 10.9166L9.16667 7.49998H7.27083L6.77083 8.79165L5.16667 8.33331L5.75 6.83331C5.875 6.51387 6.07986 6.26734 6.36458 6.09373C6.64931 5.92012 6.95833 5.83331 7.29167 5.83331H11.625C12.25 5.83331 12.7257 6.08678 13.0521 6.59373C13.3785 7.10067 13.4167 7.63887 13.1667 8.20831L11.7917 11.25H14.1667C14.625 11.25 15.0174 11.4132 15.3438 11.7396C15.6701 12.066 15.8333 12.4583 15.8333 12.9166V17.5H14.1667ZM13.3333 5.41665C12.875 5.41665 12.4826 5.25345 12.1562 4.92706C11.8299 4.60067 11.6667 4.20831 11.6667 3.74998C11.6667 3.29165 11.8299 2.89929 12.1562 2.5729C12.4826 2.24651 12.875 2.08331 13.3333 2.08331C13.7917 2.08331 14.184 2.24651 14.5104 2.5729C14.8368 2.89929 15 3.29165 15 3.74998C15 4.20831 14.8368 4.60067 14.5104 4.92706C14.184 5.25345 13.7917 5.41665 13.3333 5.41665Z" fill="currentColor"/>
   </g>
 </svg> },
-    { label: "Hostels", type :"Hostel",svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    { label: "Hostels", type :"hostel",svg: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <mask id="mask0_3116_7483" style={{maskType:"alpha"}} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
     <rect width="24" height="24" fill="#D9D9D9"/>
   </mask>
@@ -60,10 +76,16 @@ const Accommodation = () => {
 </svg> },
   ];
 
- const filteredHotels =
-  selectedChip === "all"
-    ? accommodations
-    : accommodations.filter((hotel) => hotel.type === selectedChip);
+ const filteredHotels = accommodations.filter((hotel) => {
+  const type = hotel.type?.trim().toLowerCase();
+
+  if (selectedChip === "all") return true;
+  if (selectedChip === "accessible") {
+    return type === "hotel" && hotel.accessibility?.trim().toLowerCase() === "yes";
+  }
+
+  return type === selectedChip;
+ });
 
   return (
     <div className="accommodation-page">
@@ -185,8 +207,8 @@ const Accommodation = () => {
       <div className="card-up">
         {/* Hotel Name & Rooms in same line */}
         <div className="card-i">
-          {hotel.hotel_name}
-          {hotel.number_of_rooms && (
+          {hotel.name}
+          {hotel.accessibility?.trim().toLowerCase() === "yes" && (
             <div className="rooms-badge">
        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
   <mask id="mask0_3116_7439" style={{maskType:"alpha"}} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
@@ -197,7 +219,7 @@ const Accommodation = () => {
   </g>
 </svg>
               <span style={{ marginLeft: "6px" }}>
-                {hotel.number_of_rooms} Rooms
+                Accessible
               </span>
             </div>
           )}
@@ -216,13 +238,13 @@ const Accommodation = () => {
     <path d="M12 12.5C12.55 12.5 13.0208 12.3042 13.4125 11.9125C13.8042 11.5208 14 11.05 14 10.5C14 9.95 13.8042 9.47917 13.4125 9.0875C13.0208 8.69583 12.55 8.5 12 8.5C11.45 8.5 10.9792 8.69583 10.5875 9.0875C10.1958 9.47917 10 9.95 10 10.5C10 11.05 10.1958 11.5208 10.5875 11.9125C10.9792 12.3042 11.45 12.5 12 12.5ZM12 19.85C14.0333 17.9833 15.5417 16.2875 16.525 14.7625C17.5083 13.2375 18 11.8833 18 10.7C18 8.88333 17.4208 7.39583 16.2625 6.2375C15.1042 5.07917 13.6833 4.5 12 4.5C10.3167 4.5 8.89583 5.07917 7.7375 6.2375C6.57917 7.39583 6 8.88333 6 10.7C6 11.8833 6.49167 13.2375 7.475 14.7625C8.45833 16.2875 9.96667 17.9833 12 19.85ZM12 22.5C9.31667 20.2167 7.3125 18.0958 5.9875 16.1375C4.6625 14.1792 4 12.3667 4 10.7C4 8.2 4.80417 6.20833 6.4125 4.725C8.02083 3.24167 9.88333 2.5 12 2.5C14.1167 2.5 15.9792 3.24167 17.5875 4.725C19.1958 6.20833 20 8.2 20 10.7C20 12.3667 19.3375 14.1792 18.0125 16.1375C16.6875 18.0958 14.6833 20.2167 12 22.5Z" fill="#2180E4"/>
   </g>
 </svg>
-          <span>{hotel.address}</span>
+          <span>{hotel.about || "Accommodation near IIT Delhi"}</span>
         </div>
 
         {/* Phone */}
-      {hotel.phone_no && (
+      {hotel.contact && (
   <a
-    href={`tel:${hotel.phone_no}`}
+    href={`tel:${hotel.contact.replace(/\s/g, "")}`}
     className="card-k"
     style={{ textDecoration: "none", color: "inherit" }}
   >
@@ -233,17 +255,17 @@ const Accommodation = () => {
 >
       <path d="M16.95 18.5C14.8667 18.5 12.8083 18.0458 10.775 17.1375C8.74167 16.2292 6.89167 14.9417 5.225 13.275C3.55833 11.6083 2.27083 9.75833 1.3625 7.725C0.454167 5.69167 0 3.63333 0 1.55C0 1.25 0.1 1 0.3 0.8C0.5 0.6 0.75 0.5 1.05 0.5H5.1C5.33333 0.5 5.54167 0.579167 5.725 0.7375C5.90833 0.895833 6.01667 1.08333 6.05 1.3L6.7 4.8C6.73333 5.06667 6.725 5.29167 6.675 5.475C6.625 5.65833 6.53333 5.81667 6.4 5.95L3.975 8.4C4.30833 9.01667 4.70417 9.6125 5.1625 10.1875C5.62083 10.7625 6.125 11.3167 6.675 11.85C7.19167 12.3667 7.73333 12.8458 8.3 13.2875C8.86667 13.7292 9.46667 14.1333 10.1 14.5L12.45 12.15C12.6 12 12.7958 11.8875 13.0375 11.8125C13.2792 11.7375 13.5167 11.7167 13.75 11.75L17.2 12.45C17.4333 12.5167 17.625 12.6375 17.775 12.8125C17.925 12.9875 18 13.1833 18 13.4V17.45C18 17.75 17.9 18 17.7 18.2C17.5 18.4 17.25 18.5 16.95 18.5ZM3.025 6.5L4.675 4.85L4.25 2.5H2.025C2.10833 3.18333 2.225 3.85833 2.375 4.525C2.525 5.19167 2.74167 5.85 3.025 6.5ZM11.975 15.45C12.625 15.7333 13.2875 15.9583 13.9625 16.125C14.6375 16.2917 15.3167 16.4 16 16.45V14.25L13.65 13.775L11.975 15.45Z" fill="#2180E4"/>
     </svg>
-    <span>{hotel.phone_no}</span>
+    <span>{hotel.contact}</span>
   </a>
 )}
 </div>
 
       {/* Down */}
       <div className="card-down">
-        {hotel.website && (
+        {hotel.locationName && (
           <button
             className="left-btn"
-            onClick={() => window.open(hotel.website, "_blank")}
+            onClick={() => openMapLocation(hotel.locationName)}
           >
          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <mask id="mask0_3116_7426" style={{maskType:"alpha"}} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -253,13 +275,13 @@ const Accommodation = () => {
     <path d="M12 22C10.6333 22 9.34167 21.7375 8.125 21.2125C6.90833 20.6875 5.84583 19.9708 4.9375 19.0625C4.02917 18.1542 3.3125 17.0917 2.7875 15.875C2.2625 14.6583 2 13.3667 2 12C2 10.6167 2.2625 9.32083 2.7875 8.1125C3.3125 6.90417 4.02917 5.84583 4.9375 4.9375C5.84583 4.02917 6.90833 3.3125 8.125 2.7875C9.34167 2.2625 10.6333 2 12 2C13.3833 2 14.6792 2.2625 15.8875 2.7875C17.0958 3.3125 18.1542 4.02917 19.0625 4.9375C19.9708 5.84583 20.6875 6.90417 21.2125 8.1125C21.7375 9.32083 22 10.6167 22 12C22 13.3667 21.7375 14.6583 21.2125 15.875C20.6875 17.0917 19.9708 18.1542 19.0625 19.0625C18.1542 19.9708 17.0958 20.6875 15.8875 21.2125C14.6792 21.7375 13.3833 22 12 22ZM12 19.95C12.4333 19.35 12.8083 18.725 13.125 18.075C13.4417 17.425 13.7 16.7333 13.9 16H10.1C10.3 16.7333 10.5583 17.425 10.875 18.075C11.1917 18.725 11.5667 19.35 12 19.95ZM9.4 19.55C9.1 19 8.8375 18.4292 8.6125 17.8375C8.3875 17.2458 8.2 16.6333 8.05 16H5.1C5.58333 16.8333 6.1875 17.5583 6.9125 18.175C7.6375 18.7917 8.46667 19.25 9.4 19.55ZM14.6 19.55C15.5333 19.25 16.3625 18.7917 17.0875 18.175C17.8125 17.5583 18.4167 16.8333 18.9 16H15.95C15.8 16.6333 15.6125 17.2458 15.3875 17.8375C15.1625 18.4292 14.9 19 14.6 19.55ZM4.25 14H7.65C7.6 13.6667 7.5625 13.3375 7.5375 13.0125C7.5125 12.6875 7.5 12.35 7.5 12C7.5 11.65 7.5125 11.3125 7.5375 10.9875C7.5625 10.6625 7.6 10.3333 7.65 10H4.25C4.16667 10.3333 4.10417 10.6625 4.0625 10.9875C4.02083 11.3125 4 11.65 4 12C4 12.35 4.02083 12.6875 4.0625 13.0125C4.10417 13.3375 4.16667 13.6667 4.25 14ZM9.65 14H14.35C14.4 13.6667 14.4375 13.3375 14.4625 13.0125C14.4875 12.6875 14.5 12.35 14.5 12C14.5 11.65 14.4875 11.3125 14.4625 10.9875C14.4375 10.6625 14.4 10.3333 14.35 10H9.65C9.6 10.3333 9.5625 10.6625 9.5375 10.9875C9.5125 11.3125 9.5 11.65 9.5 12C9.5 12.35 9.5125 12.6875 9.5375 13.0125C9.5625 13.3375 9.6 13.6667 9.65 14ZM16.35 14H19.75C19.8333 13.6667 19.8958 13.3375 19.9375 13.0125C19.9792 12.6875 20 12.35 20 12C20 11.65 19.9792 11.3125 19.9375 10.9875C19.8958 10.6625 19.8333 10.3333 19.75 10H16.35C16.4 10.3333 16.4375 10.6625 16.4625 10.9875C16.4875 11.3125 16.5 11.65 16.5 12C16.5 12.35 16.4875 12.6875 16.4625 13.0125C16.4375 13.3375 16.4 13.6667 16.35 14ZM15.95 8H18.9C18.4167 7.16667 17.8125 6.44167 17.0875 5.825C16.3625 5.20833 15.5333 4.75 14.6 4.45C14.9 5 15.1625 5.57083 15.3875 6.1625C15.6125 6.75417 15.8 7.36667 15.95 8ZM10.1 8H13.9C13.7 7.26667 13.4417 6.575 13.125 5.925C12.8083 5.275 12.4333 4.65 12 4.05C11.5667 4.65 11.1917 5.275 10.875 5.925C10.5583 6.575 10.3 7.26667 10.1 8ZM5.1 8H8.05C8.2 7.36667 8.3875 6.75417 8.6125 6.1625C8.8375 5.57083 9.1 5 9.4 4.45C8.46667 4.75 7.6375 5.20833 6.9125 5.825C6.1875 6.44167 5.58333 7.16667 5.1 8Z" fill="white"/>
   </g>
 </svg>
-            Website
+            View on map
           </button>
         )}
 
-        <button
+        {hotel.locationName && <button
           className="right-btn"
-          onClick={() => handleDirections(hotel.address)}
+          onClick={() => handleDirections(hotel.name)}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
   <mask id="mask0_3116_7431" style={{maskType:"alpha"}} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -270,7 +292,7 @@ const Accommodation = () => {
   </g>
 </svg>
           Directions
-        </button>
+        </button>}
       </div>
     </div>
   ))}

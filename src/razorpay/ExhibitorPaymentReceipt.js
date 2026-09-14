@@ -259,6 +259,8 @@ const ExhibitorPaymentReceipt = ({ setFormState, setSearchParams }) => {
     //   let registrationFee = registrationCharges?.find(elm => elm?.registrationTypes?.includes(user?.profile?.registrationType))?.earlyBird
     //   let accompanyPersonFee = registrationCharges?.find(elm => elm?.registrationTypes?.includes("Accompanying Person"))?.earlyBird
 
+    const categoryLabel = "Early Bird"
+
     let selectedStall = exhibitPlans?.filter(elm => elm.stallType === user?.exhibitorProfile?.boothType)[0]
 
     const fetchData = async () => {
@@ -313,7 +315,7 @@ const ExhibitorPaymentReceipt = ({ setFormState, setSearchParams }) => {
                         widths: ['*', 'auto', 'auto'],
                         body: [
                             ["Booth Type", user?.exhibitorProfile?.boothType || "N/A", 'Fee (Incl. GST)'],
-                            ["Registration Fee" || "N/A", selectedStall?.earlyBirdRegistrationPrice || 0, selectedStall?.earlyBirdRegistrationPrice || 0],
+                            ["Registration Fee ("+categoryLabel+")" || "N/A", selectedStall?.earlyBirdRegistrationPrice || 0, selectedStall?.earlyBirdRegistrationPrice || 0],
                             ["Discount", `- ${discount}`, `- ${discount}`],
 
                             ["Total" || "N/A", totalFee|| 0, totalFee || 0],
@@ -452,7 +454,7 @@ const ExhibitorPaymentReceipt = ({ setFormState, setSearchParams }) => {
                         <h3>Organization Details</h3>
                         <Table>
                             <Row><p>Organization Name</p><span>{user?.exhibitorProfile?.organizationDetails?.organizationName}</span></Row>
-                            <Row><p>Booth Type</p><span>{user?.exhibitorProfile?.boothType} ({selectedStall?.stallSize})</span></Row>
+                            <Row><p>Booth Type</p><span>{user?.exhibitorProfile?.boothType} ({selectedStall?.stallSize}) ({categoryLabel})</span></Row>
                             <Row><p>Exhibit Type</p><span>{user?.exhibitorProfile?.organizationDetails?.exhibitType} {user?.profile?.daySelects?.join(", ")}</span></Row>
                             {user?.profile?.accompanyPerson && <Row><p>Accompanying Person</p><span>{user?.profile?.accompanyPerson?.firstName} {user?.profile?.accompanyPerson?.lastName}</span></Row>}
                         </Table>

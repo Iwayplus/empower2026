@@ -258,62 +258,59 @@ const groupWorkshops = (workshops) => {
         transition={{ duration: 0.6 }}
       >
         <Cont1>
-         <Header>
-  <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-    <Typography
-      variant="h4"
-      component="h2"
-      sx={{
-        fontWeight: 600,
-        color: "#000",
-        lineHeight: "130%",
-        fontFamily: "Poppins",
-        margin: 0,
-      }}
-    >
-      Workshops
-    </Typography>
+          <Header>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
+              <Typography
+                variant="h4"
+                component="h2"
+                sx={{
+                  fontWeight: 600,
+                  color: "#000",
+                  lineHeight: 1.2,
+                  fontFamily: "Poppins",
+                  margin: 0,
+                }}
+              >
+                Workshops
+              </Typography>
 
-    {/* Yellow Diagonal Arrow */}
-    <Box
-      component="span"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        "& svg": {
-          transition: "transform 0.3s ease",
-        },
-        "&:hover svg": {
-          transform: "translateX(4px) translateY(-2px) scale(1.1)",
-        },
-      }}
-      onClick={() => {
-        const isLocal = window.location.hostname === "localhost";
-        const targetUrl = isLocal
-          ? "http://localhost:3000/workshops"
-          : "https://empowerconference.in/workshops";
-        window.location.href = targetUrl;
-      }}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#FFB300"   
-        strokeWidth="4.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <line x1="5" y1="19" x2="19" y2="5" />
-        <polyline points="7 5 19 5 19 17" />
-      </svg>
-    </Box>
-  </Box>
-</Header>
+              {/* Accessible See All Button */}
+              <Box
+                component="button"
+                aria-label="View all workshops"
+                sx={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  background: "transparent",
+                  border: "1.5px solid #FFB300",
+                  borderRadius: "20px",
+                  px: 2,
+                  py: 0.5,
+                  fontFamily: "Poppins, sans-serif",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#000",
+                  lineHeight: 1,
+                  m: 0,
+                  outline: "none",
+                  transition: "all 0.2s ease",
+                  "&:hover": {
+                    backgroundColor: "#FFB300",
+                    color: "#000",
+                    transform: "translateY(-1px)",
+                    boxShadow: "0 2px 6px rgba(255, 179, 0, 0.3)",
+                  },
+                }}
+                onClick={() => {
+                  window.location.href = "/workshops";
+                }}
+              >
+                See All
+              </Box>
+            </Box>
+          </Header>
 
 
           <Grid>

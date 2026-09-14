@@ -323,7 +323,7 @@ const OtpContainer = ({ type, input, onChangeNumber }) => {
             </p>
 
             <p style={{ fontSize: "16px", fontWeight: 400, color: "#4A4A4A", fontFamily: "Poppins", margin: 0 }}>
-              Enter the 4-digit code sent to your {type === "email" ? "email" : "mobile"}
+              Enter the 4-digit code sent to your {type === "email" ? "email" : "mobile"} (make sure to check the spam folder)
               <br />
               <span style={{ fontWeight: 500 }}>{type === "email" ? input : `+91 ${input}`}</span>
               <button

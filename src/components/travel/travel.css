@@ -788,3 +788,17 @@ line-height: 170%; /* 27.2px */
   color: #6B7280;
 }
 
+.service-map-link {
+  align-self: flex-start;
+  margin-top: auto;
+  color: #2180E4;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.service-map-link:hover {
+  text-decoration: underline;
+}
+

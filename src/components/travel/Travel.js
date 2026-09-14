@@ -19,7 +19,15 @@ const Travel = () => {
        try {
          const ns = await getNearbyServices();
          if (ns && ns.status) {
-           setNearbyServices(ns.data || []);
+           const services = Array.isArray(ns.data) ? ns.data : [];
+           const accommodationTypes = new Set(["hotel", "hostel"]);
+
+           setNearbyServices(
+             services.filter(
+               (service) =>
+                 !accommodationTypes.has(service.type?.trim().toLowerCase())
+             )
+           );
          }
          const vs = await getVenueServices();
          if (vs && vs.status) {
@@ -589,23 +597,42 @@ Directions</button>
       {/* Dynamic Nearby Services Section */}
       {nearbyServices.length > 0 && (
         <div className="dynamic-services-section">
-          <h2 className="c2-a">Nearby Services & POIs (Transit, Hospitals, Dining)</h2>
+          <h2 className="c2-a">Nearby Dining, Transport & Places to Visit</h2>
           <div className="services-grid">
             {nearbyServices.map((service) => (
               <div key={service._id} className="service-card">
                 <span className="service-type">{service.type}</span>
                 <h4>{service.name}</h4>
-                {service.locationName && (
-                  <p><strong>Location:</strong> {service.locationName}</p>
-                )}
                 {service.about && <p>{service.about}</p>}
                 {service.contact && (
-                  <p><strong>Contact:</strong> {service.contact}</p>
+                  <p>
+                    <strong>Contact:</strong>{" "}
+                    <a href={`tel:${service.contact.replace(/\s/g, "")}`}>
+                      {service.contact}
+                    </a>
+                  </p>
                 )}
                 {service.accessibility && (
                   <div className="service-info-row">
                     <span>♿ Accessibility: {service.accessibility}</span>
                   </div>
+                )}
+                {service.startTime && service.endTime && (
+                  <div className="service-info-row">
+                    <span>⏰ Hours: {service.startTime} - {service.endTime}</span>
+                  </div>
+                )}
+                {service.locationName && (
+                  <a
+                    className="service-map-link"
+                    href={/^https?:\/\//i.test(service.locationName)
+                      ? service.locationName
+                      : `https://${service.locationName}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View on Google Maps
+                  </a>
                 )}
               </div>
             ))}
