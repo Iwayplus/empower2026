@@ -1719,7 +1719,7 @@ const Register = () => {
                                                         <InputField
                                                             label="Mobile"
                                                             placeholder="Enter Mobile Number"
-                                                            bottmText="Enter without any country code"
+                                                            bottmText="Enter 10 digit number without any country code or '0'"
                                                             // mandatory
                                                             prefix="+91"
                                                             name="secondaryMobile"
