@@ -129,7 +129,7 @@ const InvitedSpeaker = () => {
                     overflow: "hidden",
                   }}
                 >
-                  {spk.full_name}
+                  {spk.title ? `${spk.title} ${spk.full_name}` : spk.full_name}
                 </span>
 
                 {(spk.designation || spk.organization) && (

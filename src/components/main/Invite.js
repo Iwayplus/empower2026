@@ -177,7 +177,7 @@ const Invite = () => {
                   display: "block",
                 }}
               >
-                {spk.full_name}
+                {spk.title ? `${spk.title} ${spk.full_name}` : spk.full_name}
               </Typography>
 
               {(spk.designation || spk.organization) && (
