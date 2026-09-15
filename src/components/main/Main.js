@@ -26,12 +26,10 @@ const Main = () => {
             <Invite/>
             <Work/>
             <Spon/>
-                         <Part/>
+            <Part/>
             {/* <Info/> */}
             <Exhibit/>
             {/* <Gallery/> */}
-            {/* <Part/> */}
-            <Spon/>
             {/* <Agenda /> */}
             {/* <Faqs /> */}
         </main>
