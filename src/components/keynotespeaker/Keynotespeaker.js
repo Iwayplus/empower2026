@@ -3,6 +3,7 @@ import { Box, Typography, Link, SvgIcon, CircularProgress } from "@mui/material"
 import { useParams } from "react-router-dom";
 import defaultSpeaker from "../../assets/default.png";
 import { baseUrl, projectId } from "../../services/api";
+import { compareSpeakerPriority } from "../speaker/speakerPriority";
 
 function LinkedInIcon(props) {
   return (
@@ -122,7 +123,7 @@ export default function KeynoteSpeaker() {
 
         const keynoteSpeakers = speakersArray
           .filter(speaker => speaker.type?.some(t => t.toLowerCase().includes("keynote")))
-          .sort((a, b) => parseInt(a.special_requirements) - parseInt(b.special_requirements))
+          .sort(compareSpeakerPriority)
           .map(speaker => ({
             _id: speaker._id,
             name: `${speaker.title || ""} ${speaker.full_name || ""}`.trim(),

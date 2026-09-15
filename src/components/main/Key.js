@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import defaultSpeaker from "../../assets/default.png";
 import { useNavigate } from "react-router-dom";
 import { baseUrl, projectId } from "../../services/api";
+import { compareSpeakerPriority } from "../speaker/speakerPriority";
 
 
 export default function Key() {
@@ -24,7 +25,7 @@ export default function Key() {
           .filter(speaker =>
             speaker.type?.some(t => t.toLowerCase().includes("keynote"))
           )
-          .sort((a,b) => parseInt(a.special_requirements) - parseInt(b.special_requirements))
+          .sort(compareSpeakerPriority)
           .map((speaker, index) => ({
             id: speaker._id || index, // assign an id for navigation
             name: `${speaker.title || ""} ${speaker.full_name || ""}`.trim(),
@@ -64,174 +65,193 @@ export default function Key() {
         boxSizing: "border-box",
       }}
     >
-      {/* Heading */}
-      <Typography
-        variant="h4"
-        component="h2"
-        sx={{
-          fontWeight: 600,
-          color: "#000",
-          lineHeight: "130%",
-          fontFamily: "Poppins",
-          mb: 4,
-          textAlign: "left",
-        }}
-      >
-        Keynote Speakers
-      </Typography>
-
-      {/* Grid */}
       <Box
         sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr", // full width on small screens
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-            lg: "repeat(4, 1fr)",
-          },
-          gap: { xs: 2, md: 4 },
-          justifyItems: "center",
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          mb: 4,
+          ml: 2,
+          flexWrap: "wrap",
         }}
       >
-        {loading
-          ? Array.from({ length: 6 }).map((_, index) => (
+        {/* Heading */}
+        <Typography
+          variant="h4"
+          component="h2"
+          sx={{
+            fontWeight: 600,
+            color: "#000",
+            lineHeight: 1.2,
+            fontFamily: "Poppins",
+            margin: 0,
+            textAlign: "left",
+          }}
+        >
+          Keynote Speakers
+        </Typography>
+        <Box
+          component="button"
+          aria-label="Explore our keynote speakers, click to see all"
+          onClick={() => navigate("/keynote-speakers")}
+          sx={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            background: "transparent",
+            border: "1.5px solid #FFB300",
+            borderRadius: "20px",
+            px: 2,
+            py: 0.5,
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "#000",
+            lineHeight: 1,
+            m: 0,
+            outline: "none",
+            transition: "all 0.2s ease",
+            "&:hover": {
+              backgroundColor: "#FFB300",
+              color: "#000",
+              transform: "translateY(-1px)",
+              boxShadow: "0 2px 6px rgba(255, 179, 0, 0.3)",
+            },
+          }}
+        >
+          See All
+        </Box>
+      </Box>
+
+      {/* Grid */ }
+  <Box
+    sx={{
+      display: "grid",
+      gridTemplateColumns: {
+        xs: "1fr", // full width on small screens
+        sm: "repeat(2, 1fr)",
+        md: "repeat(3, 1fr)",
+        lg: "repeat(4, 1fr)",
+      },
+      gap: { xs: 2, md: 4 },
+      justifyItems: "center",
+    }}
+  >
+    {loading
+      ? Array.from({ length: 6 }).map((_, index) => (
+        <Box
+          key={index}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 1.5,
+            borderRadius: 4,
+            border: "1px solid rgba(255,255,255,0.2)",
+            backdropFilter: "blur(10px)",
+            background: "rgba(255,255,255,0.4)",
+            p: 2,
+            width: "100%",
+            maxWidth: { xs: "100%", sm: 280 }, // responsive
+            boxSizing: "border-box",
+          }}
+        >
+          <Skeleton variant="circular" width={100} height={100} />
+          <Skeleton width="70%" height={20} />
+          <Skeleton width="50%" height={16} />
+          <Skeleton width="40%" height={32} />
+        </Box>
+      ))
+      : speakers.map((keynote, index) => (
+        <motion.div
+          key={index}
+          initial="hidden"
+          animate="visible"
+          variants={cardVariants}
+          transition={{ duration: 0.4, delay: index * 0.15 }}
+          style={{ width: "100%", maxWidth: 280 }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              borderRadius: "20px",
+              border: "1px solid rgba(0,0,0,0.1)",
+              overflow: "hidden",
+              p: 2,
+              gap: .5,
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(245,245,255,0.9))",
+              textAlign: "center",
+              boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "translateY(-8px) scale(1.03)",
+                boxShadow: "0 12px 28px rgba(0,0,0,0.12)",
+              },
+            }}
+          >
+            {/* Image */}
             <Box
-              key={index}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: 1.5,
-                borderRadius: 4,
-                border: "1px solid rgba(255,255,255,0.2)",
-                backdropFilter: "blur(10px)",
-                background: "rgba(255,255,255,0.4)",
-                p: 2,
-                width: "100%",
-                maxWidth: { xs: "100%", sm: 280 }, // responsive
-                boxSizing: "border-box",
+                width: 110,
+                height: 110,
+                borderRadius: "50%",
+                background: `lightgray url("${keynote.image}") center/cover no-repeat`,
+                mb: 2,
+                border: "4px solid #fff",
+                boxShadow: "0 0 0 4px rgba(99,102,241,0.2)",
+              }}
+            />
+
+            {/* Name */}
+            <Typography
+              sx={{
+                fontWeight: 600,
+                fontSize: "16px",
+                fontFamily: "Poppins",
               }}
             >
-              <Skeleton variant="circular" width={100} height={100} />
-              <Skeleton width="70%" height={20} />
-              <Skeleton width="50%" height={16} />
-              <Skeleton width="40%" height={32} />
-            </Box>
-          ))
-          : speakers.map((keynote, index) => (
-            <motion.div
-              key={index}
-              initial="hidden"
-              animate="visible"
-              variants={cardVariants}
-              transition={{ duration: 0.4, delay: index * 0.15 }}
-              style={{ width: "100%", maxWidth: 280 }}
+              {keynote.name}
+            </Typography>
+
+            {/* Designation */}
+            <Typography
+              sx={{
+                fontWeight: 400,
+                fontSize: "14px",
+                color: "#4B5563",
+
+                fontFamily: "Poppins",
+                mb: 1,
+              }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  borderRadius: "20px",
-                  border: "1px solid rgba(0,0,0,0.1)",
-                  overflow: "hidden",
-                  p: 2,
-                  gap: .5,
-                  background:
-                    "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(245,245,255,0.9))",
-                  textAlign: "center",
-                  boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    transform: "translateY(-8px) scale(1.03)",
-                    boxShadow: "0 12px 28px rgba(0,0,0,0.12)",
-                  },
-                }}
-              >
-                {/* Image */}
-                <Box
-                  sx={{
-                    width: 110,
-                    height: 110,
-                    borderRadius: "50%",
-                    background: `lightgray url("${keynote.image}") center/cover no-repeat`,
-                    mb: 2,
-                    border: "4px solid #fff",
-                    boxShadow: "0 0 0 4px rgba(99,102,241,0.2)",
-                  }}
-                />
-
-                {/* Name */}
-                <Typography
-                  sx={{
-                    fontWeight: 600,
-                    fontSize: "16px",
-                    fontFamily: "Poppins",
-                  }}
-                >
-                  {keynote.name}
-                </Typography>
-
-                {/* Designation */}
-                <Typography
-                  sx={{
-                    fontWeight: 400,
-                    fontSize: "14px",
-                    color: "#4B5563",
-                    
-                    fontFamily: "Poppins",
-                    mb: 1,
-                  }}
-                >
-                  {keynote.designation}, {keynote?.organization}
-                </Typography>
-                {/* Short Bio */}
-                <Typography
-                  sx={{
-                    fontSize: "13px",
-                    color: "#4A4A4A",
-                    fontFamily: "Poppins",
-                    mb: 1,
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2, // limit to 2 lines
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {keynote.bio || "No description available"}
-                </Typography>
+              {keynote.designation}, {keynote?.organization}
+            </Typography>
+            {/* Short Bio */}
+            <Typography
+              sx={{
+                fontSize: "13px",
+                color: "#4A4A4A",
+                fontFamily: "Poppins",
+                mb: 1,
+                display: "-webkit-box",
+                WebkitLineClamp: 2, // limit to 2 lines
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {keynote.bio || "No description available"}
+            </Typography>
 
 
-                {/* Read More */}
-                <Button
-                  variant="outlined"
-                  size="small"
-                  sx={{
-                    mt: 1,
-                    borderRadius: 3,
-                    textTransform: "none",
-                    fontSize: "13px",
-                    px: 2.5,
-                    fontFamily: "Poppins",
-                    borderColor: "#6366f1",
-                    color: "#6366f1",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      background: "#6366f1",
-                      color: "#fff",
-                      borderColor: "#6366f1",
-                    },
-                  }}
-                  onClick={() => navigate(`/keynote-speakers`)} // ✅ navigate with keynote id
-                >
-                  Read More
-                </Button>
-              </Box>
-            </motion.div>
-          ))}
-      </Box>
-    </Box>
+          </Box>
+        </motion.div>
+      ))}
+  </Box>
+    </Box >
   );
 }

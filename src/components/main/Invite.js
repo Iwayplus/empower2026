@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import defaultSpeaker from "../../assets/default.png";
 import { Typography, Box, styled } from "@mui/material";
 import { baseUrl, projectId } from "../../services/api";
+import { compareSpeakerPriority } from "../speaker/speakerPriority";
 const API_URL = `${baseUrl}/secured/event/all-speaker/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
 
 
@@ -28,9 +29,9 @@ const Invite = () => {
         if (data.status && Array.isArray(data.data)) {
           const filtered = data.data.filter((spk) =>
             spk.type?.includes("invited speaker") ||
-            spk.type?.includes("workshop speaker") ||
+            spk.type?.includes("workshop") ||
             spk.type?.includes("panel")
-          ).sort((a, b) => parseInt(a?.special_requirements) - parseInt(b?.special_requirements));
+          ).sort(compareSpeakerPriority);
           setSpeakers(filtered);
         }
       } catch (err) {
