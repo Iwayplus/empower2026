@@ -5,12 +5,13 @@ import defaultSpeaker from "../../assets/default.png";
 import { Button, Typography } from "@mui/material";
 
 import { baseUrl, projectId } from "../../services/api";
+import { compareSpeakerPriority } from "../speaker/speakerPriority";
 
 const API_URL = `${baseUrl}/secured/event/all-speaker/${projectId}?api_key=${process.env.REACT_APP_IWAY_API_KEY}`;
 
 const tagmaps = {
   "panel": "Panelist",
-  "workshop speaker": "Workshop Organizer",
+  "workshop": "Workshop",
   "invited speaker": "Invited speaker"
 }
 const InvitedSpeaker = () => {
@@ -26,9 +27,9 @@ const InvitedSpeaker = () => {
         if (data.status && Array.isArray(data.data)) {
           const filtered = data.data.filter((spk) =>
             spk.type?.includes("invited speaker") ||
-            spk.type?.includes("workshop speaker") ||
+            spk.type?.includes("workshop") ||
             spk.type?.includes("panel")
-          );
+          ).sort(compareSpeakerPriority);
           setSpeakers(filtered);
           if (filtered.length > 0) setSelected(filtered[0]);
         }
@@ -129,7 +130,7 @@ const InvitedSpeaker = () => {
                     overflow: "hidden",
                   }}
                 >
-                  {spk.full_name}
+                  {spk.title ? `${spk.title} ${spk.full_name}` : spk.full_name}
                 </span>
 
                 {(spk.designation || spk.organization) && (
@@ -240,28 +241,45 @@ const InvitedSpeaker = () => {
                     )}
                   </p>
                 )}
-                {
-                  Object.keys(tagmaps).map(key => {
-                    if (spk.type.includes(key)) return (
-                      <Button
-                        variant="outlined"
-                        size="small" sx={{
-                          mt: 1,
-                          borderRadius: 3,
-                          textTransform: "none",
-                          fontSize: "13px",
-                          width: 'max-content',
-                          px: 2.5,
-                          fontFamily: "Poppins",
-                          borderColor: "#6366f1",
-                          color: "#6366f1",
-                          transition: "all 0.3s ease"
-                        }}>
-                        {tagmaps[key]}
-                      </Button>
-                    )
-                  })
-                }
+                {Object.keys(tagmaps).some((key) => spk.type?.includes(key)) && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      gap: "8px",
+                      marginTop: "6px",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {Object.keys(tagmaps).map((key) => {
+                      if (spk.type?.includes(key)) {
+                        return (
+                          <Button
+                            key={key}
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              borderRadius: 3,
+                              textTransform: "none",
+                              fontSize: "13px",
+                              width: "max-content",
+                              px: 2.5,
+                              fontFamily: "Poppins",
+                              borderColor: "#6366f1",
+                              color: "#6366f1",
+                              transition: "all 0.3s ease",
+                            }}
+                          >
+                            {tagmaps[key]}
+                          </Button>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+                )}
                 {spk.linkedin && (
                   <a href={spk.linkedin} target="_blank" rel="noreferrer" style={{ color: "#0A66C2", fontFamily: "Poppins, sans-serif", fontSize: "14px" }}>
                     LinkedIn

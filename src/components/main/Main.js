@@ -22,10 +22,10 @@ const Main = () => {
             <Highlights />
             <Max/>
             {/* <Session/> */}
-            {/* <Keynote/> */}
+            <Keynote/>
             <Invite/>
-            {/* <Work/> */}
-            {/* <Spon/> */}
+            <Work/>
+            <Spon/>
                          <Part/>
             {/* <Info/> */}
             <Exhibit/>
