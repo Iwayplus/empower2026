@@ -60,7 +60,7 @@ export const notes = [
         subNotes: []
     },
     {
-        note: "(#) Accompanying persons registration only include lunch and tea during conference.",
+        note: "(#) Accompanying persons are eligible to register only when accompanying a person with disability and must be registered under the corresponding PWD registration. Accompanying persons registration only includes lunch and tea during the conference.",
         subNotes: []
     }
 ]
