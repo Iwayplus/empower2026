@@ -1738,7 +1738,7 @@ const Register = () => {
                                                             label="Mobile"
                                                             // placeholder="Enter affiliation type"
                                                             // bottmText="(e.g., company, university)"
-                                                            mandatory
+                                                            // mandatory
                                                             name="mobile"
                                                             value={user?.mobile}
                                                             handleChange={handleChange}
@@ -1748,7 +1748,7 @@ const Register = () => {
                                                             label="Email"
                                                             placeholder="Enter your Email"
                                                             // bottmText="(e.g., company, university)"
-                                                            mandatory
+                                                            // mandatory
                                                             name="secondaryMail"
                                                             value={user?.secondaryMail?.startsWith("+91") ? user?.secondaryMail?.split("+91")[1] : user?.secondaryMail}
                                                             handleChange={handleChange}
