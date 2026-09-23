@@ -980,7 +980,7 @@ const Workshop = () => {
         </Modal>
 
         <WorkshopDescription>
-          On 3rd October 2026, EMPOWER 2026 presents a thoughtfully curated workshop series that blends hands-on learning with collaborative problem-solving. Each session dives deep into emerging domains from clinical validation and universal design to inclusive STEM content and grassroots innovation. Designed to foster cross-sector dialogue and build practical skills, these workshops place the lived experiences of persons with disabilities at the center of every conversation. Whether you're a startup founder, special educator, policymaker, or program manager, you’re invited to engage, prototype, and lead with empathy and impact.
+          On 2nd October 2026, EMPOWER 2026 presents a thoughtfully curated workshop series that blends hands-on learning with collaborative problem-solving. Each session dives deep into emerging domains from clinical validation and universal design to inclusive STEM content and grassroots innovation. Designed to foster cross-sector dialogue and build practical skills, these workshops place the lived experiences of persons with disabilities at the center of every conversation. Whether you're a startup founder, special educator, policymaker, or program manager, you’re invited to engage, prototype, and lead with empathy and impact.
         </WorkshopDescription>
       </WorkshopUpper>
       {userData?.paymentStatus && (
