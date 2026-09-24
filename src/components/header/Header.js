@@ -747,8 +747,8 @@ const Header = () => {
                 }}>
                   <ProfileBx>
                     <img alt="" src={userData?.photoUrl} />
-                  </ProfileBx> 
-                 <Button style={{
+                  </ProfileBx>
+                  <Button style={{
                     background: "#CD191F",
                     color: "#fff",
                     fontWeight: 700
@@ -1053,6 +1053,9 @@ const Header = () => {
                       onClick={handleMyBookings}
                     >
                       My Bookings
+                    </Button>
+                    <Button variant="outlined" fullWidth sx={{ fontWeight: 600 }} onClick={() => { handleCloseMenu(); navigate('/download-certificate'); }}>
+                      Feedback & Certificate
                     </Button>
                   </Box>
                 )}

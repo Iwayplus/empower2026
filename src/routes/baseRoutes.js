@@ -27,6 +27,7 @@ const KeynoteSpeaker = lazy(() => import("../components/keynotespeaker/Keynotesp
 const Workshops = lazy(() => import("../components/workshop/Workshop"));
 const EmpowerSchedule = lazy(() => import("../components/EmpowerSchedule/EmpowerSchedule"));
 const Summary = lazy(() => import("../components/summary/Summary"));
+const Feedback = lazy(() => import("../components/feedback/Feedback"));
 const Accommodations = lazy(() => import("../components/accommodation/Accommodation"));
 const Travel = lazy(() => import("../components/travel/Travel"));
 const Invite = lazy(() => (import("../components/invitedspeaker/Invitedspeaker")));
@@ -115,6 +116,10 @@ const baseRoutes = createBrowserRouter([
       {
         path: "/travel",
         element: withSuspense(Travel),
+      },
+      {
+        path: "/download-certificate",
+        element: withSuspense(Feedback),
       },
       {
         path: "/empower-schedule",
