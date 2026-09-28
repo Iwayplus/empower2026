@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { typeOfRegistrations, registrationCategories, daysAvailable } from "../utils/utils";
-import { registrationCharges } from "../../attend/data";
+import { registrationCategories, daysAvailable, typeOfRegistrationsOrganization } from "../utils/utils";
+import { registrationChargesOrganization } from "../../attend/data";
 import { fetchOrganization, sendOtp, verifyOtpSaveOrganization } from "../../../services/api";
 import { Backdrop, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import PaymentLoading from "../../../razorpay/PaymentLoading";
@@ -46,7 +46,7 @@ const OrganizationRegistration = () => {
     const getPrice = (member) => {
         let category = member.registrationCategory === "Full Conference" ? "earlyBird" : "earlyOneDay";
 
-        let registrationFee = registrationCharges?.filter(elm =>
+        let registrationFee = registrationChargesOrganization?.filter(elm =>
             elm?.registrationTypes?.includes(member?.registrationType)
         )[0]?.[category];
 
@@ -233,7 +233,7 @@ const OrganizationRegistration = () => {
                                         style={selectStyle}
                                     >
                                         <option value="">Select type</option>
-                                        {typeOfRegistrations?.map(elm => (
+                                        {typeOfRegistrationsOrganization?.map(elm => (
                                             <option key={elm} value={elm}>{elm}</option>
                                         ))}
                                     </select>

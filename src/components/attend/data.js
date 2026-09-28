@@ -33,6 +33,40 @@ export const registrationCharges = [
     },
 ]
 
+export const registrationChargesOrganization = [
+    {
+        delegateType: "Delegate",
+        earlyBird: 5250,
+        standard: 6600,
+        earlyOneDay: 2000,
+        standardOneDay: 2640,
+        registrationTypes: [
+            "Delegate"
+        ]
+    },
+    {
+        delegateType: "Discounted (for Students and Persons with Disability)",
+        earlyBird: 2650,
+        standard: 3300,
+        earlyOneDay: 1300,
+        standardOneDay: 1650,
+        registrationTypes : [ 
+            "Student", 
+            "Person with Disability"
+        ]
+    },
+    {
+        delegateType: "Accompanying Person #",
+        earlyBird: 3950,
+        standard: 4650,
+        earlyOneDay: 1960,
+        standardOneDay: 2310,
+        registrationTypes: [
+            "Person with Disability (With Accompanying Person)"
+        ]
+    },
+]
+
 export const notes = [
     {
         note: "Last date of early bird registration is 25th September 2026",

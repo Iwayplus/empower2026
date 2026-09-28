@@ -33,6 +33,13 @@ export const typeOfRegistrations = [
   "Person with Disability"
 ]
 
+export const typeOfRegistrationsOrganization = [
+  "Delegate",
+  "Student",
+  "Person with Disability",
+  "Person with Disability (With Accompanying Person)"
+]
+
 export const registrationCategories = [
   "Full Conference",
   "One day Conference"
