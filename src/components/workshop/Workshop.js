@@ -1,3 +1,4 @@
+import { sortByPriority } from "../../utils/sortByPriority";
 import React, { useEffect, useState } from "react";
 import {
   styled, Typography, Skeleton, Box, Button, Modal,
@@ -390,6 +391,7 @@ const Workshop = () => {
               const session = sessionJson.data.find(s => s._id === sub.sessionId);
 
               return {
+                priority: sub.priority ?? 0,
                 _id: sub._id,                 // subEvent/workshop id
                 eventId: sub.eventId,         // parent event id
                 sessionId: sub.sessionId,     // session id
@@ -411,7 +413,7 @@ const Workshop = () => {
               };
             });
 
-          setWorkshops(workshopsData);
+          setWorkshops(sortByPriority(workshopsData));
         }
       } catch (err) {
         setError(err.message);
@@ -457,7 +459,7 @@ const Workshop = () => {
   const groupWorkshops = (workshops) => {
     const grouped = {};
 
-    workshops
+    [...workshops]
       .sort((a, b) => new Date(a.start_time) - new Date(b.start_time))
       .forEach((ws) => {
         const datePart = new Date(ws.start_time).toLocaleDateString("en-US", {
@@ -489,7 +491,7 @@ const Workshop = () => {
   const groupWorkshopsByDate = (workshops) => {
     const grouped = {};
 
-    workshops
+    [...workshops]
       .sort((a, b) => new Date(a.start_time) - new Date(b.start_time))
       .forEach((ws) => {
         const dateKey = formatDate(ws.start_time);
@@ -525,7 +527,7 @@ const Workshop = () => {
   const groupWorkshopsByDateAndTime = (workshops) => {
     const grouped = {};
 
-    workshops
+    [...workshops]
       .sort((a, b) => new Date(a.start_time) - new Date(b.start_time))
       .forEach((ws) => {
         const dateKey = `${formatDate(ws.start_time)} – ${formatTime(
@@ -712,7 +714,7 @@ const Workshop = () => {
                       aria-label={`Workshops on ${dateTime}`}
                     >
                       {wsGroup.map((ws) => (
-                        <WorkshopOptionCard key={ws.id}>
+                        <WorkshopOptionCard key={ws._id}>
                           <label
                             htmlFor={`workshop-${ws._id}`}
                             style={{
@@ -1004,11 +1006,10 @@ const Workshop = () => {
               </WorkshopWrapper>
             </motion.div>
           ))
-          : [...workshops] // copy array
-            .sort((a, b) => a.id - b.id) // ✅ sort by id in ascending order
+          : sortByPriority(workshops)
             .map((ws, idx) => (
               <motion.div
-                key={ws.id}
+                key={ws._id}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { styled, Typography,Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { baseUrl, projectId } from "../../services/api";
+import { sortByPriority } from "../../utils/sortByPriority";
 
 const Component = styled("div")({});
 
@@ -173,6 +174,7 @@ useEffect(() => {
       const session = sessionJson.data.find((s) => s._id === sub.sessionId);
 
       return {
+        priority: sub.priority ?? 0,
         title: sub.title || "TBD",
         speaker:
           sub.speakers?.length > 0
@@ -183,12 +185,10 @@ useEffect(() => {
         start_time: sub.start_time || session?.start_time || null,
         end_time: sub.end_time || session?.end_time || null,
       };
-    })
-    // sort workshops by start time
-    .sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
+    });
 
   // ✅ reassign serial numbers after sorting
-  workshopsData = workshopsData.map((w, idx) => ({
+  workshopsData = sortByPriority(workshopsData).map((w, idx) => ({
     ...w,
     id: idx + 1,
   }));
