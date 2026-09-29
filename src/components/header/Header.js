@@ -356,7 +356,7 @@ const ProfileBx = styled('div')({
 })
 
 const RightNav = styled("div")(({ theme }) => ({
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     display: 'none'
   }
 }))
