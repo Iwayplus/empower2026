@@ -1404,13 +1404,12 @@ const Register = () => {
             alert("please enter all the field")
             return
         }
-        else if (!(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(mobileOrEmail))
-            && !(/^[6-9]\d{9}$/.test(mobileOrEmail))) {
-            alert("Please enter a valid email or a valid Indian mobile number")
+        else if (!(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(mobileOrEmail))) {
+            alert("Please enter a valid email")
             return
         }
         else if (user?.email === mobileOrEmail || user?.secondaryMail === mobileOrEmail || user?.mobile?.split("+91")[1] === mobileOrEmail) {
-            alert("Email or Mobile cannot be same for Accompany Person and Registered User")
+            alert("Email cannot be same for Accompany Person and Registered User")
             return
         }
         else {
@@ -2145,8 +2144,8 @@ const Register = () => {
                                                             // onChange={(e) => handleChangeAccompany(e.target.name, e.target.value)}
                                                             />
                                                             <InputField
-                                                                label="Accompany person Mobile or Email"
-                                                                placeholder="Enter Mobile or Email ID of accompany person"
+                                                                label="Accompany person Email"
+                                                                placeholder="Enter Email ID of accompany person"
                                                                 mandatory
                                                                 name="mobileOrEmail"
                                                                 value={accompanyUser?.mobileOrEmail}
