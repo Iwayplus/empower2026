@@ -597,6 +597,7 @@ const Header = () => {
     await logout(type)
   }
   const handleCloseMenu = () => {
+    setSidenav(false)
     setAnchorEl(null);
   };
 
@@ -761,6 +762,9 @@ const Header = () => {
                   >
                     My Profile
                   </Button>
+                   <Button variant="outlined" fullWidth sx={{ fontWeight: 600 }} onClick={() => { handleCloseMenu(); navigate('/download-certificate'); }}>
+                      Feedback & Certificate
+                    </Button>
 
                   {/* Dropdown menu with animation + offset */}
                   <Menu

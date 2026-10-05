@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setProfile } from '../../redux/userSlice';
 import axiosInstance from '../../services/axiosInstance';
@@ -33,6 +33,9 @@ export default function Feedback() {
   const [certificateUrl, setCertificateUrl] = useState('');
   const [form, setForm] = useState({ yourRole: '', overallExperience: '', mostValuablePart: '', attendNextYear: '', improvementForNextYear: '' });
 
+  const [searchParams] = useSearchParams()
+  const accessToken = searchParams.get("access_token")
+  localStorage.setItem("accessToken", accessToken)
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
       navigate('/auth/signin?returnTo=/download-certificate', { replace: true });
